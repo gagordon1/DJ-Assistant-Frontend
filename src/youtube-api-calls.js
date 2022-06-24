@@ -1,15 +1,23 @@
 import axios from 'axios'
+import {YOUTUBE_API_BASE_URL} from './config'
 
 
 export const youtubeSearch = async (query) =>{
 
-  let result = await axios.get("https://www.googleapis.com/youtube/v3/search",{
+  let result = await axios.get(YOUTUBE_API_BASE_URL + "/search",{
     params : {
       part : "snippet",
-      q : "Everyday we lit"
+      q : query,
+      key : process.env.REACT_APP_GOOGLE_API_KEY
     }
   })
 
-  console.log(result);
+  return result.data.items.map(obj =>{return {
+    title : obj.snippet.title,
+    channelId : obj.snippet.channelId,
+    id : obj.id.videoId,
+    thumbnail : obj.snippet.thumbnails.medium.url
+
+  }})
 
 }

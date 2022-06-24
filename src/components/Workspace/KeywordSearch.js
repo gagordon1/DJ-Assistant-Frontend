@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
+import React from 'react'
 
 
 const KeywordSearchContainer = styled.div`
@@ -22,38 +23,35 @@ const SearchBar = styled.input`
   overflow : scroll;
   margin-left : 10px;
   align-items : center;
+  font-size : 16px;
+  font-family : inherit;
 `
 
-const SearchButton = styled.div`
-  background : ${colors.background};
-  transform : rotate(-90deg) translate(0, 11px);
-  width : 48px;
-  height : 25px;
-  margin-bottom : 0px;
-  justify-self : end;
-  font-size : 12px;
-  vertical-align : middle;
-  &:hover {
-    cursor : pointer;
-  }
-`
-const SearchButtonText = styled.h3`
-  margin : auto;
-`
+
 
 
 const placeholder = "Keyword..."
 
 export default function KeywordSearch(props){
 
+  const searchInput = React.useRef(null)
+
+  const handleKeyDown = (e) =>{
+    if (e.key === "Enter"){
+      if (document.activeElement === searchInput.current) {
+        props.handleSearch()
+      }
+    }
+  }
+
   return (
     <KeywordSearchContainer>
 
       <SearchBar placeholder={placeholder}
-                onChange={(e) => props.setKeyword(e.target.value)}/>
-      <SearchButton onClick={props.handleSearch}>
-        <SearchButtonText>Search</SearchButtonText>
-      </SearchButton>
+                onChange={(e) => props.setKeyword(e.target.value)}
+                onKeyDown={(e) => handleKeyDown(e)}
+                ref={searchInput}
+                />
 
     </KeywordSearchContainer>
   )

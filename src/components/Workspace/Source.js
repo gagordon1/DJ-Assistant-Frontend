@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { colors } from '../../Theme'
 import { useState, useEffect } from 'react'
 import YoutubeLogoImage from '../../assets/youtube.png'
+import SelectBox from '../SelectBox'
 
 
 const SourceContainer = styled.div`
@@ -22,7 +23,22 @@ const YoutubeLogo = styled.img`
 
 `
 
-export default function Source(){
+const SelectBoxStyled = styled.select`
+  background : ${colors.dataRowColor};
+  border : none;
+  color : ${colors.textColor};
+  border : none;
+  outline : none;
+  font-family : inherit;
+
+`
+const SelectContainer = styled.div`
+  width : 400px;
+  overflow : hidden;
+  margin-right : 40px;
+`
+
+export default function Source(props){
 
   const [source, setSource] = useState("youtube") //youtube || soundcloud
   const [loading, setLoading] = useState(false)
@@ -30,6 +46,11 @@ export default function Source(){
   return (
     <SourceContainer>
       {source === "youtube"? <YoutubeLogo src={YoutubeLogoImage}/> : null}
+      <SelectContainer>
+        <SelectBoxStyled onChange={(e) => props.setId(e.target.value)}>
+          {props.searchResults.map(obj => {return(<option key={obj.id} value={obj.id}> {obj.title} </option>)})}
+        </SelectBoxStyled>
+      </SelectContainer>
     </SourceContainer>
   )
 }

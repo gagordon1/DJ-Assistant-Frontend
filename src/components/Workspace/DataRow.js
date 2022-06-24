@@ -11,7 +11,7 @@ import Track from './Track'
 const DataRowContainer = styled.div`
   display : flex;
   align-items : center;
-  height : 60px;
+  height : 80px;
   width : 100%;
   background : ${colors.workspaceBackground};
 `
@@ -23,19 +23,26 @@ export default function DataRow(props){
   const [keyword, setKeyword] = useState("")
   const [loading, setLoading] = useState(false)
   const [searchResults, setSearchResults] = useState([])
+  const [id, setId] = useState("") //id of youtube video
 
   const handleSearch = async () => {
     setLoading(true)
-    const data = await youtubeSearch("hi")
-
+    if(keyword){
+      const data = await youtubeSearch(keyword)
+      setSearchResults(data)
+      setId(data[0].id)
+    }else{
+      alert("Keyword cannot be empty")
+    }
+    setLoading(false)
   }
 
 
   return (
     <DataRowContainer>
       <KeywordSearch setKeyword={setKeyword} handleSearch={handleSearch}/>
-      <Source keyword={keyword}/>
-      <Track/>
+      <Source keyword={keyword} setId={setId} searchResults={searchResults}/>
+      <Track id={id}/>
     </DataRowContainer>
   )
 }
