@@ -17,13 +17,12 @@ export default function Workspaces(){
 
   //maps workspaces to their names
   const [workspaces, setWorkspaces] = useState({
-    "0" : {"name" : "Untitled", "component" : <Workspace/>},
-    "1" : {"name" : "Untitled 1", "component" : <Workspace/>},
-    "2" : {"name" : "Untitled 2", "component" : <Workspace/>}
+    "0" : {"name" : "Untitled", "component" : <Workspace id={0}/>},
+    "1" : {"name" : "Untitled 1", "component" : <Workspace id={1}/>},
+    "2" : {"name" : "Untitled 2", "component" : <Workspace id={2}/>}
   });
 
   const [workspace, setWorkspace] = useState("0")
-
 
   return (
     <WorkspacesContainer>
