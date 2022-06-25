@@ -4,6 +4,7 @@ import DownloadIconImage from '../../assets/download-icon.png'
 import { useState } from 'react'
 import { YOUTUBE_VIDEO_BASE_URL} from '../../config'
 import { getDownloadLink } from '../../backend-calls'
+import Waveform from './Waveform'
 
 
 
@@ -28,11 +29,11 @@ const DownloadIcon = styled.img`
 
 
 
-
 export default function Track(props){
 
   const [link, setLink] = useState("")
   const [loading, setLoading] = useState(false)
+
 
 
   const handleDownload= async () =>{
@@ -40,15 +41,16 @@ export default function Track(props){
     const result = await getDownloadLink(YOUTUBE_VIDEO_BASE_URL + props.id)
     setLink(result)
     setLoading(false)
-    const audioPlayer = new Audio(result)
-    audioPlayer.play()
+    let audio = new Audio(result)
+    audio.play()
   }
 
   return (
     <TrackContainer>
       {(props.id && !link)? <DownloadIcon src={DownloadIconImage} onClick={handleDownload}/> : null}
       {loading? <div> Loading... </div> : null}
-      {link? <div> Play </div> : null}
+      {link? <a>Got link</a> : null}
+
     </TrackContainer>
   )
 }

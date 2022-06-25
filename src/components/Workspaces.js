@@ -17,10 +17,10 @@ export default function Workspaces(){
 
   //maps workspaces to their names
   const [workspaces, setWorkspaces] = useState({
-    "0" : {"name" : "Untitled", "component" : <Workspace id={0}/>},
-    "1" : {"name" : "Untitled 1", "component" : <Workspace id={1}/>},
-    "2" : {"name" : "Untitled 2", "component" : <Workspace id={2}/>}
+    "0" : {"name" : "Untitled", "component" : <Workspace id={0}/>}
   });
+
+  const [audio, setAudio] = useState(new Audio(""))
 
   const [workspace, setWorkspace] = useState("0")
 
