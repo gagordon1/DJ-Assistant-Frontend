@@ -8,7 +8,7 @@ import AddButtonImage from '../../assets/add-button-grey.svg'
 const columnWidths = {
   "Keyword" : 240,
   "Source" : 240,
-  "Master Track" : 540,
+  "Master Track" : 168,
 }
 
 const AddButton = styled.img`
@@ -54,10 +54,12 @@ export default function Workspace(props){
 
   const [columns, setColumns] = useState(["Keyword", "Source", "Master Track"])
 
-  const [data, setData] = useState([<DataRow columns={columns}/>])
+  const [data, setData] = useState([<DataRow columns={columns} audio={props.audio}/>])
+
+
 
   const handleAddDataRow = () =>{
-    setData([...data, <DataRow columns={columns}/>])
+    setData([...data, <DataRow columns={columns} audio={props.audio}/>])
   }
 
   return (

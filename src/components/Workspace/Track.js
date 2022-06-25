@@ -1,38 +1,83 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
-import DownloadIconImage from '../../assets/download-icon.png'
-import { useState } from 'react'
+import DownloadIconImage from '../../assets/download-icon.svg'
+import { useState, useEffect } from 'react'
 import { YOUTUBE_VIDEO_BASE_URL} from '../../config'
 import { getDownloadLink } from '../../backend-calls'
-import Waveform from './Waveform'
-
-
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import { TailSpin } from  'react-loader-spinner'
+import PlayButtonImage from '../../assets/play_button.svg'
+import PauseButtonImage from '../../assets/pause_button.svg'
 
 const TrackContainer = styled.div`
   display : flex;
   justify-content : center;
-  width : 500px;
-  height : 80%;
-  background : ${colors.dataRowColor};
+  align-items : center;
+  width : 128px;
+  height : 72px;
   margin-left : 20px;
   margin-right : 20px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-  align-items : center;
+  background-size : contain;
+
 `
+
+const TrackBackground = styled.img`
+  width : inherit;
+  height : inherit;
+  ${TrackContainer}:hover &{
+    filter : brightness(50%);
+  }
+`
+
 const DownloadIcon = styled.img`
+  position : absolute;
   height : 20px;
   width : auto;
   &: hover{
     cursor : pointer;
   }
 `
+const PlayButton = styled.img`
+  height : 30px;
+  width : auto;
+  position : absolute;
+  display : none;
+  ${TrackContainer}:hover &{
+    display: flex;
+  }
+`
 
+const PauseButton = styled.img`
+  height : 30px;
+  width : auto;
+  position : absolute;
+  display : ${props => props.display};
+`
+
+const Loader = styled.div`
+  position : absolute;
+
+`
 
 
 export default function Track(props){
 
   const [link, setLink] = useState("")
   const [loading, setLoading] = useState(false)
+  const [playing, setPlaying] = useState(false)
+
+  const togglePlay = () =>{
+    if(props.audio.src != link){
+      props.audio.src = link
+      props.audio.load()
+      props.audio.play()
+      setPlaying(true)
+    } else{
+      playing? props.audio.pause() : props.audio.play()
+      setPlaying(!playing)
+    }
+  }
 
 
 
@@ -41,15 +86,23 @@ export default function Track(props){
     const result = await getDownloadLink(YOUTUBE_VIDEO_BASE_URL + props.id)
     setLink(result)
     setLoading(false)
-    let audio = new Audio(result)
-    audio.play()
   }
+
+  useEffect(() =>{
+    //when id changes lets set link to none
+    setLink("")
+    setPlaying(false)
+  }, [props.id])
+
+
 
   return (
     <TrackContainer>
-      {(props.id && !link)? <DownloadIcon src={DownloadIconImage} onClick={handleDownload}/> : null}
-      {loading? <div> Loading... </div> : null}
-      {link? <a>Got link</a> : null}
+      <TrackBackground src={props.thumbnail}/>
+      {(link && !playing)? <PlayButton src={PlayButtonImage} onClick={togglePlay}/> : null}
+      {(link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay} display={playing? "flex" : "none"}/> : null}
+      {(props.id && !link && !loading)? <DownloadIcon src={DownloadIconImage} onClick={handleDownload}/> : null}
+      {loading? 	<Loader><TailSpin color={colors.white} height={20} width={20} /> </Loader>: null}
 
     </TrackContainer>
   )

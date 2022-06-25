@@ -43,12 +43,18 @@ export default function Source(props){
   const [source, setSource] = useState("youtube") //youtube || soundcloud
   const [loading, setLoading] = useState(false)
 
+  const handleChange = (e) =>{
+    let [id, thumbnail] = e.target.value.split("|")
+    props.setId(id)
+    props.setThumbnail(thumbnail)
+  }
+
   return (
     <SourceContainer>
       {source === "youtube"? <YoutubeLogo src={YoutubeLogoImage}/> : null}
       <SelectContainer>
-        <SelectBoxStyled onChange={(e) => props.setId(e.target.value)}>
-          {props.searchResults.map(obj => {return(<option key={obj.id} value={obj.id}> {obj.title} </option>)})}
+        <SelectBoxStyled onChange={(e) => handleChange(e)}>
+          {props.searchResults.map(obj => {return(<option key={obj.id} value={obj.id + "|" + obj.thumbnail}> {obj.title} </option>)})}
         </SelectBoxStyled>
       </SelectContainer>
     </SourceContainer>
