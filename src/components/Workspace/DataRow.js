@@ -45,9 +45,12 @@ export default function DataRow(props){
     <DataRowContainer>
       <KeywordSearch setKeyword={setKeyword} handleSearch={handleSearch}/>
       <Source keyword={keyword} setId={setId} setThumbnail={setThumbnail} searchResults={searchResults}/>
-      <Track stemsAccessed={stemsAccessed} id={id} thumbnail={thumbnail} audio={props.audio}/>
-      <Vocals setStemsAccessed={setStemsAccessed} id={id} thumbnail={thumbnail} audio={props.audio}/>
-      <Accompaniment setStemsAccessed={setStemsAccessed} id={id} thumbnail={thumbnail} audio={props.audio}/>
+      <Track  stemsAccessed={stemsAccessed}
+          id={id} thumbnail={thumbnail} audio={props.audio}/>
+      <Vocals  setStemsAccessed={setStemsAccessed}
+          id={id} thumbnail={thumbnail} audio={props.audio}/>
+      <Accompaniment setStemsAccessed={setStemsAccessed}
+          id={id} thumbnail={thumbnail} audio={props.audio}/>
     </DataRowContainer>
   )
 }

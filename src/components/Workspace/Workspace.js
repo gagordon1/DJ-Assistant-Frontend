@@ -24,6 +24,7 @@ const WorkspaceContainer = styled.div`
   width : 90%;
   height : 700px;
   background : ${colors.workspaceBackground};
+  overflow : scroll;
 `
 
 const SeparatorLine = styled.div`

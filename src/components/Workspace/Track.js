@@ -8,6 +8,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { TailSpin } from  'react-loader-spinner'
 import PlayButtonImage from '../../assets/play_button.svg'
 import PauseButtonImage from '../../assets/pause_button.svg'
+import PlayBar from './PlayBar'
 
 const TrackContainer = styled.div`
   display : flex;
@@ -99,10 +100,12 @@ export default function Track(props){
   return (
     <TrackContainer>
       <TrackBackground src={props.thumbnail}/>
+      <PlayBar audio={props.audio} playing={playing}/>
       {(link && !playing)? <PlayButton src={PlayButtonImage} onClick={togglePlay}/> : null}
       {(link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay} display={playing? "flex" : "none"}/> : null}
       {(props.id && !link && !loading)? <DownloadIcon src={DownloadIconImage} onClick={handleDownload}/> : null}
       {loading? 	<Loader><TailSpin color={colors.white} height={20} width={20} /> </Loader>: null}
+
 
     </TrackContainer>
   )
