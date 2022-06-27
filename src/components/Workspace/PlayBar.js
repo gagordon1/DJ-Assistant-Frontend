@@ -30,7 +30,6 @@ export default function PlayBar(props){
     let clickY = e.pageY
     let x = clickX - targetX
     let y = targetY - clickY
-    console.log(x,y)
     // tan theta = y/x
     let angle = Math.atan2(x, y) * (180 / Math.PI)
     angle = (angle < 0)? 360 + angle : angle

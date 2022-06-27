@@ -24,6 +24,7 @@ const TrackContainer = styled.div`
 `
 
 const TrackBackground = styled.img`
+  display : ${props => props.display};
   width : inherit;
   height : inherit;
   ${TrackContainer}:hover &{
@@ -84,7 +85,7 @@ export default function Track(props){
 
   const handleDownload= async () =>{
     setLoading(true)
-    const result = await getDownloadLink(YOUTUBE_VIDEO_BASE_URL + props.id)
+    const result = await props.getDownloadLink(YOUTUBE_VIDEO_BASE_URL + props.id)
     setLink(result)
     setLoading(false)
   }
@@ -99,8 +100,8 @@ export default function Track(props){
 
   return (
     <TrackContainer>
-      <TrackBackground src={props.thumbnail}/>
-      <PlayBar audio={props.audio} playing={playing}/>
+      <TrackBackground display ={props.thumbnail? "block" : "none"} src={props.thumbnail}/>
+      {link? <PlayBar key={link} audio={props.audio}/> : null}
       {(link && !playing)? <PlayButton src={PlayButtonImage} onClick={togglePlay}/> : null}
       {(link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay} display={playing? "flex" : "none"}/> : null}
       {(props.id && !link && !loading)? <DownloadIcon src={DownloadIconImage} onClick={handleDownload}/> : null}
