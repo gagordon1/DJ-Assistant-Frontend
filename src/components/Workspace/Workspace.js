@@ -1,15 +1,12 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
-import { useState, useEffect} from 'react'
+import { useState } from 'react'
 import DataRow from './DataRow'
 import ColumnTitles from './ColumnTitles'
 import AddButtonImage from '../../assets/add-button-grey.svg'
+import { columnWidths } from '../../config'
 
-const columnWidths = {
-  "Keyword" : 240,
-  "Source" : 240,
-  "Master Track" : 168,
-}
+
 
 const AddButton = styled.img`
   width : 25px;
@@ -52,14 +49,17 @@ const generateVerticalSeparators = (columns) =>{
 
 export default function Workspace(props){
 
-  const [columns, setColumns] = useState(["Keyword", "Source", "Master Track"])
+  const [dataRowCount, setDataRowCount] = useState(1)
 
-  const [data, setData] = useState([<DataRow columns={columns} audio={props.audio}/>])
+  const [columns] = useState(["Keyword", "Source", "Master Track", "Vocals", "Accompaniment"])
 
+  const [data, setData] = useState([<DataRow key={0} columns={columns} audio={props.audio}/>])
 
 
   const handleAddDataRow = () =>{
-    setData([...data, <DataRow columns={columns} audio={props.audio}/>])
+
+    setData([...data, <DataRow key={dataRowCount} columns={columns} audio={props.audio}/>])
+    setDataRowCount(dataRowCount + 1)
   }
 
   return (

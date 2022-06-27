@@ -8,6 +8,6 @@ const SelectBoxStyled = styled.select`
 
 export default function SelectBox(props){
   return (
-    <SelectBoxStyled type="select"/>
+    <SelectBoxStyled/>
   )
 }

@@ -1,13 +1,14 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useState } from 'react'
 import { youtubeSearch } from '../../youtube-api-calls'
 import DefaultImage from '../../assets/default_image.png'
 
 import KeywordSearch from './KeywordSearch'
 import Source from './Source'
 import Track from './Track'
+import Vocals from './Vocals'
+import Accompaniment from './Accompaniment'
 
 const DataRowContainer = styled.div`
   display : flex;
@@ -26,6 +27,7 @@ export default function DataRow(props){
   const [searchResults, setSearchResults] = useState([])
   const [id, setId] = useState("") //id of youtube video
   const [thumbnail, setThumbnail] = useState(DefaultImage)
+  const [stemsAccessed, setStemsAccessed] = useState(false)
 
   const handleSearch = async () => {
     setLoading(true)
@@ -39,13 +41,13 @@ export default function DataRow(props){
     }
     setLoading(false)
   }
-
-
   return (
     <DataRowContainer>
       <KeywordSearch setKeyword={setKeyword} handleSearch={handleSearch}/>
       <Source keyword={keyword} setId={setId} setThumbnail={setThumbnail} searchResults={searchResults}/>
-      <Track id={id} thumbnail={thumbnail} audio={props.audio}/>
+      <Track stemsAccessed={stemsAccessed} id={id} thumbnail={thumbnail} audio={props.audio}/>
+      <Vocals setStemsAccessed={setStemsAccessed} id={id} thumbnail={thumbnail} audio={props.audio}/>
+      <Accompaniment setStemsAccessed={setStemsAccessed} id={id} thumbnail={thumbnail} audio={props.audio}/>
     </DataRowContainer>
   )
 }

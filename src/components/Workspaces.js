@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import WorkspaceNavbar from './WorkspaceNavbar'
 import Workspace from './Workspace/Workspace'
 import styled from 'styled-components'
@@ -15,7 +15,7 @@ const WorkspacesContainer = styled.div`
 
 export default function Workspaces(){
 
-  const [audio, setAudio] = useState(new Audio(""))
+  const [audio, ] = useState(new Audio(""))
 
   const [workspace, setWorkspace] = useState("0")
 

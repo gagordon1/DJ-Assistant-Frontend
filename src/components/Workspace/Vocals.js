@@ -1,9 +1,10 @@
+
 import styled from 'styled-components'
 import { colors } from '../../Theme'
 import DownloadIconImage from '../../assets/download-icon.svg'
 import { useState, useEffect } from 'react'
 import { YOUTUBE_VIDEO_BASE_URL} from '../../config'
-import { getDownloadLink } from '../../backend-calls'
+import { getVocalsLink } from '../../backend-calls'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { TailSpin } from  'react-loader-spinner'
 import PlayButtonImage from '../../assets/play_button.svg'
@@ -61,7 +62,7 @@ const Loader = styled.div`
 `
 
 
-export default function Track(props){
+export default function Vocals(props){
 
   const [link, setLink] = useState("")
   const [loading, setLoading] = useState(false)
@@ -79,20 +80,20 @@ export default function Track(props){
     }
   }
 
-
-
   const handleDownload= async () =>{
     setLoading(true)
-    const result = await getDownloadLink(YOUTUBE_VIDEO_BASE_URL + props.id)
+    console.log("downloading")
+    const result = await getVocalsLink(YOUTUBE_VIDEO_BASE_URL + props.id)
+    props.setStemsAccessed(true)
     setLink(result)
     setLoading(false)
   }
 
   useEffect(() =>{
-    //when id changes lets set link to none or when stems get called
+    //when id changes lets set link to none
     setLink("")
     setPlaying(false)
-  }, [props.id, props.stemsAccessed])
+  }, [props.id])
 
 
 
