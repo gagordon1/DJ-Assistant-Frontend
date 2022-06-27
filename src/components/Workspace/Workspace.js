@@ -70,7 +70,6 @@ export default function Workspace(props){
       <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
 
       <HorizontalSeparator/>
-      {generateVerticalSeparators(columns)}
     </WorkspaceContainer>
   )
 }
