@@ -8,7 +8,7 @@ const Container = styled.div`
   display : flex;
   flex-direction : column;
   width : 150px;
-  margin-left : 45px;
+  margin-left : 75px;
 `
 const Title = styled.h3`
   color : ${colors.dataRowColor};

@@ -27,7 +27,11 @@ const DataRowContainer = styled.div`
   align-items : center;
   height : 90px;
   min-height : 90px;
-  background : ${colors.workspaceBackground};
+  background : ${props => props.background};
+`
+
+const Checkbox = styled.input`
+  margin-right : 20px;
 `
 
 function DataRow(props){
@@ -41,7 +45,8 @@ function DataRow(props){
   }, [props.sourceId])
 
   return (
-    <DataRowContainer>
+    <DataRowContainer background={props.selected? colors.dataRowColor : colors.workspaceBackground}>
+      <Checkbox checked={props.selected} type="checkbox" onChange={(e) => props.handleSet(props.index, "selected", e.target.checked)}/>
       <KeywordSearch index={props.index} keyword={props.keyword} handleSet={props.handleSet} handleSearch={props.handleSearch}/>
       <Source index={props.index} keyword={props.keyword}
         handleSet={props.handleSet} searchResults={props.searchResults}/>

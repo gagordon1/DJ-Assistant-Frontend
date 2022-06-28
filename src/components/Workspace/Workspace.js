@@ -7,6 +7,19 @@ import AddButtonImage from '../../assets/add-button-grey.svg'
 import { columnWidths } from '../../config'
 import BatchImportInputOptions from './BatchImportInputOptions'
 import Buttons from './Buttons'
+import { youtubeSearch } from '../../controllers/youtube-controller'
+import { CircularProgressbar} from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
+
+const ProgressBarContainer = styled.div`
+  position: absolute;
+  width : 200px;
+  height : 200px;
+  &:hover{
+    cursor : pointer;
+  }
+`
+
 
 //Data rows structure
 // [
@@ -17,7 +30,19 @@ import Buttons from './Buttons'
 //        accompanimentLink : String
 //        keyword : String
 //  ]
+//
+const LoaderBackground = styled.div`
+  display : flex;
+  position : absolute;
+  width : inherit;
+  height : inherit;
+  background : ${colors.whiteOpaque};
+  justify-content : center;
+  align-items : center;
+`
 
+const Loader = styled.div`
+`
 
 const RowContainer = styled.div`
   display : flex;
@@ -30,7 +55,7 @@ const AddButton = styled.img`
   height : auto;
   margin-top : 10px;
   margin-bottom : 10px;
-  margin-left : 107.5px;
+  margin-left : 137.5px;
   &: hover{
     cursor : pointer;
   }
@@ -73,10 +98,6 @@ const HorizontalSeparatorBottom = styled.div`
   height: 0px;
   border: 0.1px solid ${colors.trimLineColor};
 `
-const Checkbox = styled.input`
-  margin-left : 10px;
-  margin-right : 10px;
-`
 const generateVerticalSeparators = (columns) =>{
   return columns.map((column, i) => <SeparatorLine
       marginLeft={columns.slice(0,i+1).reduce((a,b) => {return a + columnWidths[b]}, 0)}/>
@@ -87,20 +108,25 @@ export default function Workspace(props){
 
   const [topId, setTopId] = useState(0)
   const [columns] = useState(["Keyword", "Source", "Master Track", "Vocals", "Accompaniment"])
-
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
+  const [loadProgress, setLoadProgress] = useState(0)
 
-  const handleAddDataRow = () =>{
-
-    setData({...data, [topId] : {
-      index : topId,
+  const defaultRow = (id) => {return {
+      index : id,
       searchResults : [],
        sourceId : "",
        vocalsLink : "",
        masterLink : "",
        accompanimentLink : "",
-       keyword : ""
-    }})
+       keyword : "",
+       selected : false
+     }
+  }
+
+  const handleAddDataRow = () =>{
+
+    setData({...data, [topId] : defaultRow(topId)})
     setTopId(topId + 1)
   }
 
@@ -124,11 +150,50 @@ export default function Workspace(props){
     console.log(i)
   }
 
-  const batchSearch = () =>{
-
+  const batchSearch = async (searches) =>{
+    let id = topId
+    let newData = {...data}
+    setLoading(true)
+    for (const search of searches){
+        let row = defaultRow(id)
+        row.keyword = search
+        row.searchResults = await youtubeSearch(search)
+        row.sourceId = row.searchResults[0].id
+        newData[id] = row
+        id++
+        setLoadProgress(100*(id-topId)/searches.length)
+    }
+    setTopId(id)
+    setData(newData)
+    setLoading(false)
+    setLoadProgress(0)
   }
 
-  const handleBatchSearch = () =>{
+  const handleSelectAll = () =>{
+    let newData= {...data}
+    Object.keys(newData).forEach(key =>{
+      newData[key].selected = true
+    })
+    setData(newData)
+  }
+
+  const handleSearchSelected = async () =>{
+    let newData = {...data}
+    setLoading(true)
+    let processed = 0
+    let selected = Object.keys(newData).filter(key => newData[key].selected && newData[key].keyword)
+    for (const key of selected){
+      let searchResults = await youtubeSearch(newData[key].keyword)
+      let sourceId = searchResults[0].id
+      newData[key].searchResults = searchResults
+      newData[key].sourceId = sourceId
+      processed++
+      setLoadProgress(100*(processed)/selected.length)
+    }
+    setData(newData)
+    setLoading(false)
+    setLoadProgress(0)
+
 
   }
   const handleBatchMasterDownload = () =>{
@@ -140,8 +205,16 @@ export default function Workspace(props){
   const handleBatchAccompanimentDownload = () =>{
 
   }
+  const loadingScreen = () => (
+    <LoaderBackground>
+      <ProgressBarContainer>
+        <CircularProgressbar value={loadProgress}/>
+      </ProgressBarContainer>
+    </LoaderBackground>
+  )
   return (
     <WorkspaceContainer>
+      {loading?  loadingScreen(): null}
       <ColumnTitles columns={columns}/>
       <DataRowsContainer>
         {Object.keys(data).map(key =>
@@ -154,6 +227,7 @@ export default function Workspace(props){
             masterLink={data[key].masterLink}
             accompanimentLink={data[key].accompanimentLink}
             keyword={data[key].keyword}
+            selected={data[key].selected}
             handleDeleteRow={handleDeleteRow}
             handleSet={handleSet}
             audio={props.audio}
@@ -162,7 +236,8 @@ export default function Workspace(props){
       </DataRowsContainer>
       <HorizontalSeparatorBottom/>
       <Buttons
-        handleBatchSearch={handleBatchSearch}
+        handleSelectAll={handleSelectAll}
+        handleSearchSelected={handleSearchSelected}
         handleBatchMasterDownload={handleBatchMasterDownload}
         handleBatchVocalDownload={handleBatchVocalDownload}
         handleBatchAccompanimentDownload={handleBatchAccompanimentDownload}

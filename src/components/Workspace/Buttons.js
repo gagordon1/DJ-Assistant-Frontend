@@ -9,6 +9,7 @@ const ColumnTitlesContainer = styled.div`
   height : 60px;
   width : 100%;
   align-items : center;
+  margin-left : 30px;
 `
 const Button = styled.button`
   width : 160px;
@@ -41,11 +42,11 @@ export default function Buttons(props){
   return(
 
     <ColumnTitlesContainer>
-      <Button>
-        <label> Search All</label>
+      <Button onClick={props.handleSearchSelected}>
+        <label>Search Selected</label>
       </Button>
-      <Button>
-        <label> Search All</label>
+      <Button onClick={props.handleSelectAll}>
+        <label>Select All</label>
       </Button>
       <Button2>
         <label>Download Selected</label>

@@ -52,12 +52,6 @@ export default function Source(props){
     props.handleSet(props.index, "sourceId", id)
   }
 
-  useEffect(()=>{
-    if(props.searchResults.length > 0){
-      props.handleSet(props.index, "sourceId", props.searchResults[0].id)
-    }
-
-  }, [props.searchResults])
 
   return (
     <SourceContainer>

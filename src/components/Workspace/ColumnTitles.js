@@ -10,6 +10,7 @@ const ColumnTitlesContainer = styled.div`
   height : 60px;
   width : 100%;
   align-items : center;
+  margin-left : 30px
 `
 const SourceTitle = styled.div`
   width : 240px;
