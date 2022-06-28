@@ -5,7 +5,6 @@ import DataRow from './DataRow'
 import ColumnTitles from './ColumnTitles'
 import AddButtonImage from '../../assets/add-button-grey.svg'
 import { columnWidths } from '../../config'
-import TrashIcon from '../../assets/trash-icon.svg'
 import BatchImportInputOptions from './BatchImportInputOptions'
 import Buttons from './Buttons'
 
@@ -20,14 +19,6 @@ import Buttons from './Buttons'
 //  ]
 
 
-const Trash = styled.img`
-  width : 30px;
-  height : auto;
-  margin-left : 20px;
-  &:hover{
-    cursor : pointer;
-  }
-`
 const RowContainer = styled.div`
   display : flex;
   flex-direction : row;
@@ -113,6 +104,12 @@ export default function Workspace(props){
     setTopId(topId + 1)
   }
 
+  const handleDeleteRow = (index) =>{
+    const newData = {...data}
+    delete newData[index]
+    setData(newData)
+  }
+
   const handleSet = (index, attribute, value) => {
     console.log(attribute, value)
     setData({...data, [index] : {
@@ -147,7 +144,8 @@ export default function Workspace(props){
     <WorkspaceContainer>
       <ColumnTitles columns={columns}/>
       <DataRowsContainer>
-        {Object.keys(data).map(key => <DataRow
+        {Object.keys(data).map(key =>
+          <DataRow
             key={data[key].index}
             index={data[key].index}
             searchResults={data[key].searchResults}
@@ -156,6 +154,7 @@ export default function Workspace(props){
             masterLink={data[key].masterLink}
             accompanimentLink={data[key].accompanimentLink}
             keyword={data[key].keyword}
+            handleDeleteRow={handleDeleteRow}
             handleSet={handleSet}
             audio={props.audio}
           />)}

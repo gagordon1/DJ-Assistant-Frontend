@@ -8,6 +8,17 @@ import DefaultImage from '../../assets/default_image.png'
 import KeywordSearch from './KeywordSearch'
 import Source from './Source'
 import Track from './Track'
+import TrashIcon from '../../assets/trash-icon.svg'
+
+
+const Trash = styled.img`
+  width : 30px;
+  height : auto;
+  margin-left : 20px;
+  &:hover{
+    cursor : pointer;
+  }
+`
 
 
 const DataRowContainer = styled.div`
@@ -40,6 +51,7 @@ function DataRow(props){
         getDownloadLink={getVocalsLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
       <Track index={props.index} link={props.accompanimentLink} attribute={"accompanimentLink"} handleSet={props.handleSet}
         getDownloadLink={getAccompanimentLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
+      <Trash src={TrashIcon} onClick={() => props.handleDeleteRow(props.index)}/>
     </DataRowContainer>
   )
 }
