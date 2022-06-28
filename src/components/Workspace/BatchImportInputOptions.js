@@ -5,14 +5,14 @@ import CSVIconImage from '../../assets/csv-icon.svg'
 import { useRef, useState } from 'react'
 
 const Container = styled.div`
-  margin-top : 20px;
   display : flex;
   flex-direction : column;
   width : 150px;
   margin-left : 45px;
 `
 const Title = styled.h3`
-  color : ${colors.dataRowColor}
+  color : ${colors.dataRowColor};
+  margin-bottom : 0px
 `
 const Logos = styled.div`
   display : flex;

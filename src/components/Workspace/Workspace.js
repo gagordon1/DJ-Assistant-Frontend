@@ -7,6 +7,7 @@ import AddButtonImage from '../../assets/add-button-grey.svg'
 import { columnWidths } from '../../config'
 import TrashIcon from '../../assets/trash-icon.svg'
 import BatchImportInputOptions from './BatchImportInputOptions'
+import Buttons from './Buttons'
 
 
 const Trash = styled.img`
@@ -27,6 +28,7 @@ const AddButton = styled.img`
   width : 25px;
   height : auto;
   margin-top : 10px;
+  margin-bottom : 10px;
   margin-left : 107.5px;
   &: hover{
     cursor : pointer;
@@ -52,7 +54,7 @@ const SeparatorLine = styled.div`
 const DataRowsContainer = styled.div`
   display : flex;
   flex-direction : column;
-  max-height : 450px;
+  max-height : 420px;
   overflow-y : scroll;
   scrollbar-color: dark;
 
@@ -63,6 +65,16 @@ const HorizontalSeparator = styled.div`
   width: inherit;
   height: 0px;
   border: 0.1px solid ${colors.trimLineColor};
+`
+const HorizontalSeparatorBottom = styled.div`
+  position : relative;
+  width: inherit;
+  height: 0px;
+  border: 0.1px solid ${colors.trimLineColor};
+`
+const Checkbox = styled.input`
+  margin-left : 10px;
+  margin-right : 10px;
 `
 const generateVerticalSeparators = (columns) =>{
   return columns.map((column, i) => <SeparatorLine
@@ -78,8 +90,10 @@ export default function Workspace(props){
 
   const [data, setData] = useState([])
 
+  const getActiveRows = () => data.filter(obj => obj !== undefined)
+
   const handleDeleteRow = (index) =>{
-    let elt = data.filter(obj => obj !== undefined)[index]
+    let elt = getActiveRows()[index]
     let copy = [...data]
     let i = copy.indexOf(elt)
     delete data[i]
@@ -101,6 +115,11 @@ export default function Workspace(props){
     setData(newData)
   }
 
+  const handleSelect = (e, i) =>{
+    console.log(e.target.checked)
+    console.log(i)
+  }
+
 
 
   const handleAddDataRow = (search) =>{
@@ -111,24 +130,47 @@ export default function Workspace(props){
                           audio={props.audio}/>])
     setTopId(topId + 1)
   }
+
+  const handleBatchSearch = () =>{
+
+  }
+  const handleBatchMasterDownload = () =>{
+
+  }
+  const handleBatchVocalDownload = () =>{
+
+  }
+  const handleBatchAccompanimentDownload = () =>{
+
+  }
   return (
     <WorkspaceContainer>
       <ColumnTitles columns={columns}/>
       <DataRowsContainer>
-        {data.filter(obj => obj !== undefined).map((obj, i) =>
+        {getActiveRows().map((obj, i) =>
           <RowContainer key={i} >
+            <Checkbox onChange={(e) => handleSelect(e, i)} type={"checkbox"}></Checkbox>
             {obj}
-
-            {(i === data.filter(obj => obj !== undefined).length -1)?
+            {(i === getActiveRows().length -1)?
               <Trash src={TrashIcon} onClick={() => handleDeleteRow(i)}/>
               : null}
           </RowContainer>)}
         <AddButton src={AddButtonImage} onClick={() => handleAddDataRow("")}/>
       </DataRowsContainer>
+      <HorizontalSeparatorBottom/>
+      <Buttons
+        handleBatchSearch={handleBatchSearch}
+        handleBatchMasterDownload={handleBatchMasterDownload}
+        handleBatchVocalDownload={handleBatchVocalDownload}
+        handleBatchAccompanimentDownload={handleBatchAccompanimentDownload}
+        />
       <BatchImportInputOptions batchSearch={batchSearch}/>
 
 
+
       <HorizontalSeparator/>
+
+
     </WorkspaceContainer>
   )
 }
