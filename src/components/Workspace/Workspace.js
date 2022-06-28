@@ -6,6 +6,7 @@ import ColumnTitles from './ColumnTitles'
 import AddButtonImage from '../../assets/add-button-grey.svg'
 import { columnWidths } from '../../config'
 import TrashIcon from '../../assets/trash-icon.svg'
+import BatchImportInputOptions from './BatchImportInputOptions'
 
 
 const Trash = styled.img`
@@ -51,7 +52,7 @@ const SeparatorLine = styled.div`
 const DataRowsContainer = styled.div`
   display : flex;
   flex-direction : column;
-  height : 400px;
+  max-height : 450px;
   overflow-y : scroll;
   scrollbar-color: dark;
 
@@ -87,10 +88,25 @@ export default function Workspace(props){
     setDeleted(newDeleted)
   }
 
-  const handleAddDataRow = () =>{
+  const batchSearch = (searches) =>{
+    let newData = [...data]
+    searches.forEach(search =>
+      newData.push(<DataRow
+                        key={data.length}
+                        search={search}
+                        columns={columns}
+                        audio={props.audio}/>
+                      )
+    )
+    setData(newData)
+  }
+
+
+
+  const handleAddDataRow = (search) =>{
     setData([...data, <DataRow
                           key={data.length}
-                          search={""}
+                          search={search}
                           columns={columns}
                           audio={props.audio}/>])
     setTopId(topId + 1)
@@ -112,8 +128,9 @@ export default function Workspace(props){
               <Trash src={TrashIcon} onClick={() => handleDeleteRow(i)}/>
               : null}
           </RowContainer>)}
-        <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
+        <AddButton src={AddButtonImage} onClick={() => handleAddDataRow("")}/>
       </DataRowsContainer>
+      <BatchImportInputOptions batchSearch={batchSearch}/>
 
 
       <HorizontalSeparator/>

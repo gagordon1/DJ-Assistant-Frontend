@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { youtubeSearch } from '../../youtube-api-calls'
 import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../backend-calls'
 import DefaultImage from '../../assets/default_image.png'
@@ -40,6 +40,12 @@ function DataRow(props){
     }
     setLoading(false)
   }
+
+  useEffect(()=>{
+    if(props.search){
+      handleSearch()
+    }
+  })
 
   return (
     <DataRowContainer>

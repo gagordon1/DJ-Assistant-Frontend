@@ -43,8 +43,6 @@ export default function KeywordSearch(props){
       }
     }
   }
-
-
   return (
     <KeywordSearchContainer>
 

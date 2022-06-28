@@ -1,9 +1,8 @@
 import axios from 'axios'
 import {YOUTUBE_API_BASE_URL} from './config'
 
-
 export const youtubeSearch = async (query) =>{
-
+  console.log("Querying youtube...")
   let result = await axios.get(YOUTUBE_API_BASE_URL + "/search",{
     params : {
       part : "snippet",
