@@ -15,3 +15,8 @@ export const getAccompanimentLink = async(url) =>{
     const result = await axios.get(BACKEND_URL + `/split/?url=${url}`)
     return result.data.accompaniment
 }
+
+export const backendYoutubeSearch = async(query) =>{
+  const result = await axios.get(BACKEND_URL + `/youtube-search/?query=${query.replace(" ", "%20")}`)
+  return result.data.result
+}

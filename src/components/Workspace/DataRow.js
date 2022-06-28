@@ -20,8 +20,6 @@ const DataRowContainer = styled.div`
 
 function DataRow(props){
 
-  console.log("rendering")
-
   const [keyword, setKeyword] = useState(props.search)
   const [loading, setLoading] = useState(false)
   const [searchResults, setSearchResults] = useState([])
