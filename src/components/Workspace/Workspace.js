@@ -1,12 +1,26 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import DataRow from './DataRow'
 import ColumnTitles from './ColumnTitles'
 import AddButtonImage from '../../assets/add-button-grey.svg'
 import { columnWidths } from '../../config'
+import TrashIcon from '../../assets/trash-icon.svg'
 
 
+const Trash = styled.img`
+  width : 30px;
+  height : auto;
+  margin-left : 20px;
+  &:hover{
+    cursor : pointer;
+  }
+`
+const RowContainer = styled.div`
+  display : flex;
+  flex-direction : row;
+  align-items : center;
+`
 
 const AddButton = styled.img`
   width : 25px;
@@ -24,7 +38,6 @@ const WorkspaceContainer = styled.div`
   width : 90%;
   height : 700px;
   background : ${colors.workspaceBackground};
-  overflow : scroll;
 `
 
 const SeparatorLine = styled.div`
@@ -34,6 +47,13 @@ const SeparatorLine = styled.div`
   height: 610px;
   margin-left : ${props => props.marginLeft}px;
   border: 0.1px solid ${colors.trimLineColor};
+`
+const DataRowsContainer = styled.div`
+  display : flex;
+  flex-direction : column;
+  height : 400px;
+  overflow-y : scroll;
+
 `
 const HorizontalSeparator = styled.div`
   margin-top : 90px;
@@ -50,24 +70,41 @@ const generateVerticalSeparators = (columns) =>{
 
 export default function Workspace(props){
 
-  const [dataRowCount, setDataRowCount] = useState(1)
-
+  const [topId, setTopId] = useState(0)
   const [columns] = useState(["Keyword", "Source", "Master Track", "Vocals", "Accompaniment"])
 
-  const [data, setData] = useState([<DataRow key={0} columns={columns} audio={props.audio}/>])
+  const [data, setData] = useState([])
 
+  const handleDeleteRow = (index) =>{
+    let elt = data.filter(obj => obj !== undefined)[index]
+    let copy = [...data]
+    let i = copy.indexOf(elt)
+    delete copy[i]
+    setData(copy)
+  }
 
   const handleAddDataRow = () =>{
-
-    setData([...data, <DataRow key={dataRowCount} columns={columns} audio={props.audio}/>])
-    setDataRowCount(dataRowCount + 1)
+    setData([...data, <DataRow
+                          key={topId}
+                          columns={columns}
+                          audio={props.audio}/>])
+    setTopId(topId + 1)
   }
+
+
 
   return (
     <WorkspaceContainer>
       <ColumnTitles columns={columns}/>
-      {data}
-      <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
+      <DataRowsContainer>
+        {data.filter(obj => obj !== undefined).map((obj, i) =>
+          <RowContainer key={i} >
+            {obj}
+            <Trash src={TrashIcon} onClick={() => handleDeleteRow(i)}/>
+          </RowContainer>)}
+        <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
+      </DataRowsContainer>
+
 
       <HorizontalSeparator/>
     </WorkspaceContainer>

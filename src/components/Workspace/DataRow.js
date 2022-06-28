@@ -9,15 +9,14 @@ import KeywordSearch from './KeywordSearch'
 import Source from './Source'
 import Track from './Track'
 
+
 const DataRowContainer = styled.div`
   display : flex;
   align-items : center;
   height : 90px;
-  width : 100%;
+  min-height : 90px;
   background : ${colors.workspaceBackground};
 `
-
-
 
 export default function DataRow(props){
 
@@ -26,7 +25,6 @@ export default function DataRow(props){
   const [searchResults, setSearchResults] = useState([])
   const [id, setId] = useState("") //id of youtube video
   const [thumbnail, setThumbnail] = useState()
-  const [stemsAccessed, setStemsAccessed] = useState(false)
 
   const handleSearch = async () => {
     setLoading(true)
@@ -40,16 +38,14 @@ export default function DataRow(props){
     }
     setLoading(false)
   }
+
   return (
     <DataRowContainer>
       <KeywordSearch setKeyword={setKeyword} handleSearch={handleSearch}/>
       <Source keyword={keyword} setId={setId} setThumbnail={setThumbnail} searchResults={searchResults}/>
-      <Track getDownloadLink={getDownloadLink} stemsAccessed={stemsAccessed}
-          id={id} thumbnail={thumbnail} audio={props.audio}/>
-      <Track  getDownloadLink={getVocalsLink} setStemsAccessed={setStemsAccessed}
-          id={id} thumbnail={thumbnail} audio={props.audio}/>
-      <Track getDownloadLink={getAccompanimentLink} setStemsAccessed={setStemsAccessed}
-          id={id} thumbnail={thumbnail} audio={props.audio}/>
+      <Track getDownloadLink={getDownloadLink}id={id} thumbnail={thumbnail} audio={props.audio}/>
+      <Track  getDownloadLink={getVocalsLink} id={id} thumbnail={thumbnail} audio={props.audio}/>
+      <Track getDownloadLink={getAccompanimentLink} id={id} thumbnail={thumbnail} audio={props.audio}/>
     </DataRowContainer>
   )
 }

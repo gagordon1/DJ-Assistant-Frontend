@@ -8,7 +8,8 @@ export const youtubeSearch = async (query) =>{
     params : {
       part : "snippet",
       q : query,
-      key : process.env.REACT_APP_GOOGLE_API_KEY
+      key : process.env.REACT_APP_GOOGLE_API_KEY,
+      type : "video"
     }
   })
 
