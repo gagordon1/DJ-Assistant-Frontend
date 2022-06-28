@@ -9,6 +9,16 @@ import TrashIcon from '../../assets/trash-icon.svg'
 import BatchImportInputOptions from './BatchImportInputOptions'
 import Buttons from './Buttons'
 
+//Data rows structure
+// [
+//        searchResults : []
+//        sourceLink : String
+//        vocalLink : String
+//        masterLink : String
+//        accompanimentLink : String
+//        keyword : String
+//  ]
+
 
 const Trash = styled.img`
   width : 30px;
@@ -86,33 +96,30 @@ export default function Workspace(props){
 
   const [topId, setTopId] = useState(0)
   const [columns] = useState(["Keyword", "Source", "Master Track", "Vocals", "Accompaniment"])
-  const [deleted, setDeleted] = useState([]) //list of deleted indexes
 
-  const [data, setData] = useState([])
+  const [data, setData] = useState({})
 
-  const getActiveRows = () => data.filter(obj => obj !== undefined)
+  const handleAddDataRow = () =>{
 
-  const handleDeleteRow = (index) =>{
-    let elt = getActiveRows()[index]
-    let copy = [...data]
-    let i = copy.indexOf(elt)
-    delete data[i]
-    let newDeleted = [...deleted]
-    newDeleted.push(i)
-    setDeleted(newDeleted)
+    setData({...data, [topId] : {
+      index : topId,
+      searchResults : [],
+       sourceId : "",
+       vocalLink : "",
+       masterLink : "",
+       accompanimentLink : "",
+       keyword : ""
+    }})
+    setTopId(topId + 1)
   }
 
-  const batchSearch = (searches) =>{
-    let newData = [...data]
-    searches.forEach(search =>
-      newData.push(<DataRow
-                        key={data.length}
-                        search={search}
-                        columns={columns}
-                        audio={props.audio}/>
-                      )
-    )
-    setData(newData)
+  const handleSet = (index, attribute, value) => {
+    console.log(attribute, value)
+    setData({...data, [index] : {
+        ...data[index],
+        [attribute] : value
+      }
+    })
   }
 
   const handleSelect = (e, i) =>{
@@ -120,15 +127,8 @@ export default function Workspace(props){
     console.log(i)
   }
 
+  const batchSearch = () =>{
 
-
-  const handleAddDataRow = (search) =>{
-    setData([...data, <DataRow
-                          key={data.length}
-                          search={search}
-                          columns={columns}
-                          audio={props.audio}/>])
-    setTopId(topId + 1)
   }
 
   const handleBatchSearch = () =>{
@@ -143,19 +143,23 @@ export default function Workspace(props){
   const handleBatchAccompanimentDownload = () =>{
 
   }
+  console.log(data)
   return (
     <WorkspaceContainer>
       <ColumnTitles columns={columns}/>
       <DataRowsContainer>
-        {getActiveRows().map((obj, i) =>
-          <RowContainer key={i} >
-            <Checkbox onChange={(e) => handleSelect(e, i)} type={"checkbox"}></Checkbox>
-            {obj}
-            {(i === getActiveRows().length -1)?
-              <Trash src={TrashIcon} onClick={() => handleDeleteRow(i)}/>
-              : null}
-          </RowContainer>)}
-        <AddButton src={AddButtonImage} onClick={() => handleAddDataRow("")}/>
+        {Object.keys(data).map(key => <DataRow
+            key={data[key].index}
+            index={data[key].index}
+            searchResults={data[key].searchResults}
+            sourceId={data[key].sourceId}
+            vocalLink={data[key].vocalLink}
+            masterLink={data[key].masterLink}
+            accompanimentLink={data[key].accompanimentLink}
+            keyword={data[key].keyword}
+            handleSet={handleSet}
+          />)}
+        <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
       </DataRowsContainer>
       <HorizontalSeparatorBottom/>
       <Buttons

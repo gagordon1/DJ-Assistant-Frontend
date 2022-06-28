@@ -12,6 +12,7 @@ import Track from './Track'
 
 const DataRowContainer = styled.div`
   display : flex;
+  margin-left : 20px;
   align-items : center;
   height : 90px;
   min-height : 90px;
@@ -20,32 +21,25 @@ const DataRowContainer = styled.div`
 
 function DataRow(props){
 
-  const [keyword, setKeyword] = useState(props.search)
-  const [loading, setLoading] = useState(false)
-  const [searchResults, setSearchResults] = useState([])
-  const [id, setId] = useState("") //id of youtube video
-  const [thumbnail, setThumbnail] = useState()
+  const [thumbnail, setThumbnail] = useState("")
 
-  const handleSearch = async () => {
-    setLoading(true)
-    if(keyword){
-      const data = await youtubeSearch(keyword)
-      setSearchResults(data)
-      setId(data[0].id)
-      setThumbnail(data[0].thumbnail)
-    }else{
-      alert("Keyword cannot be empty")
+  useEffect(()=>{
+    if(props.sourceId){
+      setThumbnail(props.searchResults.filter(obj=>obj.id ===props.sourceId)[0].thumbnail)
     }
-    setLoading(false)
-  }
+  }, [props.sourceId])
 
   return (
     <DataRowContainer>
-      <KeywordSearch search={props.search} setKeyword={setKeyword} handleSearch={handleSearch}/>
-      <Source keyword={keyword} setId={setId} setThumbnail={setThumbnail} searchResults={searchResults}/>
-      <Track getDownloadLink={getDownloadLink}id={id} thumbnail={thumbnail} audio={props.audio}/>
-      <Track  getDownloadLink={getVocalsLink} id={id} thumbnail={thumbnail} audio={props.audio}/>
-      <Track getDownloadLink={getAccompanimentLink} id={id} thumbnail={thumbnail} audio={props.audio}/>
+      <KeywordSearch index={props.index} keyword={props.keyword} handleSet={props.handleSet} handleSearch={props.handleSearch}/>
+      <Source index={props.index} keyword={props.keyword}
+        handleSet={props.handleSet} searchResults={props.searchResults}/>
+      <Track index={props.index} link={props.masterLink} attribute={"masterLink"}
+        getDownloadLink={props.getDownloadLink}id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
+      <Track index={props.index} link={props.vocalsLink} attribute={"vocalsLink"}
+        getDownloadLink={props.getVocalsLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
+      <Track index={props.index} link={props.accompanimentLink} attribute={"accompanimentLink"}
+        getDownloadLink={props.getAccompanimentLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
     </DataRowContainer>
   )
 }

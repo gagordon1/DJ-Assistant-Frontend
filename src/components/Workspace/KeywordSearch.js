@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
 import React, {useEffect} from 'react'
+import { youtubeSearch } from '../../controllers/youtube-controller'
 
 
 const KeywordSearchContainer = styled.div`
@@ -35,10 +36,11 @@ export default function KeywordSearch(props){
 
   const searchInput = React.useRef(null)
 
-  const handleKeyDown = (e) =>{
+  const handleKeyDown = async (e) =>{
     if (e.key === "Enter"){
       if (document.activeElement === searchInput.current) {
-        props.handleSearch()
+        const results = await youtubeSearch(props.keyword)
+        props.handleSet(props.index, "searchResults", results)
       }
     }
   }
@@ -46,10 +48,10 @@ export default function KeywordSearch(props){
     <KeywordSearchContainer>
 
       <SearchBar placeholder={placeholder}
-                onChange={(e) => props.setKeyword(e.target.value)}
+                onChange={(e) => props.handleSet(props.index, "keyword", e.target.value)}
                 onKeyDown={(e) => handleKeyDown(e)}
                 ref={searchInput}
-                defaultValue={props.search}
+                defaultValue={props.keyword}
                 />
 
     </KeywordSearchContainer>

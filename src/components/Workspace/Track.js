@@ -3,7 +3,6 @@ import { colors } from '../../Theme'
 import DownloadIconImage from '../../assets/download-icon.svg'
 import { useState, useEffect } from 'react'
 import { YOUTUBE_VIDEO_BASE_URL} from '../../config'
-import { getDownloadLink } from '../../controllers/backend-controller'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { TailSpin } from  'react-loader-spinner'
 import PlayButtonImage from '../../assets/play_button.svg'
@@ -64,14 +63,12 @@ const Loader = styled.div`
 
 
 export default function Track(props){
-
-  const [link, setLink] = useState("")
   const [loading, setLoading] = useState(false)
   const [playing, setPlaying] = useState(false)
 
   const togglePlay = () =>{
-    if(props.audio.src !== link){
-      props.audio.src = link
+    if(props.audio.src !== props.link){
+      props.audio.src = props.link
       props.audio.load()
       props.audio.play()
       setPlaying(true)
@@ -86,13 +83,12 @@ export default function Track(props){
   const handleDownload= async () =>{
     setLoading(true)
     const result = await props.getDownloadLink(YOUTUBE_VIDEO_BASE_URL + props.id)
-    setLink(result)
+    props.handleSet(props.index, props.attribute, result)
     setLoading(false)
   }
 
   useEffect(() =>{
-    //when id changes lets set link to none or when stems get called
-    setLink("")
+    //when id changes lets set props.link to none or when stems get called
     setPlaying(false)
   }, [props.id, props.stemsAccessed])
 
@@ -101,10 +97,10 @@ export default function Track(props){
   return (
     <TrackContainer>
       <TrackBackground display ={props.thumbnail? "block" : "none"} src={props.thumbnail}/>
-      {(link && playing)?<PlayBar key={link} audio={props.audio}/> : null}
-      {(link && !playing)? <PlayButton src={PlayButtonImage} onClick={togglePlay}/> : null}
-      {(link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay} display={playing? "flex" : "none"}/> : null}
-      {(props.id && !link && !loading)? <DownloadIcon src={DownloadIconImage} onClick={handleDownload}/> : null}
+      {(props.link && playing)?<PlayBar key={props.link} audio={props.audio}/> : null}
+      {(props.link && !playing)? <PlayButton src={PlayButtonImage} onClick={togglePlay}/> : null}
+      {(props.link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay} display={playing? "flex" : "none"}/> : null}
+      {(props.id && !props.link && !loading)? <DownloadIcon src={DownloadIconImage} onClick={handleDownload}/> : null}
       {loading? 	<Loader><TailSpin color={colors.white} height={20} width={20} /> </Loader>: null}
 
 

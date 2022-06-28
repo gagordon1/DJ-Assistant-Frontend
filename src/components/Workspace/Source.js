@@ -48,9 +48,16 @@ export default function Source(props){
 
   const handleChange = (e) =>{
     let [id, thumbnail] = e.target.value.split("|")
-    props.setId(id)
-    props.setThumbnail(thumbnail)
+    console.log(id)
+    props.handleSet(props.index, "sourceId", id)
   }
+
+  useEffect(()=>{
+    if(props.searchResults.length > 0){
+      props.handleSet(props.index, "sourceId", props.searchResults[0].id)
+    }
+
+  }, [props.searchResults])
 
   return (
     <SourceContainer>
