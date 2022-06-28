@@ -87,13 +87,6 @@ export default function Track(props){
     setLoading(false)
   }
 
-  useEffect(() =>{
-    //when id changes lets set props.link to none or when stems get called
-    setPlaying(false)
-  }, [props.id, props.stemsAccessed])
-
-
-
   return (
     <TrackContainer>
       <TrackBackground display ={props.thumbnail? "block" : "none"} src={props.thumbnail}/>

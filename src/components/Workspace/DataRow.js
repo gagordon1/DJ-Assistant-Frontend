@@ -34,12 +34,12 @@ function DataRow(props){
       <KeywordSearch index={props.index} keyword={props.keyword} handleSet={props.handleSet} handleSearch={props.handleSearch}/>
       <Source index={props.index} keyword={props.keyword}
         handleSet={props.handleSet} searchResults={props.searchResults}/>
-      <Track index={props.index} link={props.masterLink} attribute={"masterLink"}
-        getDownloadLink={props.getDownloadLink}id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
-      <Track index={props.index} link={props.vocalsLink} attribute={"vocalsLink"}
-        getDownloadLink={props.getVocalsLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
-      <Track index={props.index} link={props.accompanimentLink} attribute={"accompanimentLink"}
-        getDownloadLink={props.getAccompanimentLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
+      <Track index={props.index} link={props.masterLink} attribute={"masterLink"} handleSet={props.handleSet}
+        getDownloadLink={getDownloadLink}id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
+      <Track index={props.index} link={props.vocalsLink} attribute={"vocalsLink"} handleSet={props.handleSet}
+        getDownloadLink={getVocalsLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
+      <Track index={props.index} link={props.accompanimentLink} attribute={"accompanimentLink"} handleSet={props.handleSet}
+        getDownloadLink={getAccompanimentLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
     </DataRowContainer>
   )
 }

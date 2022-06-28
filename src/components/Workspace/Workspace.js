@@ -105,7 +105,7 @@ export default function Workspace(props){
       index : topId,
       searchResults : [],
        sourceId : "",
-       vocalLink : "",
+       vocalsLink : "",
        masterLink : "",
        accompanimentLink : "",
        keyword : ""
@@ -143,7 +143,6 @@ export default function Workspace(props){
   const handleBatchAccompanimentDownload = () =>{
 
   }
-  console.log(data)
   return (
     <WorkspaceContainer>
       <ColumnTitles columns={columns}/>
@@ -153,11 +152,12 @@ export default function Workspace(props){
             index={data[key].index}
             searchResults={data[key].searchResults}
             sourceId={data[key].sourceId}
-            vocalLink={data[key].vocalLink}
+            vocalsLink={data[key].vocalsLink}
             masterLink={data[key].masterLink}
             accompanimentLink={data[key].accompanimentLink}
             keyword={data[key].keyword}
             handleSet={handleSet}
+            audio={props.audio}
           />)}
         <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
       </DataRowsContainer>
