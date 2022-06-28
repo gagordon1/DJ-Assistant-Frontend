@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
-import React from 'react'
+import React, {useEffect} from 'react'
 
 
 const KeywordSearchContainer = styled.div`
@@ -44,6 +44,7 @@ export default function KeywordSearch(props){
     }
   }
 
+
   return (
     <KeywordSearchContainer>
 
@@ -51,6 +52,7 @@ export default function KeywordSearch(props){
                 onChange={(e) => props.setKeyword(e.target.value)}
                 onKeyDown={(e) => handleKeyDown(e)}
                 ref={searchInput}
+                defaultValue={props.search}
                 />
 
     </KeywordSearchContainer>

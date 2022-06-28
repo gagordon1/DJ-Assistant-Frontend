@@ -22,7 +22,7 @@ function DataRow(props){
 
   console.log("rendering")
 
-  const [keyword, setKeyword] = useState("")
+  const [keyword, setKeyword] = useState(props.search)
   const [loading, setLoading] = useState(false)
   const [searchResults, setSearchResults] = useState([])
   const [id, setId] = useState("") //id of youtube video
@@ -43,7 +43,7 @@ function DataRow(props){
 
   return (
     <DataRowContainer>
-      <KeywordSearch setKeyword={setKeyword} handleSearch={handleSearch}/>
+      <KeywordSearch search={props.search} setKeyword={setKeyword} handleSearch={handleSearch}/>
       <Source keyword={keyword} setId={setId} setThumbnail={setThumbnail} searchResults={searchResults}/>
       <Track getDownloadLink={getDownloadLink}id={id} thumbnail={thumbnail} audio={props.audio}/>
       <Track  getDownloadLink={getVocalsLink} id={id} thumbnail={thumbnail} audio={props.audio}/>

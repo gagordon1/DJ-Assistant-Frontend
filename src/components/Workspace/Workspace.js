@@ -90,6 +90,7 @@ export default function Workspace(props){
   const handleAddDataRow = () =>{
     setData([...data, <DataRow
                           key={data.length}
+                          search={""}
                           columns={columns}
                           audio={props.audio}/>])
     setTopId(topId + 1)
