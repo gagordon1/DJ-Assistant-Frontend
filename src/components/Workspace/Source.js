@@ -30,11 +30,14 @@ const SelectBoxStyled = styled.select`
   border : none;
   outline : none;
   font-family : inherit;
+  font-size : inherit;
+  width : 150px;
+  padding:0 10px 0 10px !important;
+  -webkit-padding-end: 10px !important;
+  -webkit-padding-start: 10px !important;
 
 `
 const SelectContainer = styled.div`
-  width : 400px;
-  overflow : hidden;
   margin-right : 40px;
 `
 
@@ -54,7 +57,8 @@ export default function Source(props){
       {source === "youtube"? <YoutubeLogo src={YoutubeLogoImage}/> : null}
       <SelectContainer>
         <SelectBoxStyled onChange={(e) => handleChange(e)}>
-          {props.searchResults.map(obj => {return(<option key={obj.id} value={obj.id + "|" + obj.thumbnail}> {obj.title} </option>)})}
+          {props.searchResults.map(obj => {return(<option key={obj.id}
+            value={obj.id + "|" + obj.thumbnail}> {obj.title} </option>)})}
         </SelectBoxStyled>
       </SelectContainer>
     </SourceContainer>
