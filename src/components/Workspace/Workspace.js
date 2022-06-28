@@ -111,11 +111,6 @@ export default function Workspace(props){
                           audio={props.audio}/>])
     setTopId(topId + 1)
   }
-
-  useEffect(()=>{
-
-  }, [deleted])
-
   return (
     <WorkspaceContainer>
       <ColumnTitles columns={columns}/>
