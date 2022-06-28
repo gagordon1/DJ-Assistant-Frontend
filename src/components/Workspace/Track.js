@@ -3,7 +3,7 @@ import { colors } from '../../Theme'
 import DownloadIconImage from '../../assets/download-icon.svg'
 import { useState, useEffect } from 'react'
 import { YOUTUBE_VIDEO_BASE_URL} from '../../config'
-import { getDownloadLink } from '../../backend-calls'
+import { getDownloadLink } from '../../controllers/backend-controller'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { TailSpin } from  'react-loader-spinner'
 import PlayButtonImage from '../../assets/play_button.svg'

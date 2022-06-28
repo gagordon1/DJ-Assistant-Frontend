@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
 import React, { useState, useEffect } from 'react'
-import { youtubeSearch } from '../../youtube-api-calls'
-import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../backend-calls'
+import { youtubeSearch } from '../../controllers/youtube-controller'
+import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../controllers/backend-controller'
 import DefaultImage from '../../assets/default_image.png'
 
 import KeywordSearch from './KeywordSearch'
@@ -38,12 +38,6 @@ function DataRow(props){
     }
     setLoading(false)
   }
-
-  useEffect(()=>{
-    if(props.search){
-      handleSearch()
-    }
-  })
 
   return (
     <DataRowContainer>
