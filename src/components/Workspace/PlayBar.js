@@ -14,6 +14,15 @@ const ProgressBarContainer = styled.div`
   }
 `
 
+function getOffset(el) {
+  const rect = el.getBoundingClientRect();
+  return {
+    left: rect.left + window.scrollX,
+    top: rect.top + window.scrollY
+  };
+}
+
+
 export default function PlayBar(props){
 
   const [trackProgress, setTrackProgress] = useState(0)
@@ -24,8 +33,8 @@ export default function PlayBar(props){
   })
 
   const handleClick = (e) =>{
-    let targetX = e.currentTarget.offsetLeft + 30
-    let targetY = e.currentTarget.offsetTop + 30
+    let targetX = getOffset(e.currentTarget).left + 30
+    let targetY = getOffset(e.currentTarget).top + 30
     let clickX = e.pageX
     let clickY = e.pageY
     let x = clickX - targetX

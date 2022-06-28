@@ -53,6 +53,7 @@ const DataRowsContainer = styled.div`
   flex-direction : column;
   height : 400px;
   overflow-y : scroll;
+  scrollbar-color: dark;
 
 `
 const HorizontalSeparator = styled.div`
@@ -72,6 +73,7 @@ export default function Workspace(props){
 
   const [topId, setTopId] = useState(0)
   const [columns] = useState(["Keyword", "Source", "Master Track", "Vocals", "Accompaniment"])
+  const [deleted, setDeleted] = useState([]) //list of deleted indexes
 
   const [data, setData] = useState([])
 
@@ -79,19 +81,23 @@ export default function Workspace(props){
     let elt = data.filter(obj => obj !== undefined)[index]
     let copy = [...data]
     let i = copy.indexOf(elt)
-    delete copy[i]
-    setData(copy)
+    delete data[i]
+    let newDeleted = [...deleted]
+    newDeleted.push(i)
+    setDeleted(newDeleted)
   }
 
   const handleAddDataRow = () =>{
     setData([...data, <DataRow
-                          key={topId}
+                          key={data.length}
                           columns={columns}
                           audio={props.audio}/>])
     setTopId(topId + 1)
   }
 
+  useEffect(()=>{
 
+  }, [deleted])
 
   return (
     <WorkspaceContainer>
@@ -100,7 +106,10 @@ export default function Workspace(props){
         {data.filter(obj => obj !== undefined).map((obj, i) =>
           <RowContainer key={i} >
             {obj}
-            <Trash src={TrashIcon} onClick={() => handleDeleteRow(i)}/>
+
+            {(i === data.filter(obj => obj !== undefined).length -1)?
+              <Trash src={TrashIcon} onClick={() => handleDeleteRow(i)}/>
+              : null}
           </RowContainer>)}
         <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
       </DataRowsContainer>

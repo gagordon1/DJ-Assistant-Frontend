@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { youtubeSearch } from '../../youtube-api-calls'
 import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../backend-calls'
 import DefaultImage from '../../assets/default_image.png'
@@ -18,7 +18,9 @@ const DataRowContainer = styled.div`
   background : ${colors.workspaceBackground};
 `
 
-export default function DataRow(props){
+function DataRow(props){
+
+  console.log("rendering")
 
   const [keyword, setKeyword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -49,3 +51,5 @@ export default function DataRow(props){
     </DataRowContainer>
   )
 }
+
+export default React.memo(DataRow)

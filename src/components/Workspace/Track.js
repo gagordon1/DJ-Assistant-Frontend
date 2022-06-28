@@ -12,6 +12,7 @@ import PlayBar from './PlayBar'
 
 const TrackContainer = styled.div`
   display : flex;
+  position : relative;
   justify-content : center;
   align-items : center;
   width : 128px;
@@ -59,7 +60,6 @@ const PauseButton = styled.img`
 
 const Loader = styled.div`
   position : absolute;
-
 `
 
 
@@ -101,7 +101,7 @@ export default function Track(props){
   return (
     <TrackContainer>
       <TrackBackground display ={props.thumbnail? "block" : "none"} src={props.thumbnail}/>
-      {link? <PlayBar key={link} audio={props.audio}/> : null}
+      {(link && playing)?<PlayBar key={link} audio={props.audio}/> : null}
       {(link && !playing)? <PlayButton src={PlayButtonImage} onClick={togglePlay}/> : null}
       {(link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay} display={playing? "flex" : "none"}/> : null}
       {(props.id && !link && !loading)? <DownloadIcon src={DownloadIconImage} onClick={handleDownload}/> : null}

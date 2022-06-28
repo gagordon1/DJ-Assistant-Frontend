@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: 'Nunito';
   background : #000000;
+  color-scheme: dark;
 }
 
 code {
