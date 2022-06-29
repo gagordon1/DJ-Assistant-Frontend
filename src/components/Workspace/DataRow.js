@@ -1,9 +1,7 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
 import React, { useState, useEffect } from 'react'
-import { youtubeSearch } from '../../controllers/youtube-controller'
 import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../controllers/backend-controller'
-import DefaultImage from '../../assets/default_image.png'
 
 import KeywordSearch from './KeywordSearch'
 import Source from './Source'
@@ -42,7 +40,7 @@ function DataRow(props){
     if(props.sourceId){
       setThumbnail(props.searchResults.filter(obj=>obj.id ===props.sourceId)[0].thumbnail)
     }
-  }, [props.sourceId])
+  }, [props.sourceId, props.searchResults])
 
   return (
     <DataRowContainer background={props.selected? colors.dataRowColor : colors.workspaceBackground}>

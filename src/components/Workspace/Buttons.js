@@ -33,10 +33,6 @@ const Button2 = styled.button`
     cursor : pointer;
   }
 `
-
-const TrackTitle = styled.div`
-  width : ${columnWidths["Master Track"]}px;
-`
 export default function Buttons(props){
 
   return(
@@ -48,13 +44,13 @@ export default function Buttons(props){
       <Button onClick={props.handleSelectAll}>
         <label>Select All</label>
       </Button>
-      <Button2>
+      <Button2 onClick={() => props.handleBatchDownload("masterLink")}>
         <label>Download Selected</label>
       </Button2>
-      <Button2>
+      <Button2 onClick={() => props.handleBatchDownload("vocalsLink")}>
         <label>Download Selected</label>
       </Button2>
-      <Button2>
+      <Button2 onClick={() => props.handleBatchDownload("accompanimentLink")}>
         <label>Download Selected</label>
       </Button2>
     </ColumnTitlesContainer>

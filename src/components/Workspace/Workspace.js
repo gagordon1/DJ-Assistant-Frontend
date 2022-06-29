@@ -1,15 +1,16 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import DataRow from './DataRow'
 import ColumnTitles from './ColumnTitles'
 import AddButtonImage from '../../assets/add-button-grey.svg'
-import { columnWidths } from '../../config'
 import BatchImportInputOptions from './BatchImportInputOptions'
 import Buttons from './Buttons'
 import { youtubeSearch } from '../../controllers/youtube-controller'
+import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../controllers/backend-controller'
 import { CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import { YOUTUBE_VIDEO_BASE_URL } from '../../config'
 
 const ProgressBarContainer = styled.div`
   position: absolute;
@@ -41,15 +42,6 @@ const LoaderBackground = styled.div`
   align-items : center;
 `
 
-const Loader = styled.div`
-`
-
-const RowContainer = styled.div`
-  display : flex;
-  flex-direction : row;
-  align-items : center;
-`
-
 const AddButton = styled.img`
   width : 25px;
   height : auto;
@@ -67,15 +59,6 @@ const WorkspaceContainer = styled.div`
   width : 90%;
   height : 700px;
   background : ${colors.workspaceBackground};
-`
-
-const SeparatorLine = styled.div`
-  position : absolute;
-  margin-top: 90px;
-  width: 0px;
-  height: 610px;
-  margin-left : ${props => props.marginLeft}px;
-  border: 0.1px solid ${colors.trimLineColor};
 `
 const DataRowsContainer = styled.div`
   display : flex;
@@ -98,11 +81,6 @@ const HorizontalSeparatorBottom = styled.div`
   height: 0px;
   border: 0.1px solid ${colors.trimLineColor};
 `
-const generateVerticalSeparators = (columns) =>{
-  return columns.map((column, i) => <SeparatorLine
-      marginLeft={columns.slice(0,i+1).reduce((a,b) => {return a + columnWidths[b]}, 0)}/>
-    )
-}
 
 export default function Workspace(props){
 
@@ -138,16 +116,15 @@ export default function Workspace(props){
 
   const handleSet = (index, attribute, value) => {
     console.log(attribute, value)
-    setData({...data, [index] : {
-        ...data[index],
-        [attribute] : value
-      }
-    })
-  }
+    console.log("here")
+    let newData = {...data}
+    newData[index][attribute] = value
+    if(attribute === "searchResults"){
+      newData[index].sourceId = value[0].id
+      console.log(value[0].id)
+    }
 
-  const handleSelect = (e, i) =>{
-    console.log(e.target.checked)
-    console.log(i)
+    setData(newData)
   }
 
   const batchSearch = async (searches) =>{
@@ -193,18 +170,51 @@ export default function Workspace(props){
     setData(newData)
     setLoading(false)
     setLoadProgress(0)
+  }
 
+  function download(dataurl, filename) {
+    const link = document.createElement("a");
+    link.href = dataurl;
+    link.download = filename;
+    link.click();
+  }
+
+  const handleBatchDownload = async (type) =>{
+    let newData = {...data}
+    let selected = Object.keys(newData).filter(key => newData[key].selected)
+    setLoading(true)
+    let processed = 0
+    let getLink = null
+    switch(type){
+      case "accompanimentLink":
+        getLink = getAccompanimentLink
+        break;
+      case "vocalsLink":
+        getLink = getVocalsLink
+        break;
+      default: //if masterLink
+        getLink = getDownloadLink
+        break;
+    }
+
+    for (const key of selected){
+        if (newData[key][type]){
+          download(newData[key][type] + "/download.mp3", newData[key].sourceId + ".mp3")
+        }
+        else{
+            let link = await getLink(YOUTUBE_VIDEO_BASE_URL + newData[key].sourceId)
+            newData[key][type] = link
+            download(link + "/download.mp3", newData[key].sourceId + ".mp3")
+        }
+        processed++
+        setLoadProgress(100*(processed)/selected.length)
+    }
+    setData(newData)
+    setLoading(false)
+    setLoadProgress(0)
 
   }
-  const handleBatchMasterDownload = () =>{
 
-  }
-  const handleBatchVocalDownload = () =>{
-
-  }
-  const handleBatchAccompanimentDownload = () =>{
-
-  }
   const loadingScreen = () => (
     <LoaderBackground>
       <ProgressBarContainer>
@@ -214,7 +224,7 @@ export default function Workspace(props){
   )
   return (
     <WorkspaceContainer>
-      {loading?  loadingScreen(): null}
+
       <ColumnTitles columns={columns}/>
       <DataRowsContainer>
         {Object.keys(data).map(key =>
@@ -238,17 +248,11 @@ export default function Workspace(props){
       <Buttons
         handleSelectAll={handleSelectAll}
         handleSearchSelected={handleSearchSelected}
-        handleBatchMasterDownload={handleBatchMasterDownload}
-        handleBatchVocalDownload={handleBatchVocalDownload}
-        handleBatchAccompanimentDownload={handleBatchAccompanimentDownload}
+        handleBatchDownload={handleBatchDownload}
         />
       <BatchImportInputOptions batchSearch={batchSearch}/>
-
-
-
+      {loading?  loadingScreen(): null}
       <HorizontalSeparator/>
-
-
     </WorkspaceContainer>
   )
 }

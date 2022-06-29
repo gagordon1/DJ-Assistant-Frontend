@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
 import DownloadIconImage from '../../assets/download-icon.svg'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { YOUTUBE_VIDEO_BASE_URL} from '../../config'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { TailSpin } from  'react-loader-spinner'
@@ -77,8 +77,6 @@ export default function Track(props){
       setPlaying(!playing)
     }
   }
-
-
 
   const handleDownload= async () =>{
     setLoading(true)

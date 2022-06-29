@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
-import React, {useEffect} from 'react'
+import React from 'react'
 import { youtubeSearch } from '../../controllers/youtube-controller'
 
 
@@ -26,10 +26,6 @@ const SearchBar = styled.input`
   font-size : 16px;
   font-family : inherit;
 `
-
-
-
-
 const placeholder = "Keyword..."
 
 export default function KeywordSearch(props){

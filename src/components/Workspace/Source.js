@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
-import { useState, useEffect } from 'react'
 import YoutubeLogoImage from '../../assets/youtube.png'
-import SelectBox from '../SelectBox'
 
 
 const SourceContainer = styled.div`
@@ -43,19 +41,15 @@ const SelectContainer = styled.div`
 
 export default function Source(props){
 
-  const [source, setSource] = useState("youtube") //youtube || soundcloud
-  const [loading, setLoading] = useState(false)
-
   const handleChange = (e) =>{
-    let [id, thumbnail] = e.target.value.split("|")
-    console.log(id)
+    let [id, ] = e.target.value.split("|")
     props.handleSet(props.index, "sourceId", id)
   }
 
 
   return (
     <SourceContainer>
-      {source === "youtube"? <YoutubeLogo src={YoutubeLogoImage}/> : null}
+      <YoutubeLogo src={YoutubeLogoImage}/>
       <SelectContainer>
         <SelectBoxStyled onChange={(e) => handleChange(e)}>
           {props.searchResults.map(obj => {return(<option key={obj.id}
