@@ -115,13 +115,10 @@ export default function Workspace(props){
   }
 
   const handleSet = (index, attribute, value) => {
-    console.log(attribute, value)
-    console.log("here")
     let newData = {...data}
     newData[index][attribute] = value
     if(attribute === "searchResults"){
       newData[index].sourceId = value[0].id
-      console.log(value[0].id)
     }
 
     setData(newData)
