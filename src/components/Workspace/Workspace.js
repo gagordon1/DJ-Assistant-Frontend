@@ -11,6 +11,7 @@ import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../cont
 import { CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import { YOUTUBE_VIDEO_BASE_URL } from '../../config'
+import { saveAs } from 'file-saver';
 
 const ProgressBarContainer = styled.div`
   position: absolute;
@@ -126,27 +127,29 @@ export default function Workspace(props){
 
   const batchSearch = async (searches) =>{
     let id = topId
-    let newData = {...data}
+    let newObj = {}
     setLoading(true)
     for (const search of searches){
         let row = defaultRow(id)
         row.keyword = search
         row.searchResults = await youtubeSearch(search)
         row.sourceId = row.searchResults[0].id
-        newData[id] = row
+        newObj[id] = row
         id++
         setLoadProgress(100*(id-topId)/searches.length)
     }
+    let newData = {...data, ...newObj}
+    console.log(newData)
     setTopId(id)
     setData(newData)
     setLoading(false)
     setLoadProgress(0)
   }
 
-  const handleSelectAll = () =>{
+  const handleSelectAll = (selected) =>{
     let newData= {...data}
     Object.keys(newData).forEach(key =>{
-      newData[key].selected = true
+      newData[key].selected = selected
     })
     setData(newData)
   }
@@ -164,7 +167,7 @@ export default function Workspace(props){
       processed++
       setLoadProgress(100*(processed)/selected.length)
     }
-    setData(newData)
+    setData({...data, ...newData})
     setLoading(false)
     setLoadProgress(0)
   }
@@ -172,9 +175,27 @@ export default function Workspace(props){
   function download(dataurl, filename) {
     const link = document.createElement("a");
     link.href = dataurl;
-    link.download = filename;
     link.click();
   }
+  // function download(dataurl, filename) {
+  //   window.URL = window.URL || window.webkitURL;
+  //
+  //   var xhr = new XMLHttpRequest(),
+  //         a = document.createElement('a'), file;
+  //
+  //   xhr.open('GET', dataurl, true);
+  //   xhr.responseType = 'blob';
+  //   xhr.onload = function () {
+  //       file = new Blob([xhr.response], { type : 'application/octet-stream' });
+  //       a.href = window.URL.createObjectURL(file);
+  //       a.download = 'someName.mp3';  // Set to whatever file name you want
+  //       // Now just click the link you created
+  //       // Note that you may have to append the a element to the body somewhere
+  //       // for this to work in Firefox
+  //       a.click();
+  //   };
+  //   xhr.send();
+  // }
 
   const handleBatchDownload = async (type) =>{
     let newData = {...data}
@@ -243,7 +264,8 @@ export default function Workspace(props){
       </DataRowsContainer>
       <HorizontalSeparatorBottom/>
       <Buttons
-        handleSelectAll={handleSelectAll}
+        handleSelectAll={() => handleSelectAll(true)}
+        handleDeselectAll={() => handleSelectAll(false)}
         handleSearchSelected={handleSearchSelected}
         handleBatchDownload={handleBatchDownload}
         />

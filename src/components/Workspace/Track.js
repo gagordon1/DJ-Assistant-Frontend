@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { colors } from '../../Theme'
 import DownloadIconImage from '../../assets/download-icon.svg'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { YOUTUBE_VIDEO_BASE_URL} from '../../config'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import { TailSpin } from  'react-loader-spinner'
@@ -55,6 +55,9 @@ const PauseButton = styled.img`
   width : auto;
   position : absolute;
   display : ${props => props.display};
+  &: hover{
+    cursor : pointer;
+  }
 `
 
 const Loader = styled.div`
@@ -67,7 +70,7 @@ export default function Track(props){
   const [playing, setPlaying] = useState(false)
 
   const togglePlay = () =>{
-    if(props.audio.src !== props.link){
+    if(props.audio.src !== props.link.replace(/\s/g, "%20")){//fixes bug where src white space turns to %20
       props.audio.src = props.link
       props.audio.load()
       props.audio.play()
@@ -85,12 +88,21 @@ export default function Track(props){
     setLoading(false)
   }
 
+  useEffect(()=>{
+    if(props.audio.src !== props.link.replace(/\s/g, "%20")){
+      console.log("here")
+      setPlaying(false)
+    }
+  }, [props.audio.src])
+
+
   return (
     <TrackContainer>
+
       <TrackBackground display ={props.thumbnail? "block" : "none"} src={props.thumbnail}/>
       {(props.link && playing)?<PlayBar key={props.link} audio={props.audio}/> : null}
       {(props.link && !playing)? <PlayButton src={PlayButtonImage} onClick={togglePlay}/> : null}
-      {(props.link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay} display={playing? "flex" : "none"}/> : null}
+      {(props.link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay}/> : null}
       {(props.id && !props.link && !loading)? <DownloadIcon src={DownloadIconImage} onClick={handleDownload}/> : null}
       {loading? 	<Loader><TailSpin color={colors.white} height={20} width={20} /> </Loader>: null}
 

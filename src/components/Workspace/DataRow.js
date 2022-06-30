@@ -32,7 +32,7 @@ const Checkbox = styled.input`
   margin-right : 20px;
 `
 
-function DataRow(props){
+export default function DataRow(props){
 
   const [thumbnail, setThumbnail] = useState("")
 
@@ -48,15 +48,13 @@ function DataRow(props){
       <KeywordSearch index={props.index} keyword={props.keyword} handleSet={props.handleSet} handleSearch={props.handleSearch}/>
       <Source index={props.index} keyword={props.keyword}
         handleSet={props.handleSet} searchResults={props.searchResults}/>
-      <Track index={props.index} link={props.masterLink} attribute={"masterLink"} handleSet={props.handleSet}
+      <Track key={props.index + "master"}index={props.index} link={props.masterLink} attribute={"masterLink"} handleSet={props.handleSet}
         getDownloadLink={getDownloadLink}id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
-      <Track index={props.index} link={props.vocalsLink} attribute={"vocalsLink"} handleSet={props.handleSet}
+      <Track key={props.index + "vocals"} index={props.index} link={props.vocalsLink} attribute={"vocalsLink"} handleSet={props.handleSet}
         getDownloadLink={getVocalsLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
-      <Track index={props.index} link={props.accompanimentLink} attribute={"accompanimentLink"} handleSet={props.handleSet}
+      <Track key={props.index + "accompaniment"} index={props.index} link={props.accompanimentLink} attribute={"accompanimentLink"} handleSet={props.handleSet}
         getDownloadLink={getAccompanimentLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
       <Trash src={TrashIcon} onClick={() => props.handleDeleteRow(props.index)}/>
     </DataRowContainer>
   )
 }
-
-export default React.memo(DataRow)
