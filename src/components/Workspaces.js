@@ -13,7 +13,7 @@ const WorkspacesContainer = styled.div`
 
 `
 
-export default function Workspaces(){
+export default function Workspaces(props){
 
   const [audio, ] = useState(new Audio(""))
 
@@ -21,7 +21,7 @@ export default function Workspaces(){
 
   //maps workspaces to their names
   const [workspaces, setWorkspaces] = useState({
-    "0" : {"name" : "Untitled", "component" : <Workspace id={0} audio={audio}/>}
+    "0" : {"name" : "Untitled", "component" : <Workspace id={0} accessToken={props.accessToken} audio={audio}/>}
   });
 
   return (

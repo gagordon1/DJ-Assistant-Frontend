@@ -269,7 +269,7 @@ export default function Workspace(props){
         handleSearchSelected={handleSearchSelected}
         handleBatchDownload={handleBatchDownload}
         />
-      <BatchImportInputOptions batchSearch={batchSearch}/>
+      <BatchImportInputOptions accessToken={props.accessToken} batchSearch={batchSearch}/>
       {loading?  loadingScreen(): null}
       <HorizontalSeparator/>
     </WorkspaceContainer>

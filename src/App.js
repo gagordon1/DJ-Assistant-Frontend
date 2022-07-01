@@ -4,7 +4,7 @@ import { authorizeFromCode, getUserProfile } from './controllers/spotify-control
 import { useState, useEffect} from 'react'
 import { REDIRECT_URI, AUTH_ENDPOINT, RESPONSE_TYPE, SCOPE,
   CLIENT_ID } from './config';
-  
+
 function App() {
 
   const [loading, setLoading] = useState(false)
@@ -13,8 +13,6 @@ function App() {
           setAccessToken("")
           window.localStorage.removeItem("code")
           window.localStorage.removeItem("accessToken")
-          window.localStorage.removeItem("refreshToken")
-          window.localStorage.removeItem("hostUserId")
       }
 
 
@@ -67,7 +65,7 @@ function App() {
                 to Spotify</a>
             :
             null}
-      <Workspaces/>
+      <Workspaces accessToken={accessToken}/>
     </div>
   );
 }
