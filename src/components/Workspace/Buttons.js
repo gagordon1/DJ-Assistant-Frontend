@@ -56,8 +56,8 @@ export default function Buttons(props){
   return(
 
     <ColumnTitlesContainer>
-      <Button onClick={props.handleSearchSelected}>
-        <label>Search Selected</label>
+      <Button onClick={props.handleClear}>
+        <label>Clear</label>
       </Button>
       <SelectButtonContainer>
         <Button3 onClick={props.handleSelectAll}>

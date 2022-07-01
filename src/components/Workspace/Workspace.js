@@ -156,22 +156,8 @@ export default function Workspace(props){
     setData(newData)
   }
 
-  const handleSearchSelected = async () =>{
-    let newData = {...data}
-    setLoading(true)
-    let processed = 0
-    let selected = Object.keys(newData).filter(key => newData[key].selected && newData[key].keyword)
-    for (const key of selected){
-      let searchResults = await youtubeSearch(newData[key].keyword)
-      let sourceId = searchResults[0].id
-      newData[key].searchResults = searchResults
-      newData[key].sourceId = sourceId
-      processed++
-      setLoadProgress(100*(processed)/selected.length)
-    }
-    setData({...data, ...newData})
-    setLoading(false)
-    setLoadProgress(0)
+  const handleClear = () => {
+    setData({})
   }
 
   function download(dataurl, filename) {
@@ -270,7 +256,7 @@ export default function Workspace(props){
       <Buttons
         handleSelectAll={() => handleSelectAll(true)}
         handleDeselectAll={() => handleSelectAll(false)}
-        handleSearchSelected={handleSearchSelected}
+        handleClear={handleClear}
         handleBatchDownload={handleBatchDownload}
         />
       <BatchImportInputOptions accessToken={props.accessToken} batchSearch={batchSearch}/>

@@ -3,6 +3,8 @@ import { colors } from '../../Theme'
 import SpotifyLogoImage from '../../assets/spotify-logo.svg'
 import CSVIconImage from '../../assets/csv-icon.svg'
 import { useRef, useState } from 'react'
+import GetPlaylists from './GetPlaylists'
+import { getPlaylists } from '../../controllers/spotify-controller';
 
 const Container = styled.div`
   display : flex;
@@ -38,6 +40,8 @@ export default function BatchImportInputOptions(props){
 
   const inputFile = useRef(null)
   const [file, setFile] = useState(null)
+  const [open, setOpen] = useState(false)
+  const [playlists, setPlaylists] = useState([])
 
   const onFileChange = (e) =>{
     let file = e.target.files[0]
@@ -51,8 +55,22 @@ export default function BatchImportInputOptions(props){
   }
 
 
-  const handleSpotifyInput = () =>{
+  const handleSpotifyInput = async () =>{
     console.log("HANDLING SPOTIFY INPUT")
+    //playlist obj : {
+    //  name : String
+    //  image : String
+    //  tracksEndpoint : String
+    //}
+    let result = await getPlaylists(props.accessToken)
+    setPlaylists(result.items.map(obj => {return{
+        name : obj.name,
+        image : obj.images[0].url,
+        tracksEndpoint : obj.tracks.href
+      }})
+    )
+    setOpen(true)
+
   }
 
   return (
@@ -60,6 +78,8 @@ export default function BatchImportInputOptions(props){
       <Title>Batch Import</Title>
       <Logos>
         <SpotifyLogo src={SpotifyLogoImage} onClick={handleSpotifyInput}/>
+        <GetPlaylists accessToken={props.accessToken} batchSearch={props.batchSearch}
+          playlists={playlists} setOpen={setOpen} open={open}/>
 
         <div>
           <input type="file" onChange={onFileChange} id="file" ref={inputFile} style={{display : "none"}}/>

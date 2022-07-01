@@ -44,6 +44,8 @@ export const SEARCH_ENDPOINT = "/search"
 
 export const AUDIO_FEATURES_ENDPOINT = "/audio-features/"
 
+export const PLAYLISTS_ENDPOINT = "/me/playlists"
+
 //https://developer.spotify.com/documentation/general/guides/authorization/scopes/
 export const SCOPE = "playlist-read-collaborative playlist-read-private"
 

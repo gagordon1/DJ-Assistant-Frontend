@@ -2,8 +2,8 @@ import axios from 'axios';
 import {encode as base64_encode} from 'base-64';
 import * as qs from 'qs'
 import { TOKEN_AUTH_ENDPOINT, CLIENT_ID, REDIRECT_URI, CLIENT_SECRET,
-  SPOTIFY_API_URL, TOP_ITEMS_ENDPOINT, ARTISTS_ENDPOINT,
-  SEARCH_ENDPOINT, AUDIO_FEATURES_ENDPOINT } from '../config'
+  SPOTIFY_API_URL, PLAYLISTS_ENDPOINT, SEARCH_ENDPOINT,
+  AUDIO_FEATURES_ENDPOINT } from '../config'
 
 
 export const authorizeFromCode = async (authCode) =>{
@@ -67,4 +67,37 @@ export const getAudioFeatures = async (accessToken, id) =>{
     )
     return response.data
 
+}
+
+export const getPlaylists = async (accessToken) =>{
+
+  let config = {
+    headers : {
+      'Authorization' : 'Bearer ' + accessToken,
+      'Content-Type' : 'application/json'
+    },
+    params : {
+      limit : 50
+    }
+  }
+  const response = await axios.get(
+    SPOTIFY_API_URL + PLAYLISTS_ENDPOINT,
+    config
+  )
+  return response.data
+
+}
+
+export const getPlaylistTracks = async (accessToken, endpoint) => {
+  let config = {
+    headers : {
+      'Authorization' : 'Bearer ' + accessToken,
+      'Content-Type' : 'application/json'
+    }
+  }
+  const response = await axios.get(
+    endpoint,
+    config
+  )
+  return response.data
 }
