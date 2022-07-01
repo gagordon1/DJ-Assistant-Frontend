@@ -99,7 +99,9 @@ export default function Workspace(props){
        masterLink : "",
        accompanimentLink : "",
        keyword : "",
-       selected : false
+       selected : false,
+       bpmAndKey : {bpm : null, key : null},
+       spotifySuggestedTrack: {artist : "", track : "", spotifyId : ""}//spotify's best guess at the keyword search
      }
   }
 
@@ -242,23 +244,25 @@ export default function Workspace(props){
   )
   return (
     <WorkspaceContainer>
-
       <ColumnTitles columns={columns}/>
       <DataRowsContainer>
         {Object.keys(data).map(key =>
           <DataRow
             key={data[key].index}
             index={data[key].index}
+            accessToken={props.accessToken}
             searchResults={data[key].searchResults}
             sourceId={data[key].sourceId}
             vocalsLink={data[key].vocalsLink}
             masterLink={data[key].masterLink}
             accompanimentLink={data[key].accompanimentLink}
+            bpmAndKey={data[key].bpmAndKey}
             keyword={data[key].keyword}
             selected={data[key].selected}
             handleDeleteRow={handleDeleteRow}
             handleSet={handleSet}
             audio={props.audio}
+            spotifySuggestedTrack={data[key].spotifySuggestedTrack}
           />)}
         <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
       </DataRowsContainer>

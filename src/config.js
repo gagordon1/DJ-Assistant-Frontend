@@ -6,10 +6,9 @@ export const YOUTUBE_API_BASE_URL = "https://www.googleapis.com/youtube/v3"
 
 export const columnWidths = {
   "Keyword" : 240,
-  "Source" : 240,
-  "Master Track" : 168,
-  "Vocals" : 168,
-  "Accompaniment" : 168
+  "Source" : 220,
+  "Master Track" : 148,
+  "KeyAndBpm" : 60
 }
 
 export const columnTypes = [
@@ -40,6 +39,10 @@ export const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 export const RESPONSE_TYPE = "code";
 
 export const SPOTIFY_API_URL = "https://api.spotify.com/v1"
+
+export const SEARCH_ENDPOINT = "/search"
+
+export const AUDIO_FEATURES_ENDPOINT = "/audio-features/"
 
 //https://developer.spotify.com/documentation/general/guides/authorization/scopes/
 export const SCOPE = "playlist-read-collaborative playlist-read-private"

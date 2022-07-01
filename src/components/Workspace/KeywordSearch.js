@@ -11,7 +11,7 @@ const KeywordSearchContainer = styled.div`
   width : 200px;
   height : 80%;
   background : ${colors.dataRowColor};
-  margin-right : 20px;
+  margin-right : 10px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 `
 

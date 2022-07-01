@@ -24,7 +24,7 @@ function App() {
         const accessTok = result.access_token
         setAccessToken(accessTok)
         window.localStorage.setItem("accessToken", accessTok)
-        }
+      }
 
       let code = window.localStorage.getItem("code")
       let accessTok = window.localStorage.getItem("accessToken")

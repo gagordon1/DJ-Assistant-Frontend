@@ -13,11 +13,15 @@ const ColumnTitlesContainer = styled.div`
   margin-left : 30px
 `
 const SourceTitle = styled.div`
-  width : 240px;
+  width : ${columnWidths["Source"]}px;
 `
 const KeywordTitle = styled.div`
-  width : 240px;
+  width : ${columnWidths["Keyword"]}px;
 `
+const KeyBpmTitle = styled.div`
+  width : ${columnWidths["KeyAndBpm"]}px;
+`
+
 
 const TrackTitle = styled.div`
   width : ${columnWidths["Master Track"]}px;
@@ -42,6 +46,15 @@ export default function ColumnTitles(props){
       <TrackTitle>
         <h3>Accompaniment</h3>
       </TrackTitle>
+      <TrackTitle>
+        <h3>Spotify Suggestion</h3>
+      </TrackTitle>
+      <KeyBpmTitle>
+        <h3>Key</h3>
+      </KeyBpmTitle>
+      <KeyBpmTitle>
+        <h3>BPM</h3>
+      </KeyBpmTitle>
     </ColumnTitlesContainer>
   )
 }

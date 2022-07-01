@@ -16,23 +16,9 @@ const WorkspacesContainer = styled.div`
 export default function Workspaces(props){
 
   const [audio, ] = useState(new Audio(""))
-
-  const [workspace, setWorkspace] = useState("0")
-
-  //maps workspaces to their names
-  const [workspaces, setWorkspaces] = useState({
-    "0" : {"name" : "Untitled", "component" : <Workspace id={0} accessToken={props.accessToken} audio={audio}/>}
-  });
-
   return (
     <WorkspacesContainer>
-      <WorkspaceNavbar
-        workspaces={workspaces}
-        workspace={workspace}
-        setWorkspace={setWorkspace}
-        setWorkspaces={setWorkspaces}
-      />
-      {workspaces[workspace]["component"]}
+      <Workspace accessToken={props.accessToken} audio={audio}/>
     </WorkspacesContainer>
   )
 }
