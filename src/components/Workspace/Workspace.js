@@ -36,8 +36,8 @@ const ProgressBarContainer = styled.div`
 const LoaderBackground = styled.div`
   display : flex;
   position : absolute;
-  width : inherit;
-  height : inherit;
+  width : 100%;
+  height : 100%;
   background : ${colors.whiteOpaque};
   justify-content : center;
   align-items : center;
