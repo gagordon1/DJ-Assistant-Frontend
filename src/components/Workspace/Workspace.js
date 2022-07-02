@@ -216,6 +216,8 @@ export default function Workspace(props){
       <DataRowsContainer>
         {Object.keys(data).map(key =>
           <DataRow
+            setAudioSource={props.setAudioSource}
+            audioSource={props.audioSource}
             key={data[key].index}
             index={data[key].index}
             accessToken={props.accessToken}

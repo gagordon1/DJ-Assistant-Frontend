@@ -25,6 +25,7 @@ const BackgroundBlur = styled.div`
 export default function Workspaces(props){
 
   const [audio, ] = useState(new Audio(""))
+  const [audioSource, setAudioSource] = useState("")
 
   useEffect(()=>{
 
@@ -32,7 +33,7 @@ export default function Workspaces(props){
   return (
     <WorkspacesContainer>
       <BackgroundBlur/>
-      <Workspace accessToken={props.accessToken} audio={audio}/>
+      <Workspace audioSource={audioSource} setAudioSource={setAudioSource} accessToken={props.accessToken} audio={audio}/>
 
 
     </WorkspacesContainer>

@@ -72,6 +72,7 @@ export default function Track(props){
   const togglePlay = () =>{
     if(props.audio.src !== props.link.replace(/\s/g, "%20")){//fixes bug where src white space turns to %20
       props.audio.src = props.link
+      props.setAudioSource(props.link)
       props.audio.load()
       props.audio.play()
       setPlaying(true)
@@ -89,11 +90,10 @@ export default function Track(props){
   }
 
   useEffect(()=>{
-    if(props.audio.src !== props.link.replace(/\s/g, "%20")){
-      console.log("here")
+    if(props.audioSource !== props.link){
       setPlaying(false)
     }
-  }, [props.audio.src])
+  }, [props.audioSource])
 
 
   return (

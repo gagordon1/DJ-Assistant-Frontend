@@ -52,12 +52,12 @@ export default function DataRow(props){
       <KeywordSearch index={props.index} keyword={props.keyword} handleSet={props.handleSet} handleSearch={props.handleSearch}/>
       <Source index={props.index} keyword={props.keyword}
         handleSet={props.handleSet} searchResults={props.searchResults}/>
-      <Track key={props.index + "master"}index={props.index} link={props.masterLink} attribute={"masterLink"} handleSet={props.handleSet}
-        getDownloadLink={getDownloadLink}id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
-      <Track key={props.index + "vocals"} index={props.index} link={props.vocalsLink} attribute={"vocalsLink"} handleSet={props.handleSet}
-        getDownloadLink={getVocalsLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
+      <Track key={props.index + "master"}index={props.index} link={props.masterLink} attribute={"masterLink"} handleSet={props.handleSet} audioSource={props.audioSource}
+        getDownloadLink={getDownloadLink}id={props.sourceId} thumbnail={thumbnail} audio={props.audio} setAudioSource={props.setAudioSource}/>
+      <Track key={props.index + "vocals"} index={props.index} link={props.vocalsLink} attribute={"vocalsLink"} handleSet={props.handleSet} audioSource={props.audioSource}
+        getDownloadLink={getVocalsLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio} setAudioSource={props.setAudioSource}/>
       <Track key={props.index + "accompaniment"} index={props.index} link={props.accompanimentLink} attribute={"accompanimentLink"} handleSet={props.handleSet}
-        getDownloadLink={getAccompanimentLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio}/>
+        getDownloadLink={getAccompanimentLink} id={props.sourceId} thumbnail={thumbnail} audio={props.audio} audioSource={props.audioSource} setAudioSource={props.setAudioSource}/>
       {props.accessToken?<SpotifySuggestion spotifySuggestedTrack={props.spotifySuggestedTrack} index={props.index}
                     handleSet={props.handleSet} keyword={props.keyword} sourceId={props.sourceId}
                     accessToken={props.accessToken}/> : null}
