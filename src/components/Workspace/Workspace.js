@@ -56,6 +56,7 @@ const AddButton = styled.img`
 
 const WorkspaceContainer = styled.div`
   display : flex;
+  position : absolute;
   flex-direction : column;
   width : 90%;
   height : 700px;
@@ -72,13 +73,13 @@ const DataRowsContainer = styled.div`
 const HorizontalSeparator = styled.div`
   margin-top : 90px;
   position: absolute;
-  width: inherit;
+  width: 100%;
   height: 0px;
   border: 0.1px solid ${colors.trimLineColor};
 `
 const HorizontalSeparatorBottom = styled.div`
   position : relative;
-  width: inherit;
+  width: 100%;
   height: 0px;
   border: 0.1px solid ${colors.trimLineColor};
 `

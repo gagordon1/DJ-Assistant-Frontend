@@ -18,6 +18,7 @@ const Button = styled.button`
   height : 40px;
   background : ${colors.dataRowColor};
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family : inherit;
   &:hover{
     cursor : pointer;
   }
@@ -28,6 +29,7 @@ const Button3 = styled.button`
   height : 40px;
   background : ${colors.dataRowColor};
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family : inherit;
   &:hover{
     cursor : pointer;
   }
@@ -39,6 +41,7 @@ const Button2 = styled.button`
   height : 40px;
   background : ${colors.dataRowColor};
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family : inherit;
   &:hover{
     cursor : pointer;
   }
