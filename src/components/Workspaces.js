@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react';
-import WorkspaceNavbar from './WorkspaceNavbar'
 import Workspace from './Workspace/Workspace'
 import styled from 'styled-components'
 import { colors } from '../Theme'
@@ -34,8 +33,6 @@ export default function Workspaces(props){
     <WorkspacesContainer>
       <BackgroundBlur/>
       <Workspace audioSource={audioSource} setAudioSource={setAudioSource} accessToken={props.accessToken} audio={audio}/>
-
-
     </WorkspacesContainer>
   )
 }

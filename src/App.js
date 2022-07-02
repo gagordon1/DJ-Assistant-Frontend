@@ -1,13 +1,11 @@
 import './App.css';
 import Workspaces from './components/Workspaces'
-import { authorizeFromCode, getUserProfile } from './controllers/spotify-controller'
+import { authorizeFromCode } from './controllers/spotify-controller'
 import { useState, useEffect} from 'react'
 import { REDIRECT_URI, AUTH_ENDPOINT, RESPONSE_TYPE, SCOPE,
   CLIENT_ID } from './config';
 
 function App() {
-
-  const [loading, setLoading] = useState(false)
   const [accessToken, setAccessToken] = useState("")
   const logout = () => {
           setAccessToken("")
@@ -18,7 +16,6 @@ function App() {
 
     useEffect(() => {
       const authorize = async (authCode) =>{
-        setLoading(true)
 
         const result = await authorizeFromCode(authCode)
         const accessTok = result.access_token
@@ -44,7 +41,6 @@ function App() {
             window.localStorage.setItem("code", authCode)
           }
           catch(error){
-            setLoading(false);
             console.log(error)
             window.localStorage.removeItem("code")
             window.localStorage.removeItem("accessToken")

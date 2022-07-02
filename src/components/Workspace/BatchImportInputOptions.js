@@ -39,7 +39,6 @@ const SpotifyLogo = styled.img`
 export default function BatchImportInputOptions(props){
 
   const inputFile = useRef(null)
-  const [file, setFile] = useState(null)
   const [open, setOpen] = useState(false)
   const [playlists, setPlaylists] = useState([])
 

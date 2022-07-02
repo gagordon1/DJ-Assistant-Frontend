@@ -90,10 +90,10 @@ export default function Track(props){
   }
 
   useEffect(()=>{
-    if(props.audioSource !== props.link){
+    if(props.link && props.audioSource !== props.link){
       setPlaying(false)
     }
-  }, [props.audioSource])
+  }, [props.audioSource, props.link])
 
 
   return (

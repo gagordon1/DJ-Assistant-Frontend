@@ -1,7 +1,5 @@
 import styled from 'styled-components'
-import Popup from 'reactjs-popup';
-import Track from './Track'
-import { useState } from 'react'
+import Popup from 'reactjs-popup'
 import { colors } from '../../Theme'
 import { getPlaylistTracks } from '../../controllers/spotify-controller'
 
@@ -42,12 +40,6 @@ const Button = styled.button`
 const Title = styled.h3`
   justify-self : center;
 `
-
-
-function randomChoice(arr) {
-    let index = Math.floor(arr.length * Math.random())
-    return arr[index];
-}
 
 function Playlist(props){
   const handleAdd = async () =>{

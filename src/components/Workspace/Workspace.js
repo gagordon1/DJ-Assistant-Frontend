@@ -11,7 +11,6 @@ import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../cont
 import { CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import { YOUTUBE_VIDEO_BASE_URL } from '../../config'
-import { saveAs } from 'file-saver';
 
 const ProgressBarContainer = styled.div`
   position: absolute;
@@ -22,17 +21,6 @@ const ProgressBarContainer = styled.div`
   }
 `
 
-
-//Data rows structure
-// [
-//        searchResults : []
-//        sourceLink : String
-//        vocalLink : String
-//        masterLink : String
-//        accompanimentLink : String
-//        keyword : String
-//  ]
-//
 const LoaderBackground = styled.div`
   display : flex;
   position : absolute;
