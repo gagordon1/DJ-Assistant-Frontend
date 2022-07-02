@@ -61,10 +61,10 @@ function App() {
 
       </header>
       {!accessToken ?
-            <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Login
+            <a style={{position : "absolute"}} href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Login
                 to Spotify</a>
             :
-            null}
+            <button style={{position : "absolute"}}onClick={logout}> Logout </button>}
       <Workspaces accessToken={accessToken}/>
     </div>
   );
