@@ -16,15 +16,15 @@ export const columnTypes = [
   "Accompaniment"
 ]
 
-const DEVELOPMENT = true;
+const DEVELOPMENT = false;
 
 const LOCAL_SERVER = "http://localhost:3000"
 
 const LOCAL_BACKEND_SERVER = "http://localhost:8000"
 
-const PRODUCTION_BACKEND_SERVER = null
+const PRODUCTION_BACKEND_SERVER = "http://34.66.84.254:8000"
 
-const PRODUCTION_SERVER = null
+const PRODUCTION_SERVER = "http://localhost:3000"
 
 export const REDIRECT_URI = DEVELOPMENT? LOCAL_SERVER : PRODUCTION_SERVER;
 

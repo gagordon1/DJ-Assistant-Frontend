@@ -53,7 +53,7 @@ export const searchSpotifyTracks = async (accessToken, search) =>{
 }
 
 export const getAudioFeatures = async (accessToken, id) =>{
-
+    console.log("here")
 
     let config = {
       headers : {
@@ -89,6 +89,7 @@ export const getPlaylists = async (accessToken) =>{
 }
 
 export const getPlaylistTracks = async (accessToken, endpoint) => {
+
   let config = {
     headers : {
       'Authorization' : 'Bearer ' + accessToken,
