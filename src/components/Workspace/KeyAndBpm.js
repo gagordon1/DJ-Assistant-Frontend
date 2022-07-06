@@ -30,9 +30,13 @@ const PITCH_CLASS = {
 
 export default function KeyAndBpm(props){
 
+  const getMode = () =>{
+    return props.bpmAndKey.mode === 0? "m" : ""
+  }
+
   return (
     <KeyAndBpmInfo>
-      <Item>{PITCH_CLASS[props.bpmAndKey.key]}</Item>
+      <Item>{props.bpmAndKey.key !== null?PITCH_CLASS[props.bpmAndKey.key] + getMode():""}</Item>
       <Item>{props.bpmAndKey.bpm}</Item>
     </KeyAndBpmInfo>
   )

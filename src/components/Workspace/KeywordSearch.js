@@ -54,7 +54,7 @@ export default function KeywordSearch(props){
 
   const loadKeyAndBpm = async(spotifyId) =>{
       let result = await getAudioFeatures(props.accessToken, spotifyId)
-      let bpmAndKey = {bpm : result.tempo, key : result.key}
+      let bpmAndKey = {bpm : result.tempo, key : result.key, mode : result.mode}
       return bpmAndKey
     }
 

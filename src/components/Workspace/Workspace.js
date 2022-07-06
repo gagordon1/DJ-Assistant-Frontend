@@ -92,7 +92,7 @@ export default function Workspace(props){
        accompanimentLink : "",
        keyword : "",
        selected : false,
-       bpmAndKey : {bpm : null, key : null},
+       bpmAndKey : {bpm : null, key : null, mode : null},
        spotifySuggestedTrack: {artist : "", track : "", spotifyId : ""}//spotify's best guess at the keyword search
      }
   }
@@ -160,7 +160,7 @@ export default function Workspace(props){
       features.forEach(obj =>{
         try{
           let row = newObj[Object.keys(newObj).find(key => newObj[key].spotifySuggestedTrack.spotifyId === obj.id)]
-          row.bpmAndKey = {bpm : obj.tempo, key : obj.key}
+          row.bpmAndKey = {bpm : obj.tempo, key : obj.key, mode : obj.mode}
         }catch(error){
           console.log(error)
         }
@@ -289,11 +289,11 @@ export default function Workspace(props){
         break;
       case "key-asc":
         compareFn = (a, b) => {
-          if(data[b].bpmAndKey.key  && data[a].bpmAndKey.key){
-            return data[a].bpmAndKey.key - data[b].bpmAndKey.key
-          }else if (data[a].bpmAndKey.key){
+          if(data[b].bpmAndKey.key!== null  && data[a].bpmAndKey.key!== null){
+            return data[a].bpmAndKey.key + .5*data[a].bpmAndKey.mode - (data[b].bpmAndKey.key + .5*data[b].bpmAndKey.mode)
+          }else if (data[a].bpmAndKey.key !== null){
             return 1
-          }else if (data[b].bpmAndKey.key){
+          }else if (data[b].bpmAndKey.key !== null){
             return -1
           }else{
             return 0
@@ -302,11 +302,11 @@ export default function Workspace(props){
           break;
       case "key-desc":
         compareFn = (a, b) => {
-          if(data[a].bpmAndKey.key  && data[b].bpmAndKey.key){
-            return data[b].bpmAndKey.key - data[a].bpmAndKey.key
-          }else if (data[b].bpmAndKey.key){
+          if(data[a].bpmAndKey.key!== null  && data[b].bpmAndKey.key!== null){
+            return data[b].bpmAndKey.key + .5*data[b].bpmAndKey.mode - (data[a].bpmAndKey.key + .5*data[a].bpmAndKey.mode)
+          }else if (data[b].bpmAndKey.key !== null){
             return 1
-          }else if (data[a].bpmAndKey.key){
+          }else if (data[a].bpmAndKey.key !== null){
             return -1
           }else{
             return 0
