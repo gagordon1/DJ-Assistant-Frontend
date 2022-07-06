@@ -84,8 +84,13 @@ export default function Track(props){
 
   const handleDownload= async () =>{
     setLoading(true)
-    const result = await props.getDownloadLink(YOUTUBE_VIDEO_BASE_URL + props.id)
-    props.handleSet(props.index, props.attribute, result)
+    try{
+      const result = await props.getDownloadLink(YOUTUBE_VIDEO_BASE_URL + props.id)
+      props.handleSet(props.index, props.attribute, result)
+    }catch(error){
+      alert("Could not download link. Ensure the selected content is not longer than 10 minutes.")
+    }
+
     setLoading(false)
   }
 
@@ -95,10 +100,16 @@ export default function Track(props){
     }
   }, [props.audioSource, props.link])
 
+  useEffect(()=>{
+      if(props.link && props.audioSource === props.link){
+        props.audio.pause()
+        setPlaying(false)
+      }
+  }, [props.id]) //when id changes lets turn playing off
+
 
   return (
     <TrackContainer>
-
       <TrackBackground display ={props.thumbnail? "block" : "none"} src={props.thumbnail}/>
       {(props.link && playing)?<PlayBar key={props.link} audio={props.audio}/> : null}
       {(props.link && !playing)? <PlayButton src={PlayButtonImage} onClick={togglePlay}/> : null}

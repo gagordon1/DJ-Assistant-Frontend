@@ -45,6 +45,14 @@ export default function DataRow(props){
     }
   }, [props.sourceId, props.searchResults])
 
+  useEffect(()=>{
+    if(props.sourceId){
+      props.handleSet(props.index, "masterLink", "")
+      props.handleSet(props.index, "vocalsLink", "")
+      props.handleSet(props.index, "accompanimentLink", "")
+    }
+  }, [props.sourceId])// when id changes lets remove links
+
   return (
     <DataRowContainer background={props.selected? colors.dataRowColor : colors.workspaceBackground}>
 
