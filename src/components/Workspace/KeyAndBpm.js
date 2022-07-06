@@ -11,7 +11,7 @@ const KeyAndBpmInfo = styled.div`
 
 const Item =styled.a`
   margin : auto;
-  filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 `
 
 const PITCH_CLASS = {
