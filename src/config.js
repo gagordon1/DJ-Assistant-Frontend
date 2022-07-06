@@ -16,7 +16,7 @@ export const columnTypes = [
   "Accompaniment"
 ]
 
-const DEVELOPMENT = true;
+const DEVELOPMENT = false;
 
 const LOCAL_SERVER = "http://localhost:3000"
 
