@@ -1,6 +1,4 @@
-import { useEffect } from 'react'
 import styled from 'styled-components'
-import { getAudioFeatures } from '../../controllers/spotify-controller'
 
 const KeyAndBpmInfo = styled.div`
   display : flex;
@@ -31,18 +29,6 @@ const PITCH_CLASS = {
 }
 
 export default function KeyAndBpm(props){
-
-  useEffect(()=>{
-    const loadKeyAndBpm = async() =>{
-      let result = await getAudioFeatures(props.accessToken, props.spotifySuggestedTrack.spotifyId)
-      let bpmAndKey = {bpm : result.tempo, key : result.key}
-      props.handleSet(props.index, "bpmAndKey", bpmAndKey)
-    }
-
-    if(props.spotifySuggestedTrack.spotifyId){
-      loadKeyAndBpm()
-    }
-  }, [props.spotifySuggestedTrack])
 
   return (
     <KeyAndBpmInfo>

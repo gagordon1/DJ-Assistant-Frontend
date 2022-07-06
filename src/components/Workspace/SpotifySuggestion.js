@@ -1,47 +1,38 @@
-import { useEffect } from 'react'
-import {searchSpotifyTracks} from '../../controllers/spotify-controller'
 import styled from 'styled-components'
+import { colors } from '../../Theme'
 
 const TrackInfo = styled.div`
   display : flex;
+  height : 100%;
   width : 128px;
-  padding : 10px;
   flex-direction : column;
-  justify-content : center;
-  margin-top : auto;
+  margin-top: auto;
   margin-bottom : auto;
-  align-items : center;
+  text-align : center;
+  justify-content : center;
+  padding-left : 10px;
+
+`
+
+const TrackTitle = styled.h4`
+  margin-top: 0px;
+  margin-bottom : 0px;
+  font-size : 15px;
+`
+const ArtistTitle = styled.h5`
+  margin-top: 0px;
+  margin-bottom : 0px;
+  font-size : 12px;
+  color : ${colors.textColorAlternate}
 `
 
 
 export default function SpotifySuggestion(props){
 
-
-  useEffect(()=>{
-    const getSuggestion = async() =>{
-      try{
-        let suggestion = await searchSpotifyTracks(props.accessToken, props.keyword)
-        let spotifySuggestedTrack = {
-          track : suggestion.name,
-          artist : suggestion.artists.map(obj => obj.name).join(", "),
-          spotifyId : suggestion.id
-        }
-        props.handleSet(props.index, "spotifySuggestedTrack", spotifySuggestedTrack)
-      }
-      catch(error){
-        console.log("Could not get spotify search data...")
-      }
-
-    }
-    if(props.keyword){
-      getSuggestion()
-    }
-  }, [props.sourceId]) //when sourceId changes
-
   return (
     <TrackInfo>
-      <a> {props.spotifySuggestedTrack.track} </a>
-      <a> {props.spotifySuggestedTrack.artist} </a>
+      <TrackTitle> {props.spotifySuggestedTrack.track} </TrackTitle>
+      <ArtistTitle> {props.spotifySuggestedTrack.artist} </ArtistTitle>
 
     </TrackInfo>
   )

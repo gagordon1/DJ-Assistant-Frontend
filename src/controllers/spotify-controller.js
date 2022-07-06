@@ -53,7 +53,6 @@ export const searchSpotifyTracks = async (accessToken, search) =>{
 }
 
 export const getAudioFeatures = async (accessToken, id) =>{
-    console.log("here")
 
     let config = {
       headers : {
@@ -63,6 +62,25 @@ export const getAudioFeatures = async (accessToken, id) =>{
     }
     const response = await axios.get(
       SPOTIFY_API_URL + AUDIO_FEATURES_ENDPOINT + id,
+      config
+    )
+    return response.data
+
+}
+
+export const getBulkAudioFeatures = async (accessToken, spotifyIds) =>{
+    let ids = spotifyIds.join(",")
+    let config = {
+      headers : {
+        'Authorization' : 'Bearer ' + accessToken,
+        'Content-Type' : 'application/json'
+      },
+      params : {
+        ids : ids
+      }
+    }
+    const response = await axios.get(
+      SPOTIFY_API_URL + AUDIO_FEATURES_ENDPOINT,
       config
     )
     return response.data

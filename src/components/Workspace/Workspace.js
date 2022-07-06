@@ -8,6 +8,7 @@ import BatchImportInputOptions from './BatchImportInputOptions'
 import Buttons from './Buttons'
 import { youtubeSearch } from '../../controllers/youtube-controller'
 import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../controllers/backend-controller'
+import { searchSpotifyTracks, getBulkAudioFeatures } from '../../controllers/spotify-controller'
 import { CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import { YOUTUBE_VIDEO_BASE_URL } from '../../config'
@@ -116,21 +117,56 @@ export default function Workspace(props){
     setData(newData)
   }
 
+  const getSuggestion = async(search) =>{
+    try{
+      let suggestion = await searchSpotifyTracks(props.accessToken, search)
+      let spotifySuggestedTrack = {
+        track : suggestion.name,
+        artist : suggestion.artists.map(obj => obj.name).join(", "),
+        spotifyId : suggestion.id
+      }
+      return spotifySuggestedTrack
+    }
+    catch(error){
+      console.log(`Could not get spotify search data for search: ${search}`)
+      return {artist : "", track : "", spotifyId : ""}
+    }
+
+  }
+
   const batchSearch = async (searches) =>{
     let id = topId
     let newObj = {}
     setLoading(true)
+    const spotifyIds = []
     for (const search of searches){
         let row = defaultRow(id)
         row.keyword = search
         row.searchResults = await youtubeSearch(search)
         row.sourceId = row.searchResults[0].id
+        if (props.accessToken){
+          row.spotifySuggestedTrack = await getSuggestion(search)
+          spotifyIds.push(row.spotifySuggestedTrack.spotifyId)
+        }
         newObj[id] = row
         id++
         setLoadProgress(100*(id-topId)/searches.length)
     }
+    //batch search for bpm and key now
+    if(props.accessToken){
+      let features = await getBulkAudioFeatures(props.accessToken, spotifyIds)
+      features.audio_features.forEach(obj =>{
+        try{
+          let row = newObj[Object.keys(newObj).find(key => newObj[key].spotifySuggestedTrack.spotifyId === obj.id)]
+          row.bpmAndKey = {bpm : obj.tempo, key : obj.key}
+        }catch(error){
+          console.log(error)
+        }
+
+        }
+      )
+    }
     let newData = {...data, ...newObj}
-    console.log(newData)
     setTopId(id)
     setData(newData)
     setLoading(false)

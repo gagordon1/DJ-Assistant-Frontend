@@ -49,7 +49,7 @@ export default function DataRow(props){
     <DataRowContainer background={props.selected? colors.dataRowColor : colors.workspaceBackground}>
 
       <Checkbox checked={props.selected} type="checkbox" onChange={(e) => props.handleSet(props.index, "selected", e.target.checked)}/>
-      <KeywordSearch index={props.index} keyword={props.keyword} handleSet={props.handleSet} handleSearch={props.handleSearch}/>
+      <KeywordSearch index={props.index} keyword={props.keyword} handleSet={props.handleSet} handleSearch={props.handleSearch} accessToken={props.accessToken}/>
       <Source index={props.index} keyword={props.keyword}
         handleSet={props.handleSet} searchResults={props.searchResults}/>
       <Track key={props.index + "master"}index={props.index} link={props.masterLink} attribute={"masterLink"} handleSet={props.handleSet} audioSource={props.audioSource}

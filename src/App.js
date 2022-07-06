@@ -7,6 +7,7 @@ import { REDIRECT_URI, AUTH_ENDPOINT, RESPONSE_TYPE, SCOPE,
 
 function App() {
   const [accessToken, setAccessToken] = useState("")
+  const [refreshToken, setRefreshToken] = useState("")
   const logout = () => {
           setAccessToken("")
           window.localStorage.removeItem("code")

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { colors } from '../../Theme'
 import React from 'react'
 import { youtubeSearch } from '../../controllers/youtube-controller'
+import { searchSpotifyTracks, getAudioFeatures} from '../../controllers/spotify-controller'
 
 
 const KeywordSearchContainer = styled.div`
@@ -28,15 +29,48 @@ const SearchBar = styled.input`
 `
 const placeholder = "Keyword..."
 
+
+
 export default function KeywordSearch(props){
 
   const searchInput = React.useRef(null)
+
+  const getSuggestion = async(search) =>{
+    try{
+      let suggestion = await searchSpotifyTracks(props.accessToken, search)
+      let spotifySuggestedTrack = {
+        track : suggestion.name,
+        artist : suggestion.artists.map(obj => obj.name).join(", "),
+        spotifyId : suggestion.id
+      }
+      return spotifySuggestedTrack
+    }
+    catch(error){
+      console.log(`Could not get spotify search data for search: ${search}`)
+      return {artist : "", track : "", spotifyId : ""}
+    }
+
+  }
+
+  const loadKeyAndBpm = async(spotifyId) =>{
+      let result = await getAudioFeatures(props.accessToken, spotifyId)
+      let bpmAndKey = {bpm : result.tempo, key : result.key}
+      return bpmAndKey
+    }
 
   const handleKeyDown = async (e) =>{
     if (e.key === "Enter"){
       if (document.activeElement === searchInput.current) {
         const results = await youtubeSearch(props.keyword)
         props.handleSet(props.index, "searchResults", results)
+        if(props.accessToken){
+          const spotifySuggestedTrack = await getSuggestion(props.keyword)
+          props.handleSet(props.index, "spotifySuggestedTrack", spotifySuggestedTrack)
+
+          let bpmAndKey = await loadKeyAndBpm(spotifySuggestedTrack.spotifyId)
+          props.handleSet(props.index, "bpmAndKey", bpmAndKey)
+        }
+
       }
     }
   }
