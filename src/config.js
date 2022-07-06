@@ -24,7 +24,7 @@ const LOCAL_BACKEND_SERVER = "http://localhost:8000"
 
 const PRODUCTION_BACKEND_SERVER = "http://34.66.84.254:8000"
 
-const PRODUCTION_SERVER = "http://localhost:3000"
+const PRODUCTION_SERVER = "https://dj-assistant-frontend.herokuapp.com"
 
 export const REDIRECT_URI = DEVELOPMENT? LOCAL_SERVER : PRODUCTION_SERVER;
 
