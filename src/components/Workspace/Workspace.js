@@ -212,14 +212,9 @@ export default function Workspace(props){
     }
 
     for (const key of selected){
-        if (newData[key][type]){
-          download(newData[key][type] + "/download.mp3", newData[key].sourceId + ".mp3")
-        }
-        else{
-            let link = await getLink(YOUTUBE_VIDEO_BASE_URL + newData[key].sourceId)
-            newData[key][type] = link
-            download(link + "/download.mp3", newData[key].sourceId + ".mp3")
-        }
+        let link = await getLink(YOUTUBE_VIDEO_BASE_URL + newData[key].sourceId)
+        newData[key][type] = link
+        download(link + "/download.mp3", newData[key].sourceId + ".mp3")
         processed++
         setLoadProgress(100*(processed)/selected.length)
     }
