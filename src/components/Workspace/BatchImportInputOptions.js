@@ -64,7 +64,7 @@ export default function BatchImportInputOptions(props){
     let result = await getPlaylists(props.accessToken)
     setPlaylists(result.items.map(obj => {return{
         name : obj.name,
-        image : obj.images[0].url,
+        image : obj.images.length > 0? obj.images[0].url : "",
         tracksEndpoint : obj.tracks.href
       }})
     )
