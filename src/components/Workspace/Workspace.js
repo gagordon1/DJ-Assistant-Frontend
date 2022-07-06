@@ -81,7 +81,7 @@ export default function Workspace(props){
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
   const [loadProgress, setLoadProgress] = useState(0)
-  const [sortKey, setSortKey] = useState("keyword-asc")
+  const [sortKey, setSortKey] = useState("default")
 
   const defaultRow = (id) => {return {
       index : id,
