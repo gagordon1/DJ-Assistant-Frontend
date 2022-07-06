@@ -43,9 +43,10 @@ const Title = styled.h3`
 
 function Playlist(props){
   const handleAdd = async () =>{
+    console.log(props.playlist.tracksEndpoint)
     let tracks = await getPlaylistTracks(props.accessToken, props.playlist.tracksEndpoint)
 
-    let searches = tracks.items.filter(obj => obj.track !== null).map(obj => obj.track.name + " " + obj.track.artists.map(obj => obj.name).join(", "))
+    let searches = tracks.filter(obj => obj.track !== null).map(obj => obj.track.name + " " + obj.track.artists.map(obj => obj.name).join(", "))
     props.setOpen(false)
     props.batchSearch(searches)
   }

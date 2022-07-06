@@ -155,7 +155,7 @@ export default function Workspace(props){
     //batch search for bpm and key now
     if(props.accessToken){
       let features = await getBulkAudioFeatures(props.accessToken, spotifyIds)
-      features.audio_features.forEach(obj =>{
+      features.forEach(obj =>{
         try{
           let row = newObj[Object.keys(newObj).find(key => newObj[key].spotifySuggestedTrack.spotifyId === obj.id)]
           row.bpmAndKey = {bpm : obj.tempo, key : obj.key}
