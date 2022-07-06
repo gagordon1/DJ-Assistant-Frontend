@@ -55,12 +55,6 @@ export default function BatchImportInputOptions(props){
 
 
   const handleSpotifyInput = async () =>{
-    console.log("HANDLING SPOTIFY INPUT")
-    //playlist obj : {
-    //  name : String
-    //  image : String
-    //  tracksEndpoint : String
-    //}
     let result = await getPlaylists(props.accessToken)
     setPlaylists(result.items.map(obj => {return{
         name : obj.name,

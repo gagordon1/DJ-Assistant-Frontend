@@ -1,5 +1,18 @@
 import styled from 'styled-components'
-import { columnWidths } from '../../config'
+import { columnWidthArray } from '../../config'
+import SelectorImage from '../../assets/selector.svg'
+import { colors } from '../../Theme'
+
+const sortKeyMap = {
+  "Keyword" :["keyword-desc", "keyword-asc"],
+  "Source": [],
+  "Master Track": [],
+  "Vocals": [],
+  "Accompaniment" : [],
+  "Spotify Suggestion": ["spotifySuggestion-desc", "spotifySuggestion-asc"],
+  "Key": ["key-desc", "key-asc"],
+  "BPM": ["bpm-desc", "bpm-asc"],
+}
 
 
 const ColumnTitlesContainer = styled.div`
@@ -12,49 +25,57 @@ const ColumnTitlesContainer = styled.div`
   align-items : center;
   margin-left : 30px
 `
-const SourceTitle = styled.div`
-  width : ${columnWidths["Source"]}px;
+const Title = styled.div`
+  display : flex;
+  flex-direction : row;
+  justify-content : center;
+  width : ${props => props.width}px;
+  color : ${props => props.selected? colors.accentColor1 : colors.textColor};
+  &:hover{
+    color : ${colors.accentColor1};
+    cursor : pointer;
+  }
 `
-const KeywordTitle = styled.div`
-  width : ${columnWidths["Keyword"]}px;
-`
-const KeyBpmTitle = styled.div`
-  width : ${columnWidths["KeyAndBpm"]}px;
-`
-
-
-const TrackTitle = styled.div`
-  width : ${columnWidths["Master Track"]}px;
+const Selector = styled.img`
+  position : relative;
+  margin-left : 5px;
+  width : 10px;
+  height : auto;
+  transform : rotate(${props => props.rot}deg);
+  display : ${props => props.display? "block" : "none"};
+  &:hover{
+    cursor : pointer;
+  }
 `
 export default function ColumnTitles(props){
 
-  return(
+  const getRot = (name) =>{
+    if(sortKeyMap[name].includes(props.sortKey)){
+      return props.sortKey === sortKeyMap[name][0]? 0 : 180
+    }
+    return 0
+  }
 
+  const getDisplay = (name) =>{
+    return (sortKeyMap[name].includes(props.sortKey))
+  }
+
+  const handleTitleClick = (name) =>{
+    if (sortKeyMap[name].includes(props.sortKey)){
+      props.setSortKey(sortKeyMap[name].find(a => props.sortKey!== a))
+    }else{
+      props.setSortKey(sortKeyMap[name][0])
+    }
+  }
+
+  return(
     <ColumnTitlesContainer>
-      <KeywordTitle>
-        <h3>Keyword</h3>
-      </KeywordTitle>
-      <SourceTitle>
-        <h3>Source</h3>
-      </SourceTitle>
-      <TrackTitle>
-        <h3>Master Track</h3>
-      </TrackTitle>
-      <TrackTitle>
-        <h3>Vocals</h3>
-      </TrackTitle>
-      <TrackTitle>
-        <h3>Accompaniment</h3>
-      </TrackTitle>
-      <TrackTitle>
-        <h3>Spotify Suggestion</h3>
-      </TrackTitle>
-      <KeyBpmTitle>
-        <h3>Key</h3>
-      </KeyBpmTitle>
-      <KeyBpmTitle>
-        <h3>BPM</h3>
-      </KeyBpmTitle>
+      {columnWidthArray.map((obj, i) => (
+        <Title key={i} onClick={() => handleTitleClick(obj.name)}selected={getDisplay(obj.name)} width={obj.width}>
+          <h3>{obj.name}</h3>
+          <Selector display={getDisplay(obj.name)} src={SelectorImage} rot={getRot(obj.name)}/>
+        </Title>
+      ))}
     </ColumnTitlesContainer>
   )
 }

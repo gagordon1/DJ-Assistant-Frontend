@@ -4,17 +4,23 @@ export const YOUTUBE_VIDEO_BASE_URL = "https://www.youtube.com/watch?v="
 
 export const YOUTUBE_API_BASE_URL = "https://www.googleapis.com/youtube/v3"
 
+export const columnWidthArray = [
+  {name : "Keyword", width :240},
+  {name : "Source" , width: 220},
+  {name : "Master Track" , width: 148},
+  {name : "Vocals" , width: 148},
+  {name : "Accompaniment" , width: 148},
+  {name : "Spotify Suggestion" , width: 148},
+  {name : "Key" , width: 60},
+  {name : "BPM" , width: 60}
+]
+
 export const columnWidths = {
   "Keyword" : 240,
   "Source" : 220,
   "Master Track" : 148,
   "KeyAndBpm" : 60
 }
-
-export const columnTypes = [
-  "Vocals",
-  "Accompaniment"
-]
 
 const DEVELOPMENT = false;
 

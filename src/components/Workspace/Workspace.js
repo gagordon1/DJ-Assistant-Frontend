@@ -73,6 +73,7 @@ const HorizontalSeparatorBottom = styled.div`
   border: 0.1px solid ${colors.trimLineColor};
 `
 
+
 export default function Workspace(props){
 
   const [topId, setTopId] = useState(0)
@@ -80,6 +81,7 @@ export default function Workspace(props){
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
   const [loadProgress, setLoadProgress] = useState(0)
+  const [sortKey, setSortKey] = useState("keyword-asc")
 
   const defaultRow = (id) => {return {
       index : id,
@@ -227,6 +229,143 @@ export default function Workspace(props){
 
   }
 
+  const getRows = () =>{
+
+    var compareFn
+
+    switch(sortKey){
+
+      case "keyword-asc":
+        compareFn = (a, b) => {
+          if(data[a].keyword  && data[b].keyword){
+            return data[a].keyword.localeCompare(data[b].keyword)
+          }else if (data[a].keyword){
+            return 1
+          }else if (data[b].keyword){
+            return -1
+          }else{
+            return 0
+          }
+        }
+        break;
+      case "keyword-desc":
+        compareFn = (a, b) => {
+          if(data[a].keyword  && data[b].keyword){
+            return data[b].keyword.localeCompare(data[a].keyword)
+          }else if (data[b].keyword){
+            return 1
+          }else if (data[a].keyword){
+            return -1
+          }else{
+            return 0
+          }
+        }
+        break;
+      case "spotifySuggestion-asc":
+        compareFn = (a, b) => {
+          if(data[b].spotifySuggestedTrack.track  && data[a].spotifySuggestedTrack.track){
+            return data[a].spotifySuggestedTrack.track.localeCompare(data[b].spotifySuggestedTrack.track)
+          }else if (data[a].spotifySuggestedTrack.track){
+            return 1
+          }else if (data[b].spotifySuggestedTrack.track){
+            return -1
+          }else{
+            return 0
+          }
+        }
+          break;
+      case "spotifySuggestion-desc":
+        compareFn = (a, b) => {
+          if(data[a].spotifySuggestedTrack.track  && data[b].spotifySuggestedTrack.track){
+            return data[b].spotifySuggestedTrack.track.localeCompare(data[a].spotifySuggestedTrack.track)
+          }else if (data[b].spotifySuggestedTrack.track){
+            return 1
+          }else if (data[a].spotifySuggestedTrack.track){
+            return -1
+          }else{
+            return 0
+          }
+        }
+        break;
+      case "key-asc":
+        compareFn = (a, b) => {
+          if(data[b].bpmAndKey.key  && data[a].bpmAndKey.key){
+            return data[a].bpmAndKey.key - data[b].bpmAndKey.key
+          }else if (data[a].bpmAndKey.key){
+            return 1
+          }else if (data[b].bpmAndKey.key){
+            return -1
+          }else{
+            return 0
+          }
+        }
+          break;
+      case "key-desc":
+        compareFn = (a, b) => {
+          if(data[a].bpmAndKey.key  && data[b].bpmAndKey.key){
+            return data[b].bpmAndKey.key - data[a].bpmAndKey.key
+          }else if (data[b].bpmAndKey.key){
+            return 1
+          }else if (data[a].bpmAndKey.key){
+            return -1
+          }else{
+            return 0
+          }
+        }
+        break;
+      case "bpm-asc":
+        compareFn = (a, b) => {
+          if(data[b].bpmAndKey.bpm  && data[a].bpmAndKey.bpm){
+            return data[a].bpmAndKey.bpm - data[b].bpmAndKey.bpm
+          }else if (data[a].bpmAndKey.bpm){
+            return 1
+          }else if (data[b].bpmAndKey.bpm){
+            return -1
+          }else{
+            return 0
+          }
+        }
+          break;
+      case "bpm-desc":
+        compareFn = (a, b) => {
+          if(data[a].bpmAndKey.bpm  && data[b].bpmAndKey.bpm){
+            return data[b].bpmAndKey.bpm - data[a].bpmAndKey.bpm
+          }else if (data[b].bpmAndKey.bpm){
+            return 1
+          }else if (data[a].bpmAndKey.bpm){
+            return -1
+          }else{
+            return 0
+          }
+        }
+        break;
+
+      default:
+        compareFn = (a,b) => 0
+    }
+    let sorted_keys = Object.keys(data).sort(compareFn)
+    return sorted_keys.map(key =>
+      <DataRow
+        setAudioSource={props.setAudioSource}
+        audioSource={props.audioSource}
+        key={data[key].index}
+        index={data[key].index}
+        accessToken={props.accessToken}
+        searchResults={data[key].searchResults}
+        sourceId={data[key].sourceId}
+        vocalsLink={data[key].vocalsLink}
+        masterLink={data[key].masterLink}
+        accompanimentLink={data[key].accompanimentLink}
+        bpmAndKey={data[key].bpmAndKey}
+        keyword={data[key].keyword}
+        selected={data[key].selected}
+        handleDeleteRow={handleDeleteRow}
+        handleSet={handleSet}
+        audio={props.audio}
+        spotifySuggestedTrack={data[key].spotifySuggestedTrack}
+      />)
+  }
+
   const loadingScreen = () => (
     <LoaderBackground>
       <ProgressBarContainer>
@@ -236,28 +375,9 @@ export default function Workspace(props){
   )
   return (
     <WorkspaceContainer>
-      <ColumnTitles columns={columns}/>
+      <ColumnTitles columns={columns} sortKey={sortKey} setSortKey={setSortKey}/>
       <DataRowsContainer>
-        {Object.keys(data).map(key =>
-          <DataRow
-            setAudioSource={props.setAudioSource}
-            audioSource={props.audioSource}
-            key={data[key].index}
-            index={data[key].index}
-            accessToken={props.accessToken}
-            searchResults={data[key].searchResults}
-            sourceId={data[key].sourceId}
-            vocalsLink={data[key].vocalsLink}
-            masterLink={data[key].masterLink}
-            accompanimentLink={data[key].accompanimentLink}
-            bpmAndKey={data[key].bpmAndKey}
-            keyword={data[key].keyword}
-            selected={data[key].selected}
-            handleDeleteRow={handleDeleteRow}
-            handleSet={handleSet}
-            audio={props.audio}
-            spotifySuggestedTrack={data[key].spotifySuggestedTrack}
-          />)}
+        {getRows()}
         <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
       </DataRowsContainer>
       <HorizontalSeparatorBottom/>
