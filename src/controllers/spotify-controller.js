@@ -120,3 +120,25 @@ export const getPlaylistTracks = async (accessToken, endpoint) => {
   )
   return response.data
 }
+
+export const authorizeFromRefreshToken = async (refreshToken) =>{
+
+  const params = qs.stringify(
+    {
+      "refresh_token" : refreshToken,
+      "grant_type" : "refresh_token"
+    }
+  )
+  const response = await fetch(
+    TOKEN_AUTH_ENDPOINT,
+    {
+      method : "POST",
+      headers: {
+        "Content-Type" : "application/x-www-form-urlencoded",
+        "Authorization" : "Basic " + base64_encode(CLIENT_ID + ":" + CLIENT_SECRET)
+      },
+      body : params
+    }
+  )
+  return response.json()
+}
