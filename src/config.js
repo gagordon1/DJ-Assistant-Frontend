@@ -16,11 +16,11 @@ export const columnTypes = [
   "Accompaniment"
 ]
 
-const DEVELOPMENT = false;
+const DEVELOPMENT = true;
 
 const LOCAL_SERVER = "http://localhost:3000"
 
-const LOCAL_BACKEND_SERVER = "http://localhost:8000"
+const LOCAL_BACKEND_SERVER = "http://34.66.84.254:8000"
 
 const PRODUCTION_BACKEND_SERVER = "http://34.66.84.254:8000"
 
