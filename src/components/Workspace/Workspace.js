@@ -57,7 +57,7 @@ const DataRowsContainer = styled.div`
   display : flex;
   flex-direction : column;
   min-height : 420px;
-  height : 500px;
+  height : 420px;
   min-width : ${widths.minWorkspaceWidth}px;
   overflow : scroll;
   scrollbar-color: dark;
