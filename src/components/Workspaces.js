@@ -10,7 +10,6 @@ const WorkspacesContainer = styled.div`
   justify-content : center;
   align-items : center;
   flex-direction : row;
-  overflow : scroll;
 `
 
 const VerticalSeparator = styled.div`
