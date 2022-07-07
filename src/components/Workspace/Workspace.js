@@ -51,17 +51,15 @@ const AddButton = styled.img`
 const WorkspaceContainer = styled.div`
   display : flex;
   flex-direction : column;
-  background : ${colors.workspaceBackground};
   overflow : scroll;
 `
 const DataRowsContainer = styled.div`
   display : flex;
   flex-direction : column;
   min-height : 420px;
-  height : 420px;
-  width : 100%;
-  overflow : scroll;
+  height : 500px;
   min-width : ${widths.minWorkspaceWidth}px;
+  overflow : scroll;
   scrollbar-color: dark;
 `
 const HorizontalSeparator = styled.div`

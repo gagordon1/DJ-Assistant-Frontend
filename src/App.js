@@ -12,7 +12,8 @@ function App() {
     marginLeft: "auto",
     marginRight: "auto",
     textAlign: "center",
-    marginBottom : "0px"
+    marginBottom : "0px",
+    top : "95vh"
 
   }
   const [accessToken, setAccessToken] = useState("")

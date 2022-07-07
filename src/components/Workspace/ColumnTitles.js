@@ -21,7 +21,7 @@ const ColumnTitlesContainer = styled.div`
   height : 50px;
   align-items : center;
   margin-left : 30px;
-  min-width : ${widths.minWorkspaceWidth}px;
+  min-width : ${widths.minWorkspaceWidth - 80}px;
 `
 const Title = styled.div`
   display : flex;

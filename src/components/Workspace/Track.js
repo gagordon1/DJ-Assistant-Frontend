@@ -109,7 +109,7 @@ export default function Track(props){
 
   return (
     <TrackContainer>
-      <TrackBackground darken={loading} display ={props.thumbnail? "block" : "none"} src={props.thumbnail}/>
+      <TrackBackground darken={loading || props.link} display ={props.thumbnail? "block" : "none"} src={props.thumbnail}/>
       {(props.link && playing)?<PlayBar key={props.link} audio={props.audio}/> : null}
       {(props.link && !playing)? <PlayButton src={PlayButtonImage} onClick={togglePlay}/> : null}
       {(props.link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay}/> : null}

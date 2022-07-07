@@ -15,6 +15,7 @@ const Trash = styled.img`
   width : 30px;
   height : auto;
   margin-left : 20px;
+  margin-right : 20px;
   &:hover{
     cursor : pointer;
   }

@@ -8,8 +8,9 @@ const ColumnTitlesContainer = styled.div`
   flex-direction : row;
   height : 60px;
   align-items : center;
-  margin-left : 30px;
-  min-width : ${widths.minWorkspaceWidth}
+  justify-content : center;
+  width : ${widths.minWorkspaceWidth}px;
+  min-width : ${widths.minWorkspaceWidth}px;
 `
 const Button = styled.button`
   width : ${props => props.width}px;
@@ -46,21 +47,21 @@ export default function Buttons(props){
         <label>Clear</label>
       </Button>
       <SelectButtonContainer>
-        <Button width={(columnWidths["Source"] - 40)/2 -4} lateralMargin={2} onClick={props.handleSelectAll}>
+        <Button width={(columnWidths["Source"] - 100)} lateralMargin={2} onClick={props.handleSelectAll}>
           <label>Select All</label>
         </Button>
-        <Button width={(columnWidths["Source"] - 40)/2 -4} lateralMargin={2} onClick={props.handleDeselectAll}>
+        <Button width={(columnWidths["Source"] - 100)} lateralMargin={2} onClick={props.handleDeselectAll}>
           <label>De-Select All</label>
         </Button>
       </SelectButtonContainer>
-      <Button lateralMargin={20}width={columnWidths["Master Track"] - 40} onClick={() => props.handleBatchDownload("masterLink")}>
-        <label>Download Selected</label>
+      <Button lateralMargin={20}width={columnWidths["Master Track"] + 40} onClick={() => props.handleBatchDownload("masterLink")}>
+        <label>Download Selected Masters</label>
       </Button>
-      <Button lateralMargin={20}width={columnWidths["Master Track"] - 40} onClick={() => props.handleBatchDownload("vocalsLink")}>
-        <label>Download Selected</label>
+      <Button lateralMargin={20}width={columnWidths["Master Track"] + 40} onClick={() => props.handleBatchDownload("vocalsLink")}>
+        <label>Download Selected Vocals</label>
       </Button>
-      <Button lateralMargin={20}width={columnWidths["Master Track"] - 40} onClick={() => props.handleBatchDownload("accompanimentLink")}>
-        <label>Download Selected</label>
+      <Button lateralMargin={20}width={columnWidths["Master Track"] + 40} onClick={() => props.handleBatchDownload("accompanimentLink")}>
+        <label>Download Selected Accompaniments</label>
       </Button>
     </ColumnTitlesContainer>
   )

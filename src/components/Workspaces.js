@@ -6,10 +6,11 @@ import { colors } from '../Theme'
 const WorkspacesContainer = styled.div`
   display : flex;
   height : 100vh;
-  width : 1440px;
+  width : 1441px;
   justify-content : center;
   align-items : center;
   flex-direction : row;
+  overflow : scroll;
 `
 
 const VerticalSeparator = styled.div`
