@@ -51,7 +51,6 @@ const AddButton = styled.img`
 const WorkspaceContainer = styled.div`
   display : flex;
   flex-direction : column;
-  overflow-x : scroll;
 `
 const DataRowsContainer = styled.div`
   display : flex;
