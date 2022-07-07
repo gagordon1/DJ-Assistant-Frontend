@@ -104,6 +104,7 @@ export default function Track(props){
       if(props.link && props.audioSource === props.link){
         props.audio.pause()
         setPlaying(false)
+        setLoading(false)
       }
   }, [props.id]) //when id changes lets turn playing off
 

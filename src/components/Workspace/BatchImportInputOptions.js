@@ -55,14 +55,20 @@ export default function BatchImportInputOptions(props){
 
 
   const handleSpotifyInput = async () =>{
-    let result = await getPlaylists(props.accessToken)
-    setPlaylists(result.items.map(obj => {return{
-        name : obj.name,
-        image : obj.images.length > 0? obj.images[0].url : "",
-        tracksEndpoint : obj.tracks.href
-      }})
-    )
-    setOpen(true)
+    try{
+      let result = await getPlaylists(props.accessToken)
+      setPlaylists(result.items.map(obj => {return{
+          name : obj.name,
+          image : obj.images.length > 0? obj.images[0].url : "",
+          tracksEndpoint : obj.tracks.href
+        }})
+      )
+      setOpen(true)
+    }catch(error){
+      alert("Expired access token. Log out then log back in.")
+    }
+
+
 
   }
 
