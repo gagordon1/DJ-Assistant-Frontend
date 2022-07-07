@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { columnWidthArray } from '../../config'
 import SelectorImage from '../../assets/selector.svg'
-import { colors } from '../../Theme'
+import { colors, widths } from '../../Theme'
 
 const sortKeyMap = {
   "Keyword" :["keyword-desc", "keyword-asc"],
@@ -16,14 +16,12 @@ const sortKeyMap = {
 
 
 const ColumnTitlesContainer = styled.div`
-
   display : flex;
-  margin-top : 30px;
   flex-direction : row;
-  height : 60px;
-  width : 100%;
+  height : 50px;
   align-items : center;
-  margin-left : 30px
+  margin-left : 30px;
+  min-width : ${widths.minWorkspaceWidth}px;
 `
 const Title = styled.div`
   display : flex;

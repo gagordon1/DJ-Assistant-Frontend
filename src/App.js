@@ -6,6 +6,15 @@ import { REDIRECT_URI, AUTH_ENDPOINT, RESPONSE_TYPE, SCOPE,
   CLIENT_ID } from './config';
 
 function App() {
+
+  const loginStyle = {
+    position : "absolute",
+    marginLeft: "auto",
+    marginRight: "auto",
+    textAlign: "center",
+    marginBottom : "0px"
+
+  }
   const [accessToken, setAccessToken] = useState("")
   const logout = () => {
           setAccessToken("")
@@ -77,11 +86,13 @@ function App() {
 
       </header>
       {!accessToken ?
-            <a style={{position : "absolute"}} href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Login
+            <a style={loginStyle} href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}>Login
                 to Spotify</a>
             :
-            <button style={{position : "absolute"}}onClick={logout}> Logout </button>}
+            <button style={loginStyle}onClick={logout}> Logout </button>}
       <Workspaces accessToken={accessToken}/>
+
+
     </div>
   );
 }

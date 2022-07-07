@@ -6,20 +6,19 @@ import { colors } from '../Theme'
 const WorkspacesContainer = styled.div`
   display : flex;
   height : 100vh;
-  width : 100vw;
+  width : 1440px;
   justify-content : center;
   align-items : center;
-  flex-direction : column;
-
+  flex-direction : row;
 `
 
-const BackgroundBlur = styled.div`
-  position : absolute;
-  width : 90%;
-  height : 700px;
-  background : ${colors.white};
-  filter: blur(10px);
+const VerticalSeparator = styled.div`
+  height : 100%;
+  position: relative;
+  width: 0px;
+  border: 0.1px solid ${colors.trimLineColor};
 `
+
 
 export default function Workspaces(props){
 
@@ -31,8 +30,10 @@ export default function Workspaces(props){
   },[props.accessToken])
   return (
     <WorkspacesContainer>
-      <BackgroundBlur/>
-      <Workspace audioSource={audioSource} setAudioSource={setAudioSource} accessToken={props.accessToken} audio={audio}/>
+      <VerticalSeparator/>
+      <Workspace audioSource={audioSource} setAudioSource={setAudioSource}
+        accessToken={props.accessToken} audio={audio}/>
+      <VerticalSeparator/>
     </WorkspacesContainer>
   )
 }

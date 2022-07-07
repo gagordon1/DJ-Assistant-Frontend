@@ -13,3 +13,7 @@ export const colors = {
   accentColor1 : "#6AB696"
 
 }
+
+export const widths = {
+  minWorkspaceWidth : 1200
+}

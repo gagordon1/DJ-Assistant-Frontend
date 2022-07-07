@@ -12,11 +12,13 @@ import { searchSpotifyTracks, getBulkAudioFeatures } from '../../controllers/spo
 import { CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import { YOUTUBE_VIDEO_BASE_URL } from '../../config'
+import { widths } from '../../Theme'
 
 const ProgressBarContainer = styled.div`
   position: absolute;
   width : 200px;
   height : 200px;
+  transform : translate(0, -50px);
   &:hover{
     cursor : pointer;
   }
@@ -25,18 +27,21 @@ const ProgressBarContainer = styled.div`
 const LoaderBackground = styled.div`
   display : flex;
   position : absolute;
-  width : 100%;
-  height : 100%;
+  left : 0;
+  top : 0;
+  width : 100vw;
+  height : 100vh;
   background : ${colors.whiteOpaque};
   justify-content : center;
   align-items : center;
+  overflow : hidden;
 `
 
 const AddButton = styled.img`
   width : 25px;
   height : auto;
   margin-top : 10px;
-  margin-bottom : 10px;
+  margin-bottom : 20px;
   margin-left : 137.5px;
   &: hover{
     cursor : pointer;
@@ -45,29 +50,23 @@ const AddButton = styled.img`
 
 const WorkspaceContainer = styled.div`
   display : flex;
-  position : absolute;
   flex-direction : column;
-  width : 90%;
-  height : 700px;
   background : ${colors.workspaceBackground};
+  overflow : scroll;
 `
 const DataRowsContainer = styled.div`
   display : flex;
   flex-direction : column;
-  max-height : 420px;
-  overflow-y : scroll;
+  min-height : 420px;
+  height : 420px;
+  width : 100%;
+  overflow : scroll;
+  min-width : ${widths.minWorkspaceWidth}px;
   scrollbar-color: dark;
-
 `
 const HorizontalSeparator = styled.div`
-  margin-top : 90px;
-  position: absolute;
-  width: 100%;
-  height: 0px;
-  border: 0.1px solid ${colors.trimLineColor};
-`
-const HorizontalSeparatorBottom = styled.div`
-  position : relative;
+  position: relative;
+  min-width : ${widths.minWorkspaceWidth}px;
   width: 100%;
   height: 0px;
   border: 0.1px solid ${colors.trimLineColor};
@@ -156,17 +155,21 @@ export default function Workspace(props){
     }
     //batch search for bpm and key now
     if(props.accessToken){
-      let features = await getBulkAudioFeatures(props.accessToken, spotifyIds)
-      features.forEach(obj =>{
-        try{
-          let row = newObj[Object.keys(newObj).find(key => newObj[key].spotifySuggestedTrack.spotifyId === obj.id)]
-          row.bpmAndKey = {bpm : obj.tempo, key : obj.key, mode : obj.mode}
-        }catch(error){
-          console.log(error)
-        }
+      try{
+        let features = await getBulkAudioFeatures(props.accessToken, spotifyIds)
+        features.forEach(obj =>{
+          try{
+            let row = newObj[Object.keys(newObj).find(key => newObj[key].spotifySuggestedTrack.spotifyId === obj.id)]
+            row.bpmAndKey = {bpm : obj.tempo, key : obj.key, mode : obj.mode}
+          }catch(error){
+            console.log(error)
+          }
 
-        }
-      )
+          }
+        )
+      }catch(error){
+        alert("Could not get key and bpm. Try logging into Spotify again.")
+      }
     }
     let newData = {...data, ...newObj}
     setTopId(id)
@@ -375,11 +378,13 @@ export default function Workspace(props){
   return (
     <WorkspaceContainer>
       <ColumnTitles columns={columns} sortKey={sortKey} setSortKey={setSortKey}/>
+      <HorizontalSeparator/>
       <DataRowsContainer>
         {getRows()}
         <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
+
       </DataRowsContainer>
-      <HorizontalSeparatorBottom/>
+      <HorizontalSeparator/>
       <Buttons
         handleSelectAll={() => handleSelectAll(true)}
         handleDeselectAll={() => handleSelectAll(false)}
@@ -388,7 +393,7 @@ export default function Workspace(props){
         />
       <BatchImportInputOptions accessToken={props.accessToken} batchSearch={batchSearch}/>
       {loading?  loadingScreen(): null}
-      <HorizontalSeparator/>
+
     </WorkspaceContainer>
   )
 }

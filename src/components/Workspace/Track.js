@@ -27,9 +27,11 @@ const TrackBackground = styled.img`
   display : ${props => props.display};
   width : inherit;
   height : inherit;
+  filter : ${props => props.darken? "brightness(40%)" : "none"};
   ${TrackContainer}:hover &{
     filter : brightness(50%);
   }
+
 `
 
 const DownloadIcon = styled.img`
@@ -107,7 +109,7 @@ export default function Track(props){
 
   return (
     <TrackContainer>
-      <TrackBackground display ={props.thumbnail? "block" : "none"} src={props.thumbnail}/>
+      <TrackBackground darken={loading} display ={props.thumbnail? "block" : "none"} src={props.thumbnail}/>
       {(props.link && playing)?<PlayBar key={props.link} audio={props.audio}/> : null}
       {(props.link && !playing)? <PlayButton src={PlayButtonImage} onClick={togglePlay}/> : null}
       {(props.link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay}/> : null}

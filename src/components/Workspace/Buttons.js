@@ -1,49 +1,32 @@
 import styled from 'styled-components'
 import { columnWidths } from '../../config'
-import {colors} from '../../Theme'
+import {colors, widths} from '../../Theme'
 
 const ColumnTitlesContainer = styled.div`
   display : flex;
   margin-top : 20px;
   flex-direction : row;
   height : 60px;
-  width : 100%;
   align-items : center;
   margin-left : 30px;
+  min-width : ${widths.minWorkspaceWidth}
 `
 const Button = styled.button`
-  width : ${columnWidths["Keyword"] - 40}px;
-  margin-left : 20px;
-  margin-right : 20px;
-  height : 40px;
-  background : ${colors.dataRowColor};
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  width : ${props => props.width}px;
+  margin-left : ${props=>props.lateralMargin}px;
+  margin-right :  ${props=>props.lateralMargin}px;
+  height : 50px;
+  background : none;
   font-family : inherit;
+  outline : none;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 2px solid ${colors.dataRowColor};
   &:hover{
     cursor : pointer;
+    background : ${colors.dataRowColor};
   }
-`
-const Button3 = styled.button`
-  width : ${(columnWidths["Source"] - 40)/2}px;
-  margin : auto;
-  height : 40px;
-  background : ${colors.dataRowColor};
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family : inherit;
-  &:hover{
-    cursor : pointer;
-  }
-`
-const Button2 = styled.button`
-  width : ${columnWidths["Master Track"] - 40}px;
-  margin-left : 20px;
-  margin-right : 20px;
-  height : 40px;
-  background : ${colors.dataRowColor};
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family : inherit;
-  &:hover{
-    cursor : pointer;
+  &:active{
+    border: 2px solid ${colors.accentColor1}
   }
 `
 
@@ -59,26 +42,26 @@ export default function Buttons(props){
   return(
 
     <ColumnTitlesContainer>
-      <Button onClick={props.handleClear}>
+      <Button lateralMargin={20}width={columnWidths["Keyword"] - 40}onClick={props.handleClear}>
         <label>Clear</label>
       </Button>
       <SelectButtonContainer>
-        <Button3 onClick={props.handleSelectAll}>
+        <Button width={(columnWidths["Source"] - 40)/2 -4} lateralMargin={2} onClick={props.handleSelectAll}>
           <label>Select All</label>
-        </Button3>
-        <Button3 onClick={props.handleDeselectAll}>
+        </Button>
+        <Button width={(columnWidths["Source"] - 40)/2 -4} lateralMargin={2} onClick={props.handleDeselectAll}>
           <label>De-Select All</label>
-        </Button3>
+        </Button>
       </SelectButtonContainer>
-      <Button2 onClick={() => props.handleBatchDownload("masterLink")}>
+      <Button lateralMargin={20}width={columnWidths["Master Track"] - 40} onClick={() => props.handleBatchDownload("masterLink")}>
         <label>Download Selected</label>
-      </Button2>
-      <Button2 onClick={() => props.handleBatchDownload("vocalsLink")}>
+      </Button>
+      <Button lateralMargin={20}width={columnWidths["Master Track"] - 40} onClick={() => props.handleBatchDownload("vocalsLink")}>
         <label>Download Selected</label>
-      </Button2>
-      <Button2 onClick={() => props.handleBatchDownload("accompanimentLink")}>
+      </Button>
+      <Button lateralMargin={20}width={columnWidths["Master Track"] - 40} onClick={() => props.handleBatchDownload("accompanimentLink")}>
         <label>Download Selected</label>
-      </Button2>
+      </Button>
     </ColumnTitlesContainer>
   )
 }
