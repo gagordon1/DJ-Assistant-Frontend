@@ -81,7 +81,7 @@ export default function BatchImportInputOptions(props){
           playlists={playlists} setOpen={setOpen} open={open}/>
 
         <div>
-          <input type="file" onChange={onFileChange} id="file" ref={inputFile} style={{display : "none"}}/>
+          <input type="file" accept=".csv" onChange={onFileChange} id="file" ref={inputFile} style={{display : "none"}}/>
           <CSVIcon src={CSVIconImage} onClick={() => inputFile.current.click()}/>
         </div>
       </Logos>

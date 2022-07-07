@@ -44,10 +44,6 @@ const PlayButton = styled.img`
   height : 30px;
   width : auto;
   position : absolute;
-  display : none;
-  ${TrackContainer}:hover &{
-    display: flex;
-  }
 `
 
 const PauseButton = styled.img`
@@ -117,6 +113,7 @@ export default function Track(props){
       {(props.link && playing)?<PauseButton src={PauseButtonImage} onClick={togglePlay}/> : null}
       {(props.id && !props.link && !loading)? <DownloadIcon src={DownloadIconImage} onClick={handleDownload}/> : null}
       {loading? 	<Loader><TailSpin color={colors.white} height={20} width={20} /> </Loader>: null}
+
 
 
     </TrackContainer>
