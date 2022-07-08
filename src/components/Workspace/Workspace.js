@@ -138,17 +138,23 @@ export default function Workspace(props){
     setLoading(true)
     const spotifyIds = []
     for (const search of searches){
-        let row = defaultRow(id)
-        row.keyword = search
-        row.searchResults = await youtubeSearch(search)
-        row.sourceId = row.searchResults[0].id
-        if (props.accessToken){
-          row.spotifySuggestedTrack = await getSuggestion(search)
-          spotifyIds.push(row.spotifySuggestedTrack.spotifyId)
+        try{
+          let row = defaultRow(id)
+          row.keyword = search
+          row.searchResults = await youtubeSearch(search)
+          row.sourceId = row.searchResults[0].id
+          if (props.accessToken){
+            row.spotifySuggestedTrack = await getSuggestion(search)
+            spotifyIds.push(row.spotifySuggestedTrack.spotifyId)
+          }
+          newObj[id] = row
+
+        }catch(error){
+          console.log(`Could not search for track ${search}`)
         }
-        newObj[id] = row
         id++
         setLoadProgress(100*(id-topId)/searches.length)
+
     }
     //batch search for bpm and key now
     if(props.accessToken){
