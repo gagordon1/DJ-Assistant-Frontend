@@ -13,7 +13,8 @@ const Dialogue = styled.div`
   height: 471px;
   margin : auto;
   transform: translate(-50%, -50%);
-  background: ${colors.dataRowColor};00000
+  background: ${colors.dataRowColor};
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 `
 
 const PlaylistImage = styled.img`

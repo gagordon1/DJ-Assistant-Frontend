@@ -8,12 +8,16 @@ import Buttons from './Buttons'
 import { youtubeSearch } from '../../controllers/youtube-controller'
 import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../controllers/backend-controller'
 import { searchSpotifyTracks, getBulkAudioFeatures } from '../../controllers/spotify-controller'
-import { addSongsToBeatPortCart } from '../../controllers/beatport-controller'
+import { addSongsToBeatPortCart, getBotStatus } from '../../controllers/beatport-controller'
 import { CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import { YOUTUBE_VIDEO_BASE_URL } from '../../config'
 import { widths } from '../../Theme'
 import Navbar from '../Navbar'
+
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
 
 const ProgressBarContainer = styled.div`
   position: fixed;
@@ -207,17 +211,31 @@ export default function Workspace(props){
   }
   const handleAddSongsToBeatPortCart = async () =>{
     setLoading(true)
-    let selectedSearches = Object.keys(data).filter(key => data[key].selected)
+
+    let selected = Object.keys(data).filter(key => data[key].selected)
       .map(key => data[key].spotifySuggestedTrack.track + " " + data[key].spotifySuggestedTrack.artist)
-    if (selectedSearches.length > 0){
+    if (selected.length > 0){
       try{
-        await addSongsToBeatPortCart(selectedSearches)
+        let response = await addSongsToBeatPortCart(selected)
+        let botId = response.statusId
+        let toProcess = response.status.toProcess
+        while (toProcess > 0){
+          await sleep(5*1000) //5 seconds
+          response = await getBotStatus(botId)
+          toProcess = response.status.toProcess
+          let processed = selected.length - toProcess
+          setLoadProgress(100*(processed)/selected.length)
+        }
+        if (response.status.badSearches.length > 0){
+          alert(`Error searching Beatport for songs: ${response.badSearches.join(", ")}`)
+        }
       }catch(error){
         console.log(error)
+        alert("Error adding songs to Beatport Cart. Ensure login details are correct.")
       }
 
     }
-
+    setLoadProgress(0)
     setLoading(false)
 
   }

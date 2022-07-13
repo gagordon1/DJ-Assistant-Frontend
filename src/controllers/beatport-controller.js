@@ -13,6 +13,19 @@ export const addSongsToBeatPortCart = async (songs) =>{
 
   const result = await fetch(BEATPORT_BACKEND_URL + "/addToCart", requestOptions)
                           .then(response => response.json())
+  return result
+
+}
+
+export const getBotStatus = async (botId) =>{
+  const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+
+  const result = await fetch(BEATPORT_BACKEND_URL + `/status/${botId}`, requestOptions)
+                          .then(response => response.json())
   console.log(result)
+  return result
 
 }
