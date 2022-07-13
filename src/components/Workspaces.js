@@ -31,7 +31,7 @@ export default function Workspaces(props){
   return (
     <WorkspacesContainer>
       <VerticalSeparator/>
-      <Workspace client={props.client} audioSource={audioSource} setAudioSource={setAudioSource}
+      <Workspace audioSource={audioSource} setAudioSource={setAudioSource}
         accessToken={props.accessToken} audio={audio}/>
       <VerticalSeparator/>
     </WorkspacesContainer>

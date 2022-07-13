@@ -205,7 +205,7 @@ export default function Workspace(props){
       .map(key => data[key].spotifySuggestedTrack.track + " " + data[key].spotifySuggestedTrack.artist)
     if (selectedSearches.length > 0){
       try{
-        await addSongsToBeatPortCart(props.client, selectedSearches)
+        await addSongsToBeatPortCart(selectedSearches)
       }catch(error){
         console.log(error)
       }

@@ -28,7 +28,7 @@ const LOCAL_SERVER = "http://localhost:3000"
 
 const LOCAL_BACKEND_SERVER = "http://34.66.84.254:8000"
 
-const LOCAL_BEATPORT_BACKEND_SERVER = "ws://127.0.0.1:8080/"
+const LOCAL_BEATPORT_BACKEND_SERVER = "http://localhost:8080"
 
 const PRODUCTION_BEATPORT_BACKEND_SERVER = ""
 
