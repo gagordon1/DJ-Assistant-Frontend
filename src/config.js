@@ -22,11 +22,15 @@ export const columnWidths = {
   "KeyAndBpm" : 60
 }
 
-const DEVELOPMENT = false;
+const DEVELOPMENT = true;
 
 const LOCAL_SERVER = "http://localhost:3000"
 
 const LOCAL_BACKEND_SERVER = "http://34.66.84.254:8000"
+
+const LOCAL_BEATPORT_BACKEND_SERVER = "ws://127.0.0.1:8080/"
+
+const PRODUCTION_BEATPORT_BACKEND_SERVER = ""
 
 const PRODUCTION_BACKEND_SERVER = "http://34.66.84.254:8000"
 
@@ -56,3 +60,5 @@ export const PLAYLISTS_ENDPOINT = "/me/playlists"
 export const SCOPE = "playlist-read-collaborative playlist-read-private"
 
 export const BACKEND_URL =  DEVELOPMENT? LOCAL_BACKEND_SERVER : PRODUCTION_BACKEND_SERVER
+
+export const BEATPORT_BACKEND_URL =  DEVELOPMENT? LOCAL_BEATPORT_BACKEND_SERVER : PRODUCTION_BEATPORT_BACKEND_SERVER

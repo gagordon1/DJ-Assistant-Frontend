@@ -3,9 +3,24 @@ import Workspaces from './components/Workspaces'
 import { authorizeFromCode, authorizeFromRefreshToken } from './controllers/spotify-controller'
 import { useState, useEffect} from 'react'
 import { REDIRECT_URI, AUTH_ENDPOINT, RESPONSE_TYPE, SCOPE,
-  CLIENT_ID } from './config';
+  CLIENT_ID, BEATPORT_BACKEND_URL } from './config';
+
+
+
+import { w3cwebsocket as W3CWebSocket } from "websocket";
+const client = new W3CWebSocket(BEATPORT_BACKEND_URL);
+
 
 function App() {
+
+  useEffect(()=>{
+    client.onopen = () => {
+      console.log('WebSocket Client Connected');
+    };
+    client.onmessage = (message) => {
+      console.log(message);
+    };
+  })
 
   const loginStyle = {
     position : "absolute",
@@ -52,7 +67,6 @@ function App() {
 
     let code = window.localStorage.getItem("code")
     let accessTok = window.localStorage.getItem("accessToken")
-    let refreshTok = window.localStorage.getItem("refreshToken")
     const windowUrl = window.location.search;
     const params = new URLSearchParams(windowUrl);
     const authCode = params.get("code");
@@ -91,7 +105,7 @@ function App() {
                 to Spotify</a>
             :
             <button style={loginStyle}onClick={logout}> Logout </button>}
-      <Workspaces accessToken={accessToken}/>
+      <Workspaces client={client} accessToken={accessToken}/>
 
 
     </div>

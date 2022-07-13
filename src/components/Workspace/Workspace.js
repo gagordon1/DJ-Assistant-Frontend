@@ -9,6 +9,7 @@ import Buttons from './Buttons'
 import { youtubeSearch } from '../../controllers/youtube-controller'
 import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../controllers/backend-controller'
 import { searchSpotifyTracks, getBulkAudioFeatures } from '../../controllers/spotify-controller'
+import { addSongsToBeatPortCart } from '../../controllers/beatport-controller'
 import { CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import { YOUTUBE_VIDEO_BASE_URL } from '../../config'
@@ -197,6 +198,22 @@ export default function Workspace(props){
     const link = document.createElement("a");
     link.href = dataurl;
     link.click();
+  }
+  const handleAddSongsToBeatPortCart = async () =>{
+    setLoading(true)
+    let selectedSearches = Object.keys(data).filter(key => data[key].selected)
+      .map(key => data[key].spotifySuggestedTrack.track + " " + data[key].spotifySuggestedTrack.artist)
+    if (selectedSearches.length > 0){
+      try{
+        await addSongsToBeatPortCart(props.client, selectedSearches)
+      }catch(error){
+        console.log(error)
+      }
+
+    }
+
+    setLoading(false)
+
   }
 
   const handleBatchDownload = async (type) =>{
@@ -393,6 +410,7 @@ export default function Workspace(props){
         handleDeselectAll={() => handleSelectAll(false)}
         handleClear={handleClear}
         handleBatchDownload={handleBatchDownload}
+        handleAddSongsToBeatPortCart={handleAddSongsToBeatPortCart}
         />
       <BatchImportInputOptions accessToken={props.accessToken} batchSearch={batchSearch}/>
       {loading?  loadingScreen(): null}

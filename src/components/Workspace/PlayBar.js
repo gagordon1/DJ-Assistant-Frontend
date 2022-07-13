@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react'
 import styled from 'styled-components'
-import {colors} from '../../Theme'
 
 import { CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
