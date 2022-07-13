@@ -9,8 +9,7 @@ import { getPlaylists } from '../../controllers/spotify-controller';
 const Container = styled.div`
   display : flex;
   flex-direction : column;
-  width : 150px;
-  margin-left : 75px;
+  width : 250px;
 `
 const Title = styled.h3`
   color : ${colors.dataRowColor};
@@ -68,18 +67,14 @@ export default function BatchImportInputOptions(props){
       alert("Expired access token. Log out then log back in.")
     }
 
-
-
   }
-
   return (
     <Container>
-      <Title>Batch Import</Title>
+      <Title>Batch Import Tracks</Title>
       <Logos>
         <SpotifyLogo src={SpotifyLogoImage} onClick={handleSpotifyInput}/>
         <GetPlaylists accessToken={props.accessToken} batchSearch={props.batchSearch}
           playlists={playlists} setOpen={setOpen} open={open}/>
-
         <div>
           <input type="file" accept=".csv" onChange={onFileChange} id="file" ref={inputFile} style={{display : "none"}}/>
           <CSVIcon src={CSVIconImage} onClick={() => inputFile.current.click()}/>

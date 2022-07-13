@@ -14,24 +14,31 @@ import { CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import { YOUTUBE_VIDEO_BASE_URL } from '../../config'
 import { widths } from '../../Theme'
+import Navbar from '../Navbar'
 
 const ProgressBarContainer = styled.div`
-  position: absolute;
+  position: fixed;
   width : 200px;
   height : 200px;
+  top : 50%;
+  left : 50%;
+  margin-left: -100px;
+  margin-top: -100px;
+  justify-content : center;
   transform : translate(0, -50px);
   &:hover{
     cursor : pointer;
   }
 `
 
+
 const LoaderBackground = styled.div`
-  display : flex;
-  position : absolute;
-  left : 0;
-  top : 0;
-  width : 100vw;
-  height : 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index:99;
   background : ${colors.whiteOpaque};
   justify-content : center;
   align-items : center;
@@ -397,6 +404,8 @@ export default function Workspace(props){
   )
   return (
     <WorkspaceContainer>
+      <Navbar accessToken={props.accessToken} batchSearch={batchSearch}
+          loading={loading} loadingScreen={loadingScreen}/>
       <ColumnTitles columns={columns} sortKey={sortKey} setSortKey={setSortKey}/>
       <HorizontalSeparator/>
       <DataRowsContainer>
@@ -412,8 +421,6 @@ export default function Workspace(props){
         handleBatchDownload={handleBatchDownload}
         handleAddSongsToBeatPortCart={handleAddSongsToBeatPortCart}
         />
-      <BatchImportInputOptions accessToken={props.accessToken} batchSearch={batchSearch}/>
-      {loading?  loadingScreen(): null}
 
     </WorkspaceContainer>
   )

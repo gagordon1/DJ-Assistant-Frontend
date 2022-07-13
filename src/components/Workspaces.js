@@ -8,7 +8,7 @@ const WorkspacesContainer = styled.div`
   height : 100vh;
   width : 1441px;
   justify-content : center;
-  align-items : center;
+  align-items : top;
   flex-direction : row;
 `
 
