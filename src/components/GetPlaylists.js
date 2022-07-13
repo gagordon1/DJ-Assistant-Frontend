@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Popup from 'reactjs-popup'
-import { colors } from '../../Theme'
-import { getPlaylistTracks } from '../../controllers/spotify-controller'
+import { colors } from '../Theme'
+import { getPlaylistTracks } from '../controllers/spotify-controller'
 
 const Dialogue = styled.div`
   position: absolute;

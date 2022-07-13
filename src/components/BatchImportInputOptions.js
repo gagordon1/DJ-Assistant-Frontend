@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import { colors } from '../../Theme'
-import SpotifyLogoImage from '../../assets/spotify-logo.svg'
-import CSVIconImage from '../../assets/csv-icon.svg'
-import SpotifyLogoImageHighlighted from '../../assets/spotify-logo-highlighted.svg'
-import CSVIconImageHighlighted from '../../assets/csv-icon-highlighted.svg'
+import { colors } from '../Theme'
+import SpotifyLogoImage from '../assets/spotify-logo.svg'
+import CSVIconImage from '../assets/csv-icon.svg'
+import SpotifyLogoImageHighlighted from '../assets/spotify-logo-highlighted.svg'
+import CSVIconImageHighlighted from '../assets/csv-icon-highlighted.svg'
 import { useRef, useState } from 'react'
 import GetPlaylists from './GetPlaylists'
-import { getPlaylists } from '../../controllers/spotify-controller';
+import { getPlaylists } from '../controllers/spotify-controller';
 
 const Container = styled.div`
   display : flex;

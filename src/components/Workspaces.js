@@ -14,6 +14,7 @@ const WorkspacesContainer = styled.div`
 
 const VerticalSeparator = styled.div`
   height : 100%;
+  overflow :hidden;
   position: relative;
   width: 0px;
   border: 0.1px solid ${colors.trimLineColor};

@@ -1,5 +1,5 @@
 import LogoImage from '../assets/logo192.png'
-import BatchImportInputOptions from './Workspace/BatchImportInputOptions'
+import BatchImportInputOptions from './BatchImportInputOptions'
 import styled from 'styled-components'
 
 const Logo = styled.img`
@@ -34,6 +34,7 @@ export default function Navbar(props){
       {props.loading?  props.loadingScreen(): null}
       <Logo src={LogoImage}/>
       <Menu>
+        <h3 style={{"margin-right" : "40px"}}> Contact </h3>
         <h3 style={{"margin-right" : "10px"}}> Help </h3>
       </Menu>
 
