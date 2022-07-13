@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import { colors } from '../../Theme'
 import SpotifyLogoImage from '../../assets/spotify-logo.svg'
 import CSVIconImage from '../../assets/csv-icon.svg'
+import SpotifyLogoImageHighlighted from '../../assets/spotify-logo-highlighted.svg'
+import CSVIconImageHighlighted from '../../assets/csv-icon-highlighted.svg'
 import { useRef, useState } from 'react'
 import GetPlaylists from './GetPlaylists'
 import { getPlaylists } from '../../controllers/spotify-controller';
@@ -12,7 +14,7 @@ const Container = styled.div`
   width : 250px;
 `
 const Title = styled.h3`
-  color : ${colors.dataRowColor};
+  color : ${colors.white};
   margin-bottom : 0px
 `
 const Logos = styled.div`
@@ -72,12 +74,16 @@ export default function BatchImportInputOptions(props){
     <Container>
       <Title>Batch Import Tracks</Title>
       <Logos>
-        <SpotifyLogo src={SpotifyLogoImage} onClick={handleSpotifyInput}/>
+        <SpotifyLogo src={SpotifyLogoImage} onMouseOut={e => e.currentTarget.src = SpotifyLogoImage}
+          onMouseOver={e => e.currentTarget.src = SpotifyLogoImageHighlighted} onClick={handleSpotifyInput}/>
         <GetPlaylists accessToken={props.accessToken} batchSearch={props.batchSearch}
           playlists={playlists} setOpen={setOpen} open={open}/>
         <div>
           <input type="file" accept=".csv" onChange={onFileChange} id="file" ref={inputFile} style={{display : "none"}}/>
-          <CSVIcon src={CSVIconImage} onClick={() => inputFile.current.click()}/>
+          <CSVIcon src={CSVIconImage} onClick={() => inputFile.current.click()}
+            onMouseOut={e => e.currentTarget.src = CSVIconImage}
+            onMouseOver={e => e.currentTarget.src = CSVIconImageHighlighted}
+            />
         </div>
       </Logos>
 

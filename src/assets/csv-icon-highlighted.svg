@@ -3,7 +3,7 @@
 <path d="M0 -1.52588e-05H30V30H10C4.47715 30 0 25.5228 0 20V-1.52588e-05Z" fill="url(#pattern0)"/>
 </mask>
 <g mask="url(#mask0_4_155)">
-<path d="M-4.34999 -2.85005H38.25V36.1499H5.65001C0.127168 36.1499 -4.34999 31.6728 -4.34999 26.1499V-2.85005Z" fill="white"/>
+<path d="M-4.34999 -2.85005H38.25V36.1499H5.65001C0.127168 36.1499 -4.34999 31.6728 -4.34999 26.1499V-2.85005Z" fill="#6AB696"/>
 </g>
 <defs>
 <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
