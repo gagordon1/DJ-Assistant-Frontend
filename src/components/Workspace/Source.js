@@ -8,7 +8,6 @@ const SourceContainer = styled.div`
   align-items : center;
   width : 200px;
   height : 80%;
-  background : ${colors.dataRowColor};
   margin-left : 10px;
   margin-right : 10px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
@@ -22,7 +21,7 @@ const YoutubeLogo = styled.img`
 `
 
 const SelectBoxStyled = styled.select`
-  background : ${colors.dataRowColor};
+  background : none;
   border : none;
   color : ${colors.textColor};
   border : none;

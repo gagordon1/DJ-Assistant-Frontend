@@ -48,6 +48,7 @@ export const searchSpotifyTracks = async (accessToken, search) =>{
       config
     )
     const result = response.data.tracks.items[0]
+    console.log(result)
     return result
 
 }

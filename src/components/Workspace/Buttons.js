@@ -55,13 +55,13 @@ export default function Buttons(props){
         </Button>
       </SelectButtonContainer>
       <Button lateralMargin={20}width={columnWidths["Master Track"] + 40} onClick={() => props.handleBatchDownload("masterLink")}>
-        <label>Download Selected Masters</label>
+        <label>Download Selected Masters (mp3)</label>
       </Button>
       <Button lateralMargin={20}width={columnWidths["Master Track"] + 40} onClick={() => props.handleBatchDownload("vocalsLink")}>
-        <label>Download Selected Vocals</label>
+        <label>Download Selected Vocals (mp3)</label>
       </Button>
       <Button lateralMargin={20}width={columnWidths["Master Track"] + 40} onClick={() => props.handleBatchDownload("accompanimentLink")}>
-        <label>Download Selected Accompaniments</label>
+        <label>Download Selected Accompaniments (mp3)</label>
       </Button>
       <Button lateralMargin={20}width={columnWidths["Master Track"] + 40} onClick={() => props.handleAddSongsToBeatPortCart()}>
         <label>Add Selected Songs to BeatPort Cart</label>

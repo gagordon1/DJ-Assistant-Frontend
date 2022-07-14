@@ -213,7 +213,11 @@ export default function Workspace(props){
     setLoading(true)
 
     let selected = Object.keys(data).filter(key => data[key].selected)
-      .map(key => data[key].spotifySuggestedTrack.track + " " + data[key].spotifySuggestedTrack.artist)
+      .map(key => {return {
+          track : data[key].spotifySuggestedTrack.track,
+          artists : data[key].spotifySuggestedTrack.artist
+        }
+      })
     if (selected.length > 0){
       try{
         let response = await addSongsToBeatPortCart(selected)

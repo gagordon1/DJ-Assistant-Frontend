@@ -7,7 +7,7 @@ export const addSongsToBeatPortCart = async (songs) =>{
         body: JSON.stringify({
           username: process.env.REACT_APP_TEST_BEATPORT_USERNAME,
           password: process.env.REACT_APP_TEST_BEATPORT_PASSWORD,
-          searches: songs.join("%20")
+          searches: songs
         })
     };
 

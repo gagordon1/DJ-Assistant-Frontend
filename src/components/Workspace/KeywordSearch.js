@@ -11,13 +11,13 @@ const KeywordSearchContainer = styled.div`
   justify-content : space-between;
   width : 200px;
   height : 80%;
-  background : ${colors.dataRowColor};
+  background : none;
   margin-right : 10px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 `
 
 const SearchBar = styled.input`
-  background : inherit;
+  background : none;
   border : none;
   outline : none;
   color : ${colors.textColor};

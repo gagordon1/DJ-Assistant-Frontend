@@ -55,7 +55,7 @@ export default function DataRow(props){
   }, [props.sourceId])// when id changes lets remove links
 
   return (
-    <DataRowContainer background={props.selected? colors.dataRowColor : colors.workspaceBackground}>
+    <DataRowContainer background={props.selected? colors.dataRowColor : "none"}>
 
       <Checkbox checked={props.selected} type="checkbox" onChange={(e) => props.handleSet(props.index, "selected", e.target.checked)}/>
       <KeywordSearch index={props.index} keyword={props.keyword} handleSet={props.handleSet} handleSearch={props.handleSearch} accessToken={props.accessToken}/>
