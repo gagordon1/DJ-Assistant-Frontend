@@ -13,7 +13,8 @@ const Dialogue = styled.div`
   height: 471px;
   margin : auto;
   transform: translate(-50%, -50%);
-  background: ${colors.dataRowColor};
+  background: ${colors.grayOpaque};
+  color : white;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 `
 
@@ -72,7 +73,7 @@ export default function GetPlaylists(props){
 
         <Dialogue>
           <Title> Import Spotify Playlist </Title>
-          <div style ={{overflow : "scroll"}}>
+          <div style ={{overflowY : "scroll"}}>
             {props.playlists.map((playlist,i) => <Playlist key={i} accessToken={props.accessToken}
                     batchSearch={props.batchSearch} setOpen={props.setOpen} playlist={playlist}/>)}
           </div>

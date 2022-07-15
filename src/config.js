@@ -22,15 +22,15 @@ export const columnWidths = {
   "KeyAndBpm" : 60
 }
 
-const DEVELOPMENT = false;
+const DEVELOPMENT = false
 
 const LOCAL_SERVER = "http://localhost:3000"
 
-const LOCAL_BACKEND_SERVER = "http://34.66.84.254:8000"
+const LOCAL_BACKEND_SERVER = "http://34.66.84.254:8000" //test using production backend server
 
-const LOCAL_BEATPORT_BACKEND_SERVER = "http://localhost:8080"
+const LOCAL_BEATPORT_BACKEND_SERVER = "http://localhost:8080" //test using production backend server
 
-const PRODUCTION_BEATPORT_BACKEND_SERVER = ""
+const PRODUCTION_BEATPORT_BACKEND_SERVER = "http://35.183.28.147:8080"
 
 const PRODUCTION_BACKEND_SERVER = "http://34.66.84.254:8000"
 

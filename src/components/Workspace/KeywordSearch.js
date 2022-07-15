@@ -1,9 +1,8 @@
 import styled from 'styled-components'
-import { colors } from '../../Theme'
 import React from 'react'
 import { youtubeSearch } from '../../controllers/youtube-controller'
 import { searchSpotifyTracks, getAudioFeatures} from '../../controllers/spotify-controller'
-
+import { SearchBar } from '../SearchBar'
 
 const KeywordSearchContainer = styled.div`
   display : flex;
@@ -16,17 +15,7 @@ const KeywordSearchContainer = styled.div`
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 `
 
-const SearchBar = styled.input`
-  background : none;
-  border : none;
-  outline : none;
-  color : ${colors.textColor};
-  overflow : scroll;
-  margin-left : 10px;
-  align-items : center;
-  font-size : 16px;
-  font-family : inherit;
-`
+
 const placeholder = "Keyword..."
 
 

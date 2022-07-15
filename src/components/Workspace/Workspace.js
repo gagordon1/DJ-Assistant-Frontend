@@ -209,7 +209,7 @@ export default function Workspace(props){
     link.href = dataurl;
     link.click();
   }
-  const handleAddSongsToBeatPortCart = async () =>{
+  const handleAddSongsToBeatPortCart = async (un, pw) =>{
     setLoading(true)
 
     let selected = Object.keys(data).filter(key => data[key].selected)
@@ -220,7 +220,7 @@ export default function Workspace(props){
       })
     if (selected.length > 0){
       try{
-        let response = await addSongsToBeatPortCart(selected)
+        let response = await addSongsToBeatPortCart(un, pw, selected)
         let botId = response.statusId
         let toProcess = response.status.toProcess
         while (toProcess > 0){
@@ -231,13 +231,17 @@ export default function Workspace(props){
           setLoadProgress(100*(processed)/selected.length)
         }
         if (response.status.badSearches.length > 0){
-          alert(`Error searching Beatport for songs: ${response.badSearches.join(", ")}`)
+          alert(`Beatport cart updated. ${selected.length - response.status.badSearches
+            .length}/${selected.length} successful \n\nCould not add songs: ${response.status
+              .badSearches.map(search => (search.track + " " +  search.artists)).join(", ")}`)
         }
       }catch(error){
         console.log(error)
         alert("Error adding songs to Beatport Cart. Ensure login details are correct.")
       }
 
+    }else{
+      alert("No tracks selected.")
     }
     setLoadProgress(0)
     setLoading(false)

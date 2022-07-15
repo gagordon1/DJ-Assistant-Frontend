@@ -9,7 +9,7 @@ export const colors = {
   trimLineColor : 'rgba(84, 84, 84, 0.4)',
   white : "#FFFFFF",
   whiteOpaque : "rgb(255,255,255, .6)",
-  grayOpaque : "rgb(0,0,0, .6)",
+  grayOpaque : "rgb(0,0,0, .9)",
   accentColor1 : "#6AB696"
 
 }

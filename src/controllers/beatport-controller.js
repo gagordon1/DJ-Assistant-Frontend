@@ -1,12 +1,12 @@
 import { BEATPORT_BACKEND_URL } from '../config'
 
-export const addSongsToBeatPortCart = async (songs) =>{
+export const addSongsToBeatPortCart = async (un, pw, songs) =>{
   const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          username: process.env.REACT_APP_TEST_BEATPORT_USERNAME,
-          password: process.env.REACT_APP_TEST_BEATPORT_PASSWORD,
+          username: un,
+          password: pw,
           searches: songs
         })
     };

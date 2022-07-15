@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { columnWidths } from '../../config'
 import {colors, widths} from '../../Theme'
+import {useState} from 'react'
+import BeatportInput from './BeatportInput'
 
 const ColumnTitlesContainer = styled.div`
   display : flex;
@@ -31,6 +33,8 @@ const Button = styled.button`
   }
 `
 
+
+
 const SelectButtonContainer = styled.div`
   display : flex;
   justify-content : space-between;
@@ -38,7 +42,11 @@ const SelectButtonContainer = styled.div`
   margin-right : 20px;
   align-items : center;
 `
+
+
 export default function Buttons(props){
+
+  const [open, setOpen] = useState(false)
 
   return(
 
@@ -63,11 +71,13 @@ export default function Buttons(props){
       <Button lateralMargin={20}width={columnWidths["Master Track"] + 40} onClick={() => props.handleBatchDownload("accompanimentLink")}>
         <label>Download Selected Accompaniments (mp3)</label>
       </Button>
-      {
-        //<Button lateralMargin={20}width={columnWidths["Master Track"] + 40} onClick={() => props.handleAddSongsToBeatPortCart()}>
-        //   <label>Add Selected Songs to BeatPort Cart</label>
-        // </Button>
-      }
+      <Button lateralMargin={20}width={columnWidths["Master Track"] + 40} onClick={() => setOpen(true)}>
+        <label>Add Selected Songs to BeatPort Cart</label>
+      </Button>
+      <BeatportInput open={open} setOpen={setOpen}
+        handleAddSongsToBeatPortCart={props.handleAddSongsToBeatPortCart}/>
+
+
     </ColumnTitlesContainer>
   )
 }
