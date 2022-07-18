@@ -234,6 +234,8 @@ export default function Workspace(props){
           alert(`Beatport cart updated. ${selected.length - response.status.badSearches
             .length}/${selected.length} successful \n\nCould not add songs: ${response.status
               .badSearches.map(search => (search.track + " " +  search.artists)).join(", ")}`)
+        }else{
+          alert("Successfully added all songs.")
         }
       }catch(error){
         console.log(error)
