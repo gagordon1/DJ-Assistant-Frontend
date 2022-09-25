@@ -30,7 +30,7 @@ export default function Navbar(props){
 
   return(
     <TopContainer>
-      <BatchImportInputOptions accessToken={props.accessToken} batchSearch={props.batchSearch}/>
+      <BatchImportInputOptions accessToken={props.accessToken} setData={props.setData}/>
       {props.loading?  props.loadingScreen(): null}
       <Logo src={LogoImage}/>
       <Menu>

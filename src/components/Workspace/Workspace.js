@@ -3,15 +3,8 @@ import { colors } from '../../Theme'
 import { useState } from 'react'
 import DataRow from './DataRow'
 import ColumnTitles from './ColumnTitles'
-import AddButtonImage from '../../assets/add-button-grey.svg'
-import Buttons from './Buttons'
-import { youtubeSearch } from '../../controllers/youtube-controller'
-import { getDownloadLink, getVocalsLink, getAccompanimentLink } from '../../controllers/backend-controller'
-import { searchSpotifyTracks, getBulkAudioFeatures } from '../../controllers/spotify-controller'
-import { addSongsToBeatPortCart, getBotStatus } from '../../controllers/beatport-controller'
 import { CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
-import { YOUTUBE_VIDEO_BASE_URL } from '../../config'
 import { widths } from '../../Theme'
 import Navbar from '../Navbar'
 
@@ -84,206 +77,11 @@ const HorizontalSeparator = styled.div`
 export default function Workspace(props){
 
   const [topId, setTopId] = useState(0)
-  const [columns] = useState(["Keyword", "Source", "Master Track", "Vocals", "Accompaniment"])
+  const [columns] = useState(["Title", "Artist", "Key", "BPM"])
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({})
   const [loadProgress, setLoadProgress] = useState(0)
   const [sortKey, setSortKey] = useState("default")
-
-  const defaultRow = (id) => {return {
-      index : id,
-      searchResults : [],
-       sourceId : "",
-       vocalsLink : "",
-       masterLink : "",
-       accompanimentLink : "",
-       keyword : "",
-       selected : false,
-       bpmAndKey : {bpm : null, key : null, mode : null},
-       spotifySuggestedTrack: {artist : "", track : "", spotifyId : ""}//spotify's best guess at the keyword search
-     }
-  }
-
-  const handleAddDataRow = () =>{
-
-    setData({...data, [topId] : defaultRow(topId)})
-    setTopId(topId + 1)
-  }
-
-  const handleDeleteRow = (index) =>{
-    const newData = {...data}
-    delete newData[index]
-    setData(newData)
-  }
-
-  const handleSet = (index, attribute, value) => {
-    let newData = {...data}
-    newData[index][attribute] = value
-    if(attribute === "searchResults"){
-      newData[index].sourceId = value[0].id
-    }
-
-    setData(newData)
-  }
-
-  const getSuggestion = async(search) =>{
-    try{
-      let suggestion = await searchSpotifyTracks(props.accessToken, search)
-      let spotifySuggestedTrack = {
-        track : suggestion.name,
-        artist : suggestion.artists.map(obj => obj.name).join(", "),
-        spotifyId : suggestion.id
-      }
-      return spotifySuggestedTrack
-    }
-    catch(error){
-      console.log(`Could not get spotify search data for search: ${search}`)
-      return {artist : "", track : "", spotifyId : ""}
-    }
-
-  }
-
-  const batchSearch = async (searches) =>{
-    let id = topId
-    let newObj = {}
-    setLoading(true)
-    const spotifyIds = []
-    for (const search of searches){
-        try{
-          let row = defaultRow(id)
-          row.keyword = search
-          row.searchResults = await youtubeSearch(search)
-          row.sourceId = row.searchResults[0].id
-          if (props.accessToken){
-            row.spotifySuggestedTrack = await getSuggestion(search)
-            spotifyIds.push(row.spotifySuggestedTrack.spotifyId)
-          }
-          newObj[id] = row
-
-        }catch(error){
-          console.log(`Could not search for track ${search}`)
-        }
-        id++
-        setLoadProgress(100*(id-topId)/searches.length)
-
-    }
-    //batch search for bpm and key now
-    if(props.accessToken){
-      try{
-        let features = await getBulkAudioFeatures(props.accessToken, spotifyIds)
-        features.forEach(obj =>{
-          try{
-            let row = newObj[Object.keys(newObj).find(key => newObj[key].spotifySuggestedTrack.spotifyId === obj.id)]
-            row.bpmAndKey = {bpm : obj.tempo, key : obj.key, mode : obj.mode}
-          }catch(error){
-            console.log(error)
-          }
-
-          }
-        )
-      }catch(error){
-        alert("Could not get key and bpm. Try logging into Spotify again.")
-      }
-    }
-    let newData = {...data, ...newObj}
-    setTopId(id)
-    setData(newData)
-    setLoading(false)
-    setLoadProgress(0)
-  }
-
-  const handleSelectAll = (selected) =>{
-    let newData= {...data}
-    Object.keys(newData).forEach(key =>{
-      newData[key].selected = selected
-    })
-    setData(newData)
-  }
-
-  const handleClear = () => {
-    setData({})
-  }
-
-  function download(dataurl, filename) {
-    const link = document.createElement("a");
-    link.href = dataurl;
-    link.click();
-  }
-  const handleAddSongsToBeatPortCart = async (un, pw) =>{
-    setLoading(true)
-
-    let selected = Object.keys(data).filter(key => data[key].selected)
-      .map(key => {return {
-          track : data[key].spotifySuggestedTrack.track,
-          artists : data[key].spotifySuggestedTrack.artist
-        }
-      })
-    if (selected.length > 0){
-      try{
-        let response = await addSongsToBeatPortCart(un, pw, selected)
-        let botId = response.statusId
-        let toProcess = response.status.toProcess
-        while (toProcess > 0){
-          await sleep(5*1000) //5 seconds
-          response = await getBotStatus(botId)
-          toProcess = response.status.toProcess
-          let processed = selected.length - toProcess
-          setLoadProgress(100*(processed)/selected.length)
-        }
-        if (response.status.badSearches.length > 0){
-          alert(`Beatport cart updated. ${selected.length - response.status.badSearches
-            .length}/${selected.length} successful \n\nCould not add songs: ${response.status
-              .badSearches.map(search => (search.track + " " +  search.artists)).join(", ")}`)
-        }else{
-          alert("Successfully added all songs.")
-        }
-      }catch(error){
-        console.log(error)
-        alert("Error adding songs to Beatport Cart. Ensure login details are correct.")
-      }
-
-    }else{
-      alert("No tracks selected.")
-    }
-    setLoadProgress(0)
-    setLoading(false)
-
-  }
-
-  const handleBatchDownload = async (type) =>{
-    let newData = {...data}
-    let selected = Object.keys(newData).filter(key => newData[key].selected)
-    setLoading(true)
-    let processed = 0
-    let getLink = null
-    switch(type){
-      case "accompanimentLink":
-        getLink = getAccompanimentLink
-        break;
-      case "vocalsLink":
-        getLink = getVocalsLink
-        break;
-      default: //if masterLink
-        getLink = getDownloadLink
-        break;
-    }
-
-    for (const key of selected){
-        try{
-          let link = await getLink(YOUTUBE_VIDEO_BASE_URL + newData[key].sourceId)
-          newData[key][type] = link
-          download(link + "/download.mp3", newData[key].sourceId + ".mp3")
-        }catch(error){
-          console.log(error)
-        }
-        processed++
-        setLoadProgress(100*(processed)/selected.length)
-    }
-    setData(newData)
-    setLoading(false)
-    setLoadProgress(0)
-
-  }
 
   const getRows = () =>{
 
@@ -291,39 +89,13 @@ export default function Workspace(props){
 
     switch(sortKey){
 
-      case "keyword-asc":
-        compareFn = (a, b) => {
-          if(data[a].keyword  && data[b].keyword){
-            return data[a].keyword.localeCompare(data[b].keyword)
-          }else if (data[a].keyword){
-            return 1
-          }else if (data[b].keyword){
-            return -1
-          }else{
-            return 0
-          }
-        }
-        break;
-      case "keyword-desc":
-        compareFn = (a, b) => {
-          if(data[a].keyword  && data[b].keyword){
-            return data[b].keyword.localeCompare(data[a].keyword)
-          }else if (data[b].keyword){
-            return 1
-          }else if (data[a].keyword){
-            return -1
-          }else{
-            return 0
-          }
-        }
-        break;
       case "spotifySuggestion-asc":
         compareFn = (a, b) => {
-          if(data[b].spotifySuggestedTrack.track  && data[a].spotifySuggestedTrack.track){
-            return data[a].spotifySuggestedTrack.track.localeCompare(data[b].spotifySuggestedTrack.track)
-          }else if (data[a].spotifySuggestedTrack.track){
+          if(data[b].track  && data[a].track){
+            return data[a].track.localeCompare(data[b].track)
+          }else if (data[a].track){
             return 1
-          }else if (data[b].spotifySuggestedTrack.track){
+          }else if (data[b].track){
             return -1
           }else{
             return 0
@@ -332,11 +104,11 @@ export default function Workspace(props){
           break;
       case "spotifySuggestion-desc":
         compareFn = (a, b) => {
-          if(data[a].spotifySuggestedTrack.track  && data[b].spotifySuggestedTrack.track){
-            return data[b].spotifySuggestedTrack.track.localeCompare(data[a].spotifySuggestedTrack.track)
-          }else if (data[b].spotifySuggestedTrack.track){
+          if(data[a].track  && data[b].track){
+            return data[b].track.localeCompare(data[a].track)
+          }else if (data[b].track){
             return 1
-          }else if (data[a].spotifySuggestedTrack.track){
+          }else if (data[a].track){
             return -1
           }else{
             return 0
@@ -345,11 +117,11 @@ export default function Workspace(props){
         break;
       case "key-asc":
         compareFn = (a, b) => {
-          if(data[b].bpmAndKey.key!== null  && data[a].bpmAndKey.key!== null){
-            return data[a].bpmAndKey.key + .5*data[a].bpmAndKey.mode - (data[b].bpmAndKey.key + .5*data[b].bpmAndKey.mode)
-          }else if (data[a].bpmAndKey.key !== null){
+          if(data[b].key!== null  && data[a].key!== null){
+            return data[a].key + .5*data[a].mode - (data[b].key + .5*data[b].mode)
+          }else if (data[a].key !== null){
             return 1
-          }else if (data[b].bpmAndKey.key !== null){
+          }else if (data[b].key !== null){
             return -1
           }else{
             return 0
@@ -358,11 +130,11 @@ export default function Workspace(props){
           break;
       case "key-desc":
         compareFn = (a, b) => {
-          if(data[a].bpmAndKey.key!== null  && data[b].bpmAndKey.key!== null){
-            return data[b].bpmAndKey.key + .5*data[b].bpmAndKey.mode - (data[a].bpmAndKey.key + .5*data[a].bpmAndKey.mode)
-          }else if (data[b].bpmAndKey.key !== null){
+          if(data[a].key!== null  && data[b].key!== null){
+            return data[b].key + .5*data[b].mode - (data[a].key + .5*data[a].mode)
+          }else if (data[b].key !== null){
             return 1
-          }else if (data[a].bpmAndKey.key !== null){
+          }else if (data[a].key !== null){
             return -1
           }else{
             return 0
@@ -371,11 +143,11 @@ export default function Workspace(props){
         break;
       case "bpm-asc":
         compareFn = (a, b) => {
-          if(data[b].bpmAndKey.bpm  && data[a].bpmAndKey.bpm){
-            return data[a].bpmAndKey.bpm - data[b].bpmAndKey.bpm
-          }else if (data[a].bpmAndKey.bpm){
+          if(data[b].bpm  && data[a].bpm){
+            return data[a].bpm - data[b].bpm
+          }else if (data[a].bpm){
             return 1
-          }else if (data[b].bpmAndKey.bpm){
+          }else if (data[b].bpm){
             return -1
           }else{
             return 0
@@ -384,11 +156,11 @@ export default function Workspace(props){
           break;
       case "bpm-desc":
         compareFn = (a, b) => {
-          if(data[a].bpmAndKey.bpm  && data[b].bpmAndKey.bpm){
-            return data[b].bpmAndKey.bpm - data[a].bpmAndKey.bpm
-          }else if (data[b].bpmAndKey.bpm){
+          if(data[a].bpm  && data[b].bpm){
+            return data[b].bpm - data[a].bpm
+          }else if (data[b].bpm){
             return 1
-          }else if (data[a].bpmAndKey.bpm){
+          }else if (data[a].bpm){
             return -1
           }else{
             return 0
@@ -400,25 +172,14 @@ export default function Workspace(props){
         compareFn = (a,b) => 0
     }
     let sorted_keys = Object.keys(data).sort(compareFn)
-    return sorted_keys.map(key =>
+    return sorted_keys.map((key, i) =>
       <DataRow
-        setAudioSource={props.setAudioSource}
-        audioSource={props.audioSource}
-        key={data[key].index}
-        index={data[key].index}
-        accessToken={props.accessToken}
-        searchResults={data[key].searchResults}
-        sourceId={data[key].sourceId}
-        vocalsLink={data[key].vocalsLink}
-        masterLink={data[key].masterLink}
-        accompanimentLink={data[key].accompanimentLink}
-        bpmAndKey={data[key].bpmAndKey}
-        keyword={data[key].keyword}
-        selected={data[key].selected}
-        handleDeleteRow={handleDeleteRow}
-        handleSet={handleSet}
-        audio={props.audio}
-        spotifySuggestedTrack={data[key].spotifySuggestedTrack}
+        key = {i}
+        track = {data[key].title}
+        artist = {data[key].artist}
+        musicalKey = {data[key].key}
+        bpm = {data[key].bpm}
+        mode = {data[key].mode}
       />)
   }
 
@@ -431,23 +192,14 @@ export default function Workspace(props){
   )
   return (
     <WorkspaceContainer>
-      <Navbar accessToken={props.accessToken} batchSearch={batchSearch}
+      <Navbar accessToken={props.accessToken} setData={setData}
           loading={loading} loadingScreen={loadingScreen}/>
       <ColumnTitles columns={columns} sortKey={sortKey} setSortKey={setSortKey}/>
       <HorizontalSeparator/>
       <DataRowsContainer>
         {getRows()}
-        <AddButton src={AddButtonImage} onClick={handleAddDataRow}/>
-
       </DataRowsContainer>
       <HorizontalSeparator/>
-      <Buttons
-        handleSelectAll={() => handleSelectAll(true)}
-        handleDeselectAll={() => handleSelectAll(false)}
-        handleClear={handleClear}
-        handleBatchDownload={handleBatchDownload}
-        handleAddSongsToBeatPortCart={handleAddSongsToBeatPortCart}
-        />
 
     </WorkspaceContainer>
   )

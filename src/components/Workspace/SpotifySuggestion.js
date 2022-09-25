@@ -33,8 +33,8 @@ export default function SpotifySuggestion(props){
 
   return (
     <TrackInfo>
-      <TrackTitle> {props.spotifySuggestedTrack.track} </TrackTitle>
-      <ArtistTitle> {props.spotifySuggestedTrack.artist} </ArtistTitle>
+      <TrackTitle> {props.track} </TrackTitle>
+      <ArtistTitle> {props.artist} </ArtistTitle>
 
     </TrackInfo>
   )

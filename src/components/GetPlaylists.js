@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Popup from 'reactjs-popup'
 import { colors } from '../Theme'
-import { getPlaylistTracks } from '../controllers/spotify-controller'
+import { getPlaylistTracks, getBulkAudioFeatures } from '../controllers/spotify-controller'
 
 const Dialogue = styled.div`
   position: absolute;
@@ -47,10 +47,24 @@ function Playlist(props){
   const handleAdd = async () =>{
     console.log(props.playlist.tracksEndpoint)
     let tracks = await getPlaylistTracks(props.accessToken, props.playlist.tracksEndpoint)
-
-    let searches = tracks.filter(obj => obj.track !== null).map(obj => obj.track.name + " " + obj.track.artists.map(obj => obj.name).join(", "))
+    let newData = {}
+    tracks.forEach(obj => {
+        newData[obj.track.id] = {
+          artist : obj.track.artists[0].name,
+          title : obj.track.name,
+        }
+    }
+      
+    )
+    let audioFeatures = await getBulkAudioFeatures(props.accessToken, tracks.map(obj => obj.track.id))
+    audioFeatures.forEach(obj => {
+      newData[obj.id].key = obj.key
+      newData[obj.id].mode = obj.mode
+      newData[obj.id].bpm = obj.tempo
+    })
     props.setOpen(false)
-    props.batchSearch(searches)
+    console.log(newData)
+    props.setData(Object.keys(newData).map(key => newData[key]))
   }
   return(
     <PlaylistContainer>
@@ -75,7 +89,7 @@ export default function GetPlaylists(props){
           <Title> Import Spotify Playlist </Title>
           <div style ={{overflowY : "scroll"}}>
             {props.playlists.map((playlist,i) => <Playlist key={i} accessToken={props.accessToken}
-                    batchSearch={props.batchSearch} setOpen={props.setOpen} playlist={playlist}/>)}
+                    setData={props.setData} setOpen={props.setOpen} playlist={playlist}/>)}
           </div>
         </Dialogue>
 

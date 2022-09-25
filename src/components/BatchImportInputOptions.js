@@ -76,15 +76,8 @@ export default function BatchImportInputOptions(props){
       <Logos>
         <SpotifyLogo src={SpotifyLogoImage} onMouseOut={e => e.currentTarget.src = SpotifyLogoImage}
           onMouseOver={e => e.currentTarget.src = SpotifyLogoImageHighlighted} onClick={handleSpotifyInput}/>
-        <GetPlaylists accessToken={props.accessToken} batchSearch={props.batchSearch}
+        <GetPlaylists accessToken={props.accessToken} setData={props.setData}
           playlists={playlists} setOpen={setOpen} open={open}/>
-        <div>
-          <input type="file" accept=".csv" onChange={onFileChange} id="file" ref={inputFile} style={{display : "none"}}/>
-          <CSVIcon src={CSVIconImage} onClick={() => inputFile.current.click()}
-            onMouseOut={e => e.currentTarget.src = CSVIconImage}
-            onMouseOver={e => e.currentTarget.src = CSVIconImageHighlighted}
-            />
-        </div>
       </Logos>
 
     </Container>

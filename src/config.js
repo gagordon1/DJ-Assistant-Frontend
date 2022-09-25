@@ -22,7 +22,7 @@ export const columnWidths = {
   "KeyAndBpm" : 60
 }
 
-const DEVELOPMENT = false
+const DEVELOPMENT = true
 
 const LOCAL_SERVER = "http://localhost:3000"
 

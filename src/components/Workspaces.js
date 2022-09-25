@@ -22,18 +22,14 @@ const VerticalSeparator = styled.div`
 
 
 export default function Workspaces(props){
-
-  const [audio, ] = useState(new Audio(""))
-  const [audioSource, setAudioSource] = useState("")
-
   useEffect(()=>{
 
   },[props.accessToken])
   return (
     <WorkspacesContainer>
       <VerticalSeparator/>
-      <Workspace audioSource={audioSource} setAudioSource={setAudioSource}
-        accessToken={props.accessToken} audio={audio}/>
+      <Workspace 
+        accessToken={props.accessToken}/>
       <VerticalSeparator/>
     </WorkspacesContainer>
   )
