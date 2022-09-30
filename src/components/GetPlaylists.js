@@ -49,18 +49,25 @@ function Playlist(props){
     let tracks = await getPlaylistTracks(props.accessToken, props.playlist.tracksEndpoint)
     let newData = {}
     tracks.forEach(obj => {
+      if(obj.track && obj.track.id){
         newData[obj.track.id] = {
           artist : obj.track.artists[0].name,
           title : obj.track.name,
         }
+
+      }
+        
     }
       
     )
-    let audioFeatures = await getBulkAudioFeatures(props.accessToken, tracks.map(obj => obj.track.id))
+    let audioFeatures = await getBulkAudioFeatures(props.accessToken, Object.keys(newData))
     audioFeatures.forEach(obj => {
-      newData[obj.id].key = obj.key
-      newData[obj.id].mode = obj.mode
-      newData[obj.id].bpm = obj.tempo
+      if (obj){
+        newData[obj.id].key = obj.key
+        newData[obj.id].mode = obj.mode
+        newData[obj.id].bpm = obj.tempo
+      }
+      
     })
     props.setOpen(false)
     console.log(newData)

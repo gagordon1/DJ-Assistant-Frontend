@@ -3,29 +3,21 @@ import { colors } from '../../Theme'
 
 const TrackInfo = styled.div`
   display : flex;
-  height : 100%;
-  width : 128px;
-  flex-direction : column;
+  width : 800px;
+  flex-direction : row;
   margin-top: auto;
   margin-bottom : auto;
-  text-align : center;
   justify-content : center;
   padding-left : 10px;
 
 `
 
 const TrackTitle = styled.h4`
-  margin-top: 0px;
-  margin-bottom : 0px;
   font-size : 15px;
   text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-`
-const ArtistTitle = styled.h5`
-  margin-top: 0px;
-  margin-bottom : 0px;
-  font-size : 12px;
-  color : ${colors.textColorAlternate};
-  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  width : 400px;
+  text-align : left;
+  margin : auto;
 `
 
 
@@ -34,7 +26,7 @@ export default function SpotifySuggestion(props){
   return (
     <TrackInfo>
       <TrackTitle> {props.track} </TrackTitle>
-      <ArtistTitle> {props.artist} </ArtistTitle>
+      <TrackTitle> {props.artist} </TrackTitle>
 
     </TrackInfo>
   )

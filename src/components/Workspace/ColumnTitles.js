@@ -4,12 +4,7 @@ import SelectorImage from '../../assets/selector.svg'
 import { colors, widths } from '../../Theme'
 
 const sortKeyMap = {
-  "Keyword" :["keyword-desc", "keyword-asc"],
-  "Source": [],
-  "Master Track": [],
-  "Vocals": [],
-  "Accompaniment" : [],
-  "Spotify Suggestion": ["spotifySuggestion-desc", "spotifySuggestion-asc"],
+  "Song": ["spotifySuggestion-desc", "spotifySuggestion-asc"],
   "Key": ["key-desc", "key-asc"],
   "BPM": ["bpm-desc", "bpm-asc"],
 }

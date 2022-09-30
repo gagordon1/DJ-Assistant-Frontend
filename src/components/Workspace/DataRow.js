@@ -4,25 +4,12 @@ import React, { useState, useEffect } from 'react'
 import SpotifySuggestion from './SpotifySuggestion'
 import KeyAndBpm from './KeyAndBpm'
 
-const Trash = styled.img`
-  width : 30px;
-  height : auto;
-  margin-left : 20px;
-  margin-right : 20px;
-  &:hover{
-    cursor : pointer;
-  }
-`
-
-
 const DataRowContainer = styled.div`
   display : flex;
   margin-left : 20px;
   align-items : center;
-  height : 90px;
-  min-height : 90px;
+  margin-bottom : 5px;
   background : ${props => props.background};
-  margin-bottom : 10px;
 `
 
 const Checkbox = styled.input`
