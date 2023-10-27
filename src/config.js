@@ -22,7 +22,7 @@ export const columnWidths = {
   "KeyAndBpm" : 60
 }
 
-const DEVELOPMENT = true
+const DEVELOPMENT = false
 
 const LOCAL_SERVER = "http://localhost:3000"
 
@@ -32,7 +32,7 @@ const LOCAL_BEATPORT_BACKEND_SERVER = "http://localhost:8080" //test using produ
 
 const PRODUCTION_BEATPORT_BACKEND_SERVER = "http://35.183.28.147:8080"
 
-const PRODUCTION_BACKEND_SERVER = "http://34.66.84.254:8000"
+const PRODUCTION_BACKEND_SERVER = "http://3.95.176.54:8000"
 
 const PRODUCTION_SERVER = "http://dj-assistant-frontend.herokuapp.com"
 
